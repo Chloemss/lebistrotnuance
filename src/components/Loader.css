@@ -1,0 +1,78 @@
+/* Loader reste sombre — rideau dramatique qui se lève sur le blanc */
+.Loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition:
+    transform 0.75s cubic-bezier(0.76, 0, 0.24, 1),
+    opacity   0.55s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.Loader--leaving {
+  transform:      translateY(-100%);
+  opacity:        0;
+  pointer-events: none;
+}
+
+.Loader__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  animation: loaderAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes loaderAppear {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.Loader__logo {
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 14vw, 9rem);
+  line-height: 0.9;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+}
+.Loader__lucky {
+  color: var(--amber);
+  font-style: italic;
+}
+.Loader__folks {
+  color: rgba(250,249,246,0.9);
+}
+
+.Loader__tag {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: rgba(250,249,246,0.3);
+}
+
+.Loader__bar {
+  width: 100px;
+  height: 1px;
+  background: rgba(250,249,246,0.1);
+  overflow: hidden;
+  margin-top: 0.4rem;
+}
+.Loader__bar-fill {
+  height: 100%;
+  background: var(--amber);
+  width: 0;
+  animation: loaderProgress 2.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes loaderProgress {
+  0%   { width: 0% }
+  60%  { width: 70% }
+  100% { width: 100% }
+}

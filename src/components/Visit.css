@@ -1,0 +1,97 @@
+/* ═══════════════════════════════════════════
+   Visit — carte + card info
+═══════════════════════════════════════════ */
+
+.Visit {
+  position: relative; min-height: 580px;
+  display: flex; align-items: stretch; overflow: hidden;
+}
+
+.Visit__map { position: absolute; inset: 0; z-index: 0; }
+.Visit__map iframe {
+  width: 100%; height: 100%; pointer-events: none;
+  filter: grayscale(100%) brightness(1.02) contrast(0.95);
+  transition: filter 0.7s ease; display: block;
+}
+.Visit:hover .Visit__map iframe {
+  filter: grayscale(25%) brightness(1) saturate(1.1);
+}
+
+/* Card */
+.Visit__card {
+  position: relative; z-index: 10; margin-left: auto;
+  width: 360px; min-height: 100%;
+  background: var(--paper); display: flex; flex-direction: column;
+  align-items: center; text-align: center;
+  box-shadow: -6px 0 40px rgba(26,21,18,0.08);
+  border-left: 1px solid rgba(26,21,18,0.06);
+}
+
+.Visit__card-logo {
+  width: 100%; padding: 2.2rem 2rem 1.8rem;
+  border-bottom: 1px solid rgba(26,21,18,0.07);
+  display: flex; align-items: center; justify-content: center;
+}
+.Visit__card-logo-text {
+  font-family: var(--font-display); font-size: 1.6rem;
+  font-weight: 300; font-style: italic;
+  color: var(--ink); text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+.Visit__card-body {
+  padding: 2rem 2rem 0;
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+}
+.Visit__card-brand {
+  font-family: var(--label-family); font-size: var(--label-size);
+  font-weight: var(--label-weight); letter-spacing: var(--label-spacing);
+  text-transform: uppercase; color: var(--amber); margin: 0;
+}
+.Visit__card-city {
+  font-family: var(--font-display); font-size: clamp(2rem, 3.2vw, 2.8rem);
+  font-weight: 300; line-height: 1; color: var(--ink);
+  text-transform: uppercase; margin: 0.25rem 0 0.75rem; letter-spacing: 0.02em;
+}
+.Visit__card-address {
+  font-family: var(--font-body); font-size: var(--body-size);
+  line-height: var(--body-line); color: rgba(26,21,18,0.5); font-style: normal;
+}
+
+.Visit__icons { display: flex; gap: 1.75rem; padding: 2rem 2rem 0; }
+.Visit__icon-link {
+  display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+  text-decoration: none; color: var(--ink);
+  font-family: var(--label-family); font-size: var(--label-size);
+  font-weight: var(--label-weight); letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  transition: opacity 0.2s ease, transform 0.25s var(--ease-out-expo);
+}
+.Visit__icon-link:hover { opacity: 0.65; transform: translateY(-2px); }
+
+.Visit__icon-circle {
+  display: flex; align-items: center; justify-content: center;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--ink); color: var(--paper); flex-shrink: 0;
+  transition: background 0.25s ease;
+}
+.Visit__icon-link:hover .Visit__icon-circle { background: var(--amber); }
+
+.Visit__btn {
+  display: block; width: calc(100% - 4rem); margin: 2rem 2rem 2.5rem;
+  padding: 1.1rem 1rem; background: var(--ink); color: var(--paper);
+  border: none; border-radius: 3px;
+  font-family: var(--label-family); font-size: var(--label-size);
+  font-weight: var(--label-weight); letter-spacing: var(--label-spacing);
+  text-transform: uppercase; text-decoration: none; text-align: center;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s var(--ease-out-expo);
+}
+.Visit__btn:hover { background: var(--amber); transform: translateY(-1px); }
+
+@media (max-width: 768px) {
+  .Visit { flex-direction: column; min-height: auto; }
+  .Visit__map { position: relative; height: 280px; }
+  .Visit__map iframe { filter: grayscale(100%) brightness(1.02); }
+  .Visit:hover .Visit__map iframe { filter: grayscale(100%) brightness(1.02); }
+  .Visit__card { width: 100%; margin-left: 0; box-shadow: none; border-left: none; border-top: 1px solid rgba(26,21,18,0.08); }
+}

@@ -1,0 +1,310 @@
+/* ═══════════════════════════════════════════
+   Cocktails — Liste + Floating card cursor-follower
+   Fond quasi-noir, carte 3D qui suit le curseur
+═══════════════════════════════════════════ */
+
+.Cocktails {
+  background: #070c0b;
+  padding-bottom: 7rem;
+  overflow: hidden;
+  position: relative;
+  /* Perspective sur le parent pour que le tilt de la carte soit vraiment 3D */
+  perspective: 1200px;
+}
+
+/* Bruit de fond */
+.Cocktails::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E") repeat;
+  background-size: 250px;
+  z-index: 0;
+}
+
+/* ── Header ── */
+.Cocktails__header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 7rem 2rem 5rem;
+}
+
+.Cocktails__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: rgba(235,161,61,0.6);
+  margin-bottom: 1rem;
+}
+
+.Cocktails__title {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 14vw, 12rem);
+  line-height: 0.88;
+  color: #fff;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.Cocktails__title span {
+  color: var(--amber);
+}
+
+/* ══════════════════════════════════════════
+   Liste cocktails
+══════════════════════════════════════════ */
+.Cocktails__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ── Item ── */
+.Cocktails__item {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 2rem 5vw;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  cursor: default;
+  transition: opacity 0.35s ease;
+}
+
+.Cocktails__item.is--dim {
+  opacity: 0.18;
+}
+
+.Cocktails__item.is--active {
+  opacity: 1;
+}
+
+/* Numéro */
+.Cocktails__item-num {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.2);
+  flex-shrink: 0;
+  width: 2.2rem;
+  transition: color 0.3s;
+}
+
+.Cocktails__item.is--active .Cocktails__item-num {
+  color: var(--accent, var(--amber));
+}
+
+/* Centre : nom + description */
+.Cocktails__item-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.Cocktails__item-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.8rem);
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  transition: color 0.3s;
+}
+
+.Cocktails__item.is--active .Cocktails__item-name {
+  color: var(--accent, var(--amber));
+}
+
+.Cocktails__item-desc {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.27);
+  line-height: 1.55;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Droite : badge + prix */
+.Cocktails__item-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.Cocktails__item-badge {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber);
+  border: 1px solid rgba(235,161,61,0.35);
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+}
+
+.Cocktails__item-price {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  color: rgba(255,255,255,0.4);
+  transition: color 0.3s;
+}
+
+.Cocktails__item.is--active .Cocktails__item-price {
+  color: var(--accent, var(--amber));
+}
+
+/* ══════════════════════════════════════════
+   Floating card — cursor follower
+══════════════════════════════════════════ */
+.Cocktails__card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 310px;
+  height: 420px;
+  pointer-events: none;
+  z-index: 50;
+  will-change: transform;
+  border-radius: 18px;
+  overflow: hidden;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s cubic-bezier(0.19, 1, 0.22, 1),
+              visibility 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.Cocktails__card.is--visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ── Couches image (empilées, crossfade) ── */
+.Cocktails__card-img {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.55s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.Cocktails__card-img.is--active {
+  opacity: 1;
+}
+
+/* ── SVG verre centré ── */
+.Cocktails__card-glass {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -56%);
+  width: 128px;
+  height: 208px;
+  filter: drop-shadow(0 6px 30px rgba(255,255,255,0.12));
+}
+
+.Cocktails__card-glass svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Label en bas ── */
+.Cocktails__card-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.4rem 1.4rem 1.7rem;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.92) 0%,
+    rgba(0,0,0,0.45) 55%,
+    transparent 100%
+  );
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.Cocktails__card-name {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  line-height: 1;
+  margin: 0;
+}
+
+.Cocktails__card-price {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: rgba(255,255,255,0.6);
+  flex-shrink: 0;
+  margin: 0;
+}
+
+/* ── Bokeh lumineux ── */
+.Cocktails__card-bokeh {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle 65px at 14% 22%, var(--accent, var(--amber)) 0%, transparent 68%),
+    radial-gradient(circle 42px at 80% 16%, var(--accent, var(--amber)) 0%, transparent 68%),
+    radial-gradient(circle 32px at 88% 70%, var(--accent, var(--amber)) 0%, transparent 68%),
+    radial-gradient(circle 50px at 28% 82%, var(--accent, var(--amber)) 0%, transparent 68%);
+  opacity: 0.13;
+  mix-blend-mode: screen;
+}
+
+/* ── Bordure brillante ── */
+.Cocktails__card-border {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  border: 1px solid transparent;
+  pointer-events: none;
+  transition: border-color 0.4s ease;
+  box-shadow: inset 0 0 28px rgba(255,255,255,0.03);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .Cocktails__item {
+    padding: 1.6rem 2rem;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .Cocktails__item {
+    padding: 1.4rem 1.5rem;
+    gap: 1rem;
+  }
+  /* La carte suiveur de curseur n'a pas de sens sur mobile */
+  .Cocktails__card {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .Cocktails__item-desc {
+    display: none;
+  }
+  .Cocktails__item-name {
+    font-size: 1.4rem;
+  }
+  .Cocktails__header {
+    padding: 5rem 1.5rem 3rem;
+  }
+}

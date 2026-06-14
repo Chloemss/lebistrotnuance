@@ -1,0 +1,294 @@
+/* ══════════════════════════════════════════════════════
+   PageLinks — deux panneaux cinématiques côte à côte
+══════════════════════════════════════════════════════ */
+
+.PageLinks {
+  display: flex;
+  flex-wrap: nowrap;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Panneau de base ── */
+.PageLink {
+  position: relative;
+  display: flex;
+  align-items: flex-end;           /* contenu ancré en bas */
+  justify-content: flex-start;
+  width: 50%;
+  min-height: 100vh;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--white);
+  transition: width 1s var(--ease-out-expo);
+  /* clip diagonal : coin supérieur intact, coupure en bas vers le centre */
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+/* ── Fond photo ── */
+.PageLink__visual {
+  position: absolute;
+  inset: -8%;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(14px) brightness(0.45) saturate(0.65);
+  transform: scale(1.06);
+  transition:
+    filter  0.9s var(--ease-out-expo),
+    transform 0s linear;   /* le transform est géré par JS (mousemove) */
+  will-change: transform, filter;
+}
+
+.PageLink--eat .PageLink__visual {
+  background-image: url('https://oasis.ca/wp-content/uploads/2023/05/cocktail-with-friends.png');
+}
+.PageLink--play .PageLink__visual {
+  background-image: url('https://cdn.shopify.com/s/files/1/0579/3611/7944/files/bubble-pink-appartement-lovenspa-weekend-en-amoureux-love-rooms-avec-spa-ou-jacuzzi-privatif-544366_1080x_d2d565c0-1bde-4ae1-96b8-d0efe5949235.webp?v=1736846496');
+}
+
+/* ── Overlay dégradé directionnel ── */
+.PageLink::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  transition: opacity 0.8s var(--ease-out-expo);
+}
+.PageLink--eat::after {
+  background:
+    linear-gradient(135deg, rgba(8,15,24,0.85) 0%, rgba(8,15,24,0.3) 60%, transparent 100%),
+    linear-gradient(to top, rgba(5,12,20,0.95) 0%, transparent 55%);
+}
+.PageLink--play::after {
+  background:
+    linear-gradient(225deg, rgba(8,15,24,0.85) 0%, rgba(8,15,24,0.3) 60%, transparent 100%),
+    linear-gradient(to top, rgba(5,12,20,0.95) 0%, transparent 55%);
+}
+
+/* ── Grain cinématique ── */
+.PageLink::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ── Numéro de coin ── */
+.PageLink__num {
+  position: absolute;
+  top: 40px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.2);
+  z-index: 10;
+  transition: color 0.4s ease;
+}
+.PageLink--eat  .PageLink__num { left:  48px; }
+.PageLink--play .PageLink__num { right: 48px; }
+
+/* ── Contenu texte ── */
+.PageLink__inner {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  padding: 0 52px 56px;
+  width: 100%;
+}
+
+/* Eyebrow label — masqué par défaut, glisse en bas au hover */
+.PageLink__eyebrow {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--amber);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease 0.05s, transform 0.5s var(--ease-out-expo) 0.05s;
+  margin-bottom: 16px;
+}
+
+/* Titres groupés */
+.PageLink__titles {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: hidden;
+}
+
+.PageLink__title {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 8.5vw, 10rem);
+  font-weight: 400;
+  line-height: 0.88;
+  text-transform: uppercase;
+  color: var(--white);
+  letter-spacing: -0.01em;
+  transform: translateY(20px);
+  opacity: 0.92;
+  transition:
+    transform 0.7s var(--ease-out-expo),
+    color    0.4s ease;
+}
+
+/* Deuxième titre : outline */
+.PageLink__title--outline {
+  -webkit-text-stroke: 1.5px var(--amber);
+  color: transparent;
+  transition:
+    transform 0.7s var(--ease-out-expo) 0.06s,
+    color    0.4s ease,
+    -webkit-text-stroke 0.4s ease;
+}
+
+/* CTA arrow — masqué par défaut */
+.PageLink__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber);
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity   0.45s ease 0.1s,
+    transform 0.5s var(--ease-out-expo) 0.1s;
+}
+.PageLink__cta svg {
+  transition: transform 0.35s var(--ease-out-expo);
+}
+
+/* ══════════════════════════════════════
+   Séparateur central « ou »
+══════════════════════════════════════ */
+.PageLinks__divider {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  pointer-events: none;
+  transition: left 1s var(--ease-out-expo);
+}
+
+.PageLinks:has(.PageLink--eat:hover)  .PageLinks__divider { left: 62%; }
+.PageLinks:has(.PageLink--play:hover) .PageLinks__divider { left: 38%; }
+
+/* Ligne verticale animée */
+.PageLinks__divider::before,
+.PageLinks__divider::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.15));
+}
+.PageLinks__divider::after {
+  background: linear-gradient(to top, transparent, rgba(255,255,255,0.15));
+}
+
+.PageLinks__divider-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 50%;
+  background: rgba(5,12,20,0.7);
+  backdrop-filter: blur(12px);
+  font-family: var(--font-script);
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.03em;
+}
+
+/* ══════════════════════════════════════
+   États hover
+══════════════════════════════════════ */
+@media (hover: hover) {
+
+  /* Expansion du panneau actif */
+  .PageLinks:has(.PageLink--eat:hover)  .PageLink--eat  { width: 62%; }
+  .PageLinks:has(.PageLink--eat:hover)  .PageLink--play { width: 38%; }
+  .PageLinks:has(.PageLink--play:hover) .PageLink--play { width: 62%; }
+  .PageLinks:has(.PageLink--play:hover) .PageLink--eat  { width: 38%; }
+
+  /* Photo : netteté + luminosité */
+  .PageLink:hover .PageLink__visual {
+    filter: blur(0px) brightness(0.65) saturate(1.15);
+  }
+
+  /* Overlay plus léger pour laisser voir la photo */
+  .PageLink:hover::after { opacity: 0.7; }
+
+  /* Numéro devient amber */
+  .PageLink:hover .PageLink__num { color: var(--amber); }
+
+  /* Titres : slide vers le haut */
+  .PageLink:hover .PageLink__title              { transform: translateY(0); }
+  .PageLink:hover .PageLink__title--outline     { color: transparent; -webkit-text-stroke-color: var(--amber-light, #dfc08a); }
+
+  /* Eyebrow & CTA apparaissent */
+  .PageLink:hover .PageLink__eyebrow { opacity: 1; transform: translateY(0); }
+  .PageLink:hover .PageLink__cta     { opacity: 1; transform: translateY(0); }
+  .PageLink:hover .PageLink__cta svg { transform: translateX(4px); }
+
+  /* Panneau non-hover : s'assombrit légèrement */
+  .PageLinks:has(.PageLink:hover) .PageLink:not(:hover) .PageLink__visual {
+    filter: blur(20px) brightness(0.3) saturate(0.4);
+  }
+  .PageLinks:has(.PageLink:hover) .PageLink:not(:hover) .PageLink__title {
+    opacity: 0.3;
+  }
+}
+
+/* ══════════════════════════════════════
+   Mobile
+══════════════════════════════════════ */
+@media (max-width: 768px) {
+  .PageLinks {
+    flex-direction: column;
+    min-height: auto;
+  }
+  .PageLink {
+    width: 100% !important;
+    min-height: 60vh;
+    align-items: flex-end;
+    transition: none;
+  }
+  .PageLink--eat { border-bottom: 1px solid rgba(255,255,255,0.06); }
+
+  .PageLink__inner { padding: 0 28px 40px; }
+
+  .PageLink__num { top: 28px; }
+  .PageLink--eat  .PageLink__num { left: 28px; }
+  .PageLink--play .PageLink__num { right: 28px; }
+
+  .PageLinks__divider { display: none; }
+
+  /* Sur mobile, on affiche tout d'emblée */
+  .PageLink__eyebrow { opacity: 1; transform: none; }
+  .PageLink__cta     { opacity: 1; transform: none; }
+  .PageLink__title   { transform: none; }
+}

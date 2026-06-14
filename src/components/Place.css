@@ -1,0 +1,79 @@
+/* ═══════════════════════════════════════════
+   Place — fond papier · vidéo plein-section au hover
+═══════════════════════════════════════════ */
+
+.Place.is--beige {
+  position: relative; overflow: hidden;
+  background: var(--paper); padding: 0 2rem;
+  min-height: 100vh; display: flex; align-items: center;
+}
+
+.Place__container {
+  position: relative; z-index: 2;
+  max-width: 1100px; margin: 0 auto;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+
+.Place__icon {
+  display: block; margin-bottom: 3rem; font-style: normal;
+  color: var(--amber); font-family: var(--label-family);
+  font-size: var(--label-size); font-weight: var(--label-weight);
+  letter-spacing: var(--label-spacing); text-transform: uppercase;
+  transition: color 0.5s ease;
+}
+.Place.is--reveal .Place__icon { color: rgba(250,249,246,0.55); }
+
+.Place__bg { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+
+.Place__bg-video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: 0; transition: opacity 0.6s ease;
+}
+.Place__bg-video.is--active { opacity: 1; }
+
+.Place__bg-overlay {
+  position: absolute; inset: 0;
+  background: rgba(26,21,18,0.55); opacity: 0; transition: opacity 0.6s ease;
+}
+.Place.is--reveal .Place__bg-overlay { opacity: 1; }
+
+/* Texte principal */
+.Place__content {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7.5vw, 7rem);
+  text-transform: uppercase; color: var(--ink);
+  font-weight: 300;
+  line-height: 1.02; letter-spacing: 0.01em;
+  transition: color 0.45s ease; text-align: center;
+}
+.Place.is--reveal .Place__content { color: var(--paper); }
+
+.Place__line { display: block; }
+
+/* Liens interactifs */
+.Place__reveal-link {
+  position: relative; display: inline; color: inherit;
+  text-decoration: none; cursor: pointer;
+  background: linear-gradient(transparent 55%, rgba(26,21,18,0.1) 55%);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.Place__reveal-link::after {
+  content: ''; position: absolute; bottom: -0.04em; left: 0; right: 0;
+  height: 0.07em; background: currentColor;
+  transform-origin: left; transform: scaleX(0);
+  transition: transform 0.45s var(--ease-out-expo);
+}
+.Place__reveal-link.is--active::after { transform: scaleX(1); }
+
+.Place.is--reveal .Place__reveal-link:not(.is--active) {
+  color: rgba(250,249,246,0.3); background: none;
+}
+.Place.is--reveal .Place__reveal-link.is--active {
+  color: var(--amber); background: none;
+}
+
+.Place__comma { color: inherit; }
+
+@media (max-width: 1024px) { .Place__content { font-size: clamp(2.6rem, 6.5vw, 5rem); } }
+@media (max-width: 768px) { .Place.is--beige { padding: 0 1.5rem; min-height: 70vh; } }

@@ -1,0 +1,125 @@
+.Hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.Hero__bg { position: absolute; inset: 0; overflow: hidden; }
+
+.Hero__bg-video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+}
+
+/* Overlay plus léger — laisse respirer la vidéo */
+.Hero__bg-overlay {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg,
+      rgba(26,21,18,0.28) 0%,
+      rgba(26,21,18,0.08) 30%,
+      rgba(26,21,18,0.15) 55%,
+      rgba(26,21,18,0.65) 100%);
+}
+
+.Hero::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 1;
+  pointer-events: none; opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 300px 300px;
+}
+
+/* Textes verticaux latéraux */
+.Hero__side {
+  position: absolute; top: 50%;
+  font-family: var(--label-family);
+  font-size: var(--label-size); font-weight: var(--label-weight);
+  letter-spacing: var(--label-spacing); text-transform: uppercase;
+  color: rgba(250,249,246,0.2); writing-mode: vertical-rl; z-index: 3;
+  transition: color 0.3s ease;
+}
+.Hero__side:hover { color: rgba(250,249,246,0.45); }
+.Hero__side--left  { left: 1.4rem; transform: translateY(-50%) rotate(180deg); }
+.Hero__side--right { right: 1.4rem; transform: translateY(-50%); }
+
+/* Titre central */
+.Hero__container {
+  position: relative; z-index: 2; text-align: center;
+  padding: var(--nav-height) 5rem 5rem;
+}
+
+.Hero__title {
+  display: flex; flex-direction: column; align-items: center;
+  font-family: var(--font-display);
+  font-size: clamp(5.5rem, 13vw, 12rem);
+  line-height: 0.88;
+  color: var(--paper);
+  font-weight: 300;
+  letter-spacing: 0.03em;
+  margin-bottom: 2.8rem;
+  font-style: italic;
+  text-shadow: 0 2px 60px rgba(26,21,18,0.2);
+}
+
+.Hero__subtitle {
+  font-family: var(--label-family);
+  font-size: var(--label-size); font-weight: var(--label-weight);
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(250,249,246,0.35);
+}
+
+/* Scroll indicator */
+.Hero__scroll {
+  position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0.6rem; z-index: 3;
+}
+.Hero__scroll-line {
+  width: 1px; height: 52px;
+  background: linear-gradient(to bottom, rgba(139,115,85,0.7), transparent);
+  animation: scrollAnim 2s var(--ease-in-out) infinite; transform-origin: top;
+}
+@keyframes scrollAnim {
+  0%   { opacity: 1; transform: scaleY(1); }
+  60%  { opacity: 0; transform: scaleY(0); }
+  61%  { opacity: 0; transform: scaleY(0); transform-origin: bottom; }
+  100% { opacity: 0; transform: scaleY(0); }
+}
+.Hero__scroll-label {
+  font-family: var(--label-family); font-size: var(--label-size);
+  font-weight: var(--label-weight); letter-spacing: var(--label-spacing);
+  text-transform: uppercase; color: rgba(250,249,246,0.2);
+}
+
+/* Cercle rotatif */
+.Hero__circular {
+  position: absolute; bottom: 1.5rem; right: 2rem;
+  width: 110px; height: 110px; z-index: 3;
+  animation: spin 16s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.Hero__circular-svg { width: 100%; height: 100%; position: absolute; inset: 0; }
+.Hero__circular-text {
+  font-family: var(--label-family); font-size: 18px;
+  fill: rgba(250,249,246,0.28); letter-spacing: 3px; text-transform: uppercase;
+}
+.Hero__circular-icon {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  animation: spin 16s linear infinite reverse;
+  color: rgba(250,249,246,0.45);
+}
+.Hero__circular-icon svg { width: 20px; height: 30px; }
+
+@media (max-width: 600px) {
+  .Hero__container { padding: var(--nav-height) 2rem 4rem; }
+  .Hero__title { font-size: clamp(4rem, 20vw, 5.5rem); }
+  .Hero__circular { width: 80px; height: 80px; bottom: 1rem; right: 1rem; }
+  .Hero__side { display: none; }
+}

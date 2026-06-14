@@ -1,0 +1,222 @@
+/* ═══════════════════════════════════════════
+   Venue — bento-grid L'espace
+   Fond noir · chiffres ambrés · grille moderne
+═══════════════════════════════════════════ */
+
+.Venue {
+  background: var(--black);
+  padding: 7rem 2rem 8rem;
+}
+
+/* ── Intro ── */
+.Venue__intro {
+  max-width: 1100px;
+  margin: 0 auto 3rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.Venue__intro-label {
+  font-family: var(--label-family);
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  color: var(--amber);
+  align-self: flex-start;
+  padding-top: 0.5rem;
+}
+
+.Venue__intro-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  color: var(--white);
+  line-height: 1.05;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+/* ── Bento grid ── */
+.Venue__bento {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 2px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* ── Cellule de base ── */
+.Venue__cell {
+  background: #0b1512;
+  padding: 2.6rem 2.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  transition: background 0.35s ease;
+}
+
+/* ── Couverts : col 1, rows 1→2 ── */
+.Venue__cell--couverts {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  justify-content: space-between;
+  min-height: 300px;
+}
+.Venue__cell--couverts:hover { background: #111c19; }
+
+/* ── Terrasse : col 2→3, row 1 ── */
+.Venue__cell--outdoor {
+  grid-column: 2 / 4;
+  grid-row: 1;
+  background: linear-gradient(135deg, #17302a 0%, #0b1512 60%);
+}
+.Venue__cell--outdoor:hover {
+  background: linear-gradient(135deg, #1d3a32 0%, #111c19 60%);
+}
+
+/* ── Tables : col 2, row 2 ── */
+.Venue__cell--tables {
+  grid-column: 2;
+  grid-row: 2;
+}
+.Venue__cell--tables:hover { background: #111c19; }
+
+/* ── Groupe : col 3, row 2 ── */
+.Venue__cell--group {
+  grid-column: 3;
+  grid-row: 2;
+  background: rgba(235,161,61,0.05);
+}
+.Venue__cell--group:hover { background: rgba(235,161,61,0.09); }
+
+/* ── Grands chiffres ── */
+.Venue__cell-num {
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 9vw, 7.5rem);
+  color: var(--amber);
+  line-height: 0.88;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.Venue__cell-num sup {
+  font-size: 0.42em;
+  vertical-align: super;
+  color: rgba(235,161,61,0.55);
+  letter-spacing: 0;
+}
+.Venue__cell-num--sm {
+  font-size: clamp(2.8rem, 4.5vw, 4rem);
+}
+
+/* ── Badge ── */
+.Venue__cell-badge {
+  font-family: var(--label-family);
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  color: var(--amber);
+  opacity: 0.75;
+}
+
+/* ── Titre cellule ── */
+.Venue__cell-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.8vw, 1.7rem);
+  color: var(--white);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 400;
+  line-height: 1;
+}
+
+/* ── Description ── */
+.Venue__cell-desc {
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  color: rgba(255,255,255,0.4);
+  line-height: var(--body-line);
+}
+
+/* ── Pied de cellule (titre + desc empilés) ── */
+.Venue__cell-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* ── En-tête groupe (badge + chiffre côte à côte) ── */
+.Venue__cell-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* ── Bouton CTA ── */
+.Venue__cell-cta {
+  display: inline-flex;
+  align-items: center;
+  margin-top: auto;
+  padding: 0.65rem 1.3rem;
+  background: var(--amber);
+  color: var(--black);
+  font-family: var(--label-family);
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 6px;
+  width: fit-content;
+  transition: background 0.22s ease, transform 0.18s ease;
+}
+.Venue__cell-cta:hover {
+  background: var(--white);
+  transform: translateY(-2px);
+}
+
+/* ══════════════
+   Responsive
+══════════════ */
+@media (max-width: 900px) {
+  .Venue__bento {
+    grid-template-columns: 1fr 1fr;
+  }
+  .Venue__cell--couverts {
+    grid-column: 1;
+    grid-row: 1;
+    min-height: auto;
+  }
+  .Venue__cell--outdoor {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .Venue__cell--tables {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .Venue__cell--group {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .Venue__intro { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .Venue__intro-title { text-align: left; }
+}
+
+@media (max-width: 600px) {
+  .Venue { padding: 5rem 1.5rem 6rem; }
+  .Venue__bento { grid-template-columns: 1fr; }
+  .Venue__cell--couverts,
+  .Venue__cell--outdoor,
+  .Venue__cell--tables,
+  .Venue__cell--group { grid-column: 1; grid-row: auto; }
+}

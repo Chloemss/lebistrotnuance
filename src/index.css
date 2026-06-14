@@ -1,0 +1,87 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* ── Palette Nuance — fond clair, encre & taupe ── */
+  --paper:      #FAF9F6;   /* quasi-blanc, légèrement chaud — fond principal */
+  --paper-2:    #F0EBE4;   /* crème douce — fonds alternatifs */
+  --paper-3:    #E6DFD6;   /* crème profonde — cartes, bordures */
+  --ink:        #1A1512;   /* quasi-noir, chaud — texte principal */
+  --ink-2:      rgba(26,21,18,0.48); /* texte secondaire */
+  --ink-3:      rgba(26,21,18,0.18); /* dividers, bordures légères */
+
+  /* Variables de compatibilité (composants existants) */
+  --green:      #FAF9F6;   /* était bleu nuit → maintenant fond papier */
+  --green-dark: #F0EBE4;
+  --black:      #1A1512;   /* quasi-noir chaud — texte & éléments sombres */
+  --amber:      #8B7355;   /* taupe chaleureux — accent sophistiqué */
+  --red:        #F0EBE4;   /* était bleu pétrole → maintenant fond crème */
+  --red-dark:   #E6DFD6;
+  --cream:      #EDE8E1;   /* lin naturel — inchangé */
+  --cream-alt:  #E6DFD6;
+  --white:      #FFFFFF;
+
+  /* ── Typographie ── */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-script:  'Sacramento', cursive;
+  --font-mono:    'Space Mono', monospace;
+  --font-body:    'DM Sans', sans-serif;
+
+  --nav-height: 80px;
+
+  /* ── Tokens typographiques ── */
+  --label-family:  var(--font-body);
+  --label-size:    0.72rem;
+  --label-weight:  600;
+  --label-spacing: 0.16em;
+
+  --body-size:     0.92rem;
+  --body-line:     1.85;
+
+  /* ── Easing tokens ── */
+  --ease-out-expo:  cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-in-out:    cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Sélection ── */
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ── Focus ── */
+:focus-visible {
+  outline: 1.5px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--paper-2); }
+::-webkit-scrollbar-thumb { background: rgba(26,21,18,0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink); }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+body.is-loading { overflow: hidden; }
+
+img { display: block; max-width: 100%; }
+a   { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; font-family: var(--font-body); }
+
+.site {
+  opacity: 0;
+  transition: opacity 0.9s var(--ease-out-expo) 0.1s;
+}
+.site--visible { opacity: 1; }

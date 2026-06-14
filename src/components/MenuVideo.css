@@ -1,0 +1,105 @@
+/* ═══════════════════════════════════════════
+   MenuVideo — extensions de Menu.css
+   Colonne deco : lettres ↔ vidéo au clic
+═══════════════════════════════════════════ */
+
+/* ── Correctifs de conflit .Menu avec Navbar.css ──
+   Navbar.css définit aussi .Menu { position:fixed; z-index:200; pointer-events:none }
+   Le sélecteur #carte-video (plus spécifique que .Menu) prend le dessus. */
+#carte-video {
+  overflow:          visible;
+  pointer-events:    auto;                           /* ← annule pointer-events:none de Navbar.css */
+  z-index:           1;                             /* ← annule z-index:200 (ne pas couvrir la navbar z-100) */
+  position:          relative;                      /* ← garantit que position:fixed n'est pas hérité */
+  scroll-margin-top: calc(var(--nav-height) + 1rem); /* ← ancre #carte-video tient compte de la navbar fixe */
+}
+
+/* ── La colonne déco devient un conteneur relatif ── */
+.MenuVideo__deco {
+  position: relative !important;
+  /* pointer-events: none hérité de Menu__deco — ok, hover géré par les plats */
+}
+
+/* ── Wrapper des lettres ── */
+.MenuVideo__letters {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  transform-origin: center top;
+}
+
+/* Lettres s'effacent au hover */
+.MenuVideo__deco.is--video .MenuVideo__letters {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+/* ── Encart vidéo : position absolue, recouvre les lettres ── */
+.MenuVideo__overlay {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 100px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #1a1008;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.15);
+
+  /* Caché par défaut */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
+}
+
+/* Visible au hover */
+.MenuVideo__deco.is--video .MenuVideo__overlay {
+  opacity: 1;
+}
+
+/* ── Couches vidéo individuelles (crossfade) ── */
+.MenuVideo__vid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.MenuVideo__vid.is--active {
+  opacity: 1;
+}
+
+/* ── Indice visuel ▶ sur les plats cliquables ── */
+.MenuVideo__play-hint {
+  font-size: 0.55rem;
+  opacity: 0.4;
+  margin-left: 0.3rem;
+  vertical-align: middle;
+}
+
+/* Plat sélectionné : léger fond coloré */
+.MenuVideo__dish--active {
+  background: rgba(0,0,0,0.04);
+  border-radius: 4px;
+}
+
+/* ── Responsive : encart masqué sur mobile ── */
+@media (max-width: 768px) {
+  .MenuVideo__overlay { display: none; }
+  .MenuVideo__deco.is--video .MenuVideo__letters {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.Menu__deco-col { display: grid; }
+
+@media (max-width: 768px) {
+  .Menu__deco-col { display: none !important; }
+}

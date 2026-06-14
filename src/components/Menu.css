@@ -1,0 +1,320 @@
+/* ═══════════════════════════════════════════
+   Menu — La Carte
+   Style print / brasserie, fond crème
+═══════════════════════════════════════════ */
+
+.Menu {
+  background: var(--cream-alt);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Onglets sélecteurs ── */
+.Menu__tabs {
+  display: flex;
+  border-bottom: 2px solid rgba(0,0,0,0.08);
+}
+
+.Menu__tab {
+  flex: 1;
+  padding: 1.4rem 1rem;
+  background: transparent;
+  border: none;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(2,11,10,0.35);
+  cursor: pointer;
+  position: relative;
+  transition: color 0.25s;
+}
+
+.Menu__tab::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 3px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.19,1,0.22,1);
+}
+
+.Menu__tab--red.is--active,
+.Menu__tab--red:hover   { color: var(--red); }
+.Menu__tab--red.is--active::after,
+.Menu__tab--red:hover::after   { background: var(--red); transform: scaleX(1); }
+
+.Menu__tab--amber.is--active,
+.Menu__tab--amber:hover { color: var(--amber); }
+.Menu__tab--amber.is--active::after,
+.Menu__tab--amber:hover::after { background: var(--amber); transform: scaleX(1); }
+
+.Menu__tab--green.is--active,
+.Menu__tab--green:hover { color: var(--green); }
+.Menu__tab--green.is--active::after,
+.Menu__tab--green:hover::after { background: var(--green); transform: scaleX(1); }
+
+/* ── Corps principal ── */
+.Menu__body {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 5rem 4rem 5rem 5rem;
+  animation: menuIn 0.35s ease both;
+}
+
+@keyframes menuIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Colonne liste ── */
+.Menu__list {
+  padding-right: 4rem;
+}
+
+/* Titre de catégorie */
+.Menu__cat-title {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 7vw, 7rem);
+  line-height: 0.9;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 3rem;
+}
+.Menu__cat-title--red   { color: var(--red); }
+.Menu__cat-title--amber { color: var(--amber); }
+.Menu__cat-title--green { color: var(--green); }
+
+/* ── Item / plat ── */
+.Menu__dish {
+  padding: 1.1rem 0;
+  border-bottom: 1px solid rgba(2,11,10,0.08);
+}
+.Menu__dish:last-child { border-bottom: none; }
+
+/* Ligne nom ··· prix */
+.Menu__dish-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.Menu__dish-name {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  color: var(--black);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Tirets pointillés */
+.Menu__dish-dots {
+  flex: 1;
+  border-bottom: 0px dashed rgba(2,11,10,0.18);
+  margin-bottom: 0.3rem;
+  min-width: 2rem;
+}
+
+.Menu__dish-price {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  color: var(--black);
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+/* Description */
+.Menu__dish-desc {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: rgba(2,11,10,0.5);
+  line-height: 1.5;
+  margin: 0.25rem 0 0.5rem;
+}
+
+/* ── Badges ── */
+.Menu__pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.5rem;
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  line-height: 1.6;
+}
+.Menu__pill--badge {
+  background: rgba(194,60,72,0.1);
+  color: var(--red);
+  border: 1px solid rgba(194,60,72,0.25);
+}
+.Menu__pill--vege {
+  background: rgba(35,92,71,0.1);
+  color: var(--green);
+  border: 1px solid rgba(35,92,71,0.2);
+}
+
+/* ── Allergènes — icônes SVG line-art ── */
+.Menu__dish-allergens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+/* Couleur des icônes selon catégorie */
+.Menu__dish-allergens--red   { color: var(--red); }
+.Menu__dish-allergens--amber { color: var(--amber); }
+.Menu__dish-allergens--green { color: var(--green); }
+
+.Menu__allergen {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  cursor: help;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.Menu__allergen:hover { opacity: 1; }
+
+/* L'icône SVG elle-même */
+.Menu__allergen svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+.Menu__allergen-label {
+  font-family: var(--font-mono);
+  font-size: 0.44rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(2,11,10,0.45);
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* ── Colonne décorative ── */
+.Menu__deco {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 0.5rem;
+  user-select: none;
+  pointer-events: none;
+  gap: 0;
+}
+
+.Menu__deco-letter {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 9vw, 10rem);
+  line-height: 0.88;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+.Menu__deco-letter--red   { color: var(--red); }
+.Menu__deco-letter--amber { color: var(--amber); }
+.Menu__deco-letter--green { color: var(--green); }
+
+.Menu__deco-word {
+  font-family: var(--font-script);
+  font-size: clamp(2rem, 3.5vw, 3.5rem);
+  margin-top: 0.5rem;
+  opacity: 0.5;
+}
+.Menu__deco-word--red   { color: var(--red); }
+.Menu__deco-word--amber { color: var(--amber); }
+.Menu__deco-word--green { color: var(--green); }
+
+/* ── Légende ── */
+.Menu__legend {
+  border-top: 1px solid rgba(2,11,10,0.1);
+  padding: 1.5rem 5rem 2.5rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.2rem;
+}
+
+.Menu__legend-title {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(2,11,10,0.4);
+  width: 100%;
+  margin-bottom: 0.2rem;
+}
+
+.Menu__legend-item {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: rgba(2,11,10,0.4);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  letter-spacing: 0.03em;
+}
+
+.Menu__legend-icon {
+  display: flex;
+  align-items: center;
+  color: rgba(2,11,10,0.35);
+}
+.Menu__legend-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.Menu__legend-note {
+  width: 100%;
+  font-size: 0.7rem;
+  color: rgba(2,11,10,0.3);
+  font-style: italic;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .Menu__body { padding: 4rem 3rem; }
+  .Menu__deco-letter { font-size: 7rem; }
+}
+
+@media (max-width: 768px) {
+  .Menu__body {
+    grid-template-columns: 1fr;
+    padding: 3rem 1.5rem;
+  }
+  .Menu__deco {
+    flex-direction: row;
+    justify-content: center;
+    padding: 0 0 2rem;
+    flex-wrap: wrap;
+    gap: 0 0.1rem;
+  }
+  .Menu__deco-letter { font-size: 4rem; }
+  .Menu__deco-word { display: none; }
+  .Menu__list { padding-right: 0; }
+  .Menu__legend { padding: 1.5rem; }
+  .Menu__allergen-label { display: none; }
+}
+
+@media (max-width: 480px) {
+  .Menu__cat-title { font-size: 3rem; margin-bottom: 2rem; }
+}

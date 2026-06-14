@@ -1,0 +1,63 @@
+/* ── Teambuilding — fond noir profond ── */
+.Teambuilding.is--purple {
+  background: var(--black);
+  min-height: 80vh;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.Teambuilding__container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 6rem 2rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Icône fer à cheval */
+.Teambuilding__icon {
+  font-style: normal;
+  display: block;
+  color: var(--amber);
+  margin-bottom: 2.5rem;
+  opacity: 0.6;
+}
+
+/* Titre */
+.Teambuilding__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4.5vw, 4rem);
+  color: var(--cream);
+  line-height: 1.2;
+  margin-bottom: 2.5rem;
+}
+
+/* CTA */
+.Teambuilding__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--label-family);
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  color: var(--amber);
+  text-decoration: none;
+  padding: 1rem 2.4rem;
+  border: 1.5px solid var(--amber);
+  border-radius: 2px;
+  transition: background 0.25s, color 0.25s;
+}
+.Teambuilding__cta:hover {
+  background: var(--amber);
+  color: var(--black);
+}
