@@ -1,0 +1,61 @@
+/* ═══════════════════════════════════════════════════
+   Custom Cursor — amber dot · lagging ring
+   Hidden on touch / reduced-motion devices
+═══════════════════════════════════════════════════ */
+
+@media (hover: none) {
+  .Cursor { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Cursor { display: none; }
+}
+
+.Cursor {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99999;
+}
+
+/* ── Amber dot (follows instantly) ─────────────────── */
+.Cursor__dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--amber);
+  will-change: transform;
+  opacity: 0;
+  transition: opacity 0.3s ease, width 0.25s ease, height 0.25s ease, background 0.25s ease;
+}
+.Cursor__dot.is-active { opacity: 1; }
+
+/* ── Lagging ring ───────────────────────────────────── */
+.Cursor__ring {
+  position: fixed;
+  top: 0; left: 0;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(139, 115, 85, 0.45);
+  will-change: transform;
+  transition:
+    width  0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.35s ease,
+    border-width  0.35s ease;
+}
+
+/* Hover state — ring swells */
+.Cursor__ring.is-hover {
+  width: 56px;
+  height: 56px;
+  border-color: var(--amber);
+  border-width: 1px;
+}
+
+/* On dark sections (video/hero) — keep ring visible */
+.Hero .Cursor__ring,
+.Loader .Cursor__ring {
+  border-color: rgba(250, 249, 246, 0.35);
+}

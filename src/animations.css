@@ -1,0 +1,236 @@
+/* ════════════════════════════════════════════════════════════
+   animations.css — Le Bistrot Nuance · Global Motion System
+   ————————————————————————————————————————————————————————————
+   Rules:
+     • Elements with [data-reveal] start hidden
+     • IntersectionObserver (useScrollReveal) adds .is-visible
+     • CSS animates transform + opacity only (GPU-friendly)
+     • prefers-reduced-motion: everything snaps to final state
+   ════════════════════════════════════════════════════════════ */
+
+
+/* ══════════════════════════════════════════════════════════════
+   1. BASE REVEAL — fade + slide up
+   ══════════════════════════════════════════════════════════════ */
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(50px);
+  transition:
+    opacity   0.95s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ── Directional variants ────────────────────────────────── */
+
+[data-reveal="left"] {
+  transform: translateX(-50px);
+}
+[data-reveal="left"].is-visible {
+  transform: translateX(0);
+}
+
+[data-reveal="right"] {
+  transform: translateX(50px);
+}
+[data-reveal="right"].is-visible {
+  transform: translateX(0);
+}
+
+[data-reveal="scale"] {
+  transform: scale(0.93);
+}
+[data-reveal="scale"].is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+
+/* ── Stagger delays ──────────────────────────────────────── */
+
+[data-delay="1"] { transition-delay: 0.06s; }
+[data-delay="2"] { transition-delay: 0.12s; }
+[data-delay="3"] { transition-delay: 0.18s; }
+[data-delay="4"] { transition-delay: 0.24s; }
+[data-delay="5"] { transition-delay: 0.30s; }
+[data-delay="6"] { transition-delay: 0.36s; }
+
+
+/* ══════════════════════════════════════════════════════════════
+   2. HEADING REVEAL — child spans rise up with stagger
+      Used on .About__title / .Reservation__title / .Footer__cta-title
+      (headings whose direct children are <span> elements)
+   ══════════════════════════════════════════════════════════════ */
+
+[data-reveal="heading"] {
+  /* Parent itself stays visible — children do the animating */
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+[data-reveal="heading"] > span {
+  display: block;
+  opacity: 0;
+  transform: translateY(60px) skewY(2.5deg);
+  /* No opacity transition here — only transform, so it stays invisible */
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* When parent is revealed: children animate in */
+[data-reveal="heading"].is-visible > span {
+  opacity: 1;
+  transform: translateY(0) skewY(0deg);
+  transition:
+    opacity   0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s  cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Stagger each line */
+[data-reveal="heading"].is-visible > span:nth-child(1) { transition-delay: 0s; }
+[data-reveal="heading"].is-visible > span:nth-child(2) { transition-delay: 0.1s; }
+[data-reveal="heading"].is-visible > span:nth-child(3) { transition-delay: 0.2s; }
+[data-reveal="heading"].is-visible > span:nth-child(4) { transition-delay: 0.3s; }
+
+
+/* ══════════════════════════════════════════════════════════════
+   3. HERO ENTRANCE — fires once when Loader exits
+      Triggered by .site--visible added to parent wrapper
+   ══════════════════════════════════════════════════════════════ */
+
+/* Title words — each span rises + un-warps */
+.site--visible .Hero__title > span {
+  opacity: 0;
+  transform: translateY(72px) skewY(2deg);
+  animation: heroWordIn 1.05s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.site--visible .Hero__title > span:nth-child(1) { animation-delay: 0.04s; }
+.site--visible .Hero__title > span:nth-child(2) { animation-delay: 0.17s; }
+.site--visible .Hero__title > span:nth-child(3) { animation-delay: 0.30s; }
+
+@keyframes heroWordIn {
+  to { opacity: 1; transform: translateY(0) skewY(0deg); }
+}
+
+/* Subtitle — fades in (no transform to avoid conflicting with layout) */
+.site--visible .Hero__subtitle {
+  opacity: 0;
+  animation: heroFadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.48s forwards;
+}
+
+/* Scroll indicator — opacity only (has translateX(-50%) centering) */
+.site--visible .Hero__scroll {
+  opacity: 0;
+  animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.72s forwards;
+}
+
+/* Side "EAT" / "PLAY" labels — opacity only (has their own transforms) */
+.site--visible .Hero__side {
+  opacity: 0;
+  animation: heroFadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.85s forwards;
+}
+
+@keyframes heroFadeIn {
+  to { opacity: 1; }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   4. EVENTS CARDS — extra lift + scale
+   ══════════════════════════════════════════════════════════════ */
+
+.Events__card[data-reveal] {
+  transform: translateY(60px) scale(0.97);
+  transition:
+    opacity   1.0s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.Events__card[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   5. FOOTER RULE — line draws left → right on reveal
+   ══════════════════════════════════════════════════════════════ */
+
+.Footer__rule[data-reveal] {
+  opacity: 1;              /* Override base opacity animation */
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.Footer__rule[data-reveal].is-visible {
+  transform: scaleX(1);
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   6. LINK UNDERLINE ANIMATION (opt-in via .animated-link)
+   ══════════════════════════════════════════════════════════════ */
+
+.animated-link {
+  position: relative;
+  text-decoration: none;
+}
+.animated-link::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -2px;
+  width: 100%; height: 1px;
+  background: currentColor;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.animated-link:hover::after {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   6. LINE DRAW (opt-in via data-line-reveal)
+   ══════════════════════════════════════════════════════════════ */
+
+[data-line-reveal] {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-line-reveal].is-visible {
+  transform: scaleX(1);
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   7. prefers-reduced-motion — instant final state
+   ══════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal] > span,
+  [data-line-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .site--visible .Hero__title > span,
+  .site--visible .Hero__subtitle,
+  .site--visible .Hero__scroll,
+  .site--visible .Hero__side {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}

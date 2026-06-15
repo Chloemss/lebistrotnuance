@@ -1,22 +1,29 @@
 import { useState, useCallback, useEffect } from 'react'
-import Loader       from './components/Loader'
-import Navbar       from './components/Navbar'
-import Hero         from './components/Hero'
-import About        from './components/About'
-import Place        from './components/Place'
-import PageLinks    from './components/PageLinks'
-import MenuVideo       from './components/MenuVideo'
-import Gallery      from './components/Gallery'
-import Faq          from './components/Faq'
-import Visit        from './components/Visit'
-import Reservation  from './components/Reservation'
-import Footer       from './components/Footer'
-import ScrollArrow  from './components/ScrollArrow'
+import Loader         from './components/Loader'
+import Navbar         from './components/Navbar'
+import Hero           from './components/Hero'
+import About          from './components/About'
+import Place          from './components/Place'
+import PageLinks      from './components/PageLinks'
+import MenuVideo      from './components/MenuVideo'
+import Gallery        from './components/Gallery'
+import Reviews        from './components/Reviews'
+import Faq            from './components/Faq'
+import Visit          from './components/Visit'
+import Reservation    from './components/Reservation'
+import Footer         from './components/Footer'
+import ScrollArrow    from './components/ScrollArrow'
+import Cursor         from './components/Cursor'
+import ScrollProgress from './components/ScrollProgress'
+import { useScrollReveal } from './hooks/useScrollReveal'
 import './App.css'
+import './animations.css'
 
 export default function App() {
   const [loaded, setLoaded]         = useState(false)
   const [panelOpen, setPanelOpen]   = useState(false)
+
+  useScrollReveal()
 
   useEffect(() => {
     document.body.classList.add('is-loading')
@@ -39,6 +46,8 @@ export default function App() {
 
   return (
     <>
+      <Cursor />
+      <ScrollProgress />
       {!loaded && <Loader onDone={handleLoaderDone} />}
 
       <div className={`site${loaded ? ' site--visible' : ''}`}>
@@ -47,10 +56,11 @@ export default function App() {
         <main>
           <div id="hero">      <Hero />      </div>
           <div id="about">     <About />     </div>
-          <MenuVideo />        {/* id="carte-video" */}
-          {/* <div id="events">    <Events />    </div> */}
           <div id="gallery">   <Gallery />   </div>
-          <div id="place">     <Place />     </div>
+          {/* <div id="place">     <Place />     </div> */}
+          <MenuVideo />        {/* id="carte-video" */}
+          {/* <div id="avis">      <Reviews />   </div> */}
+          {/* <div id="events">    <Events />    </div> */}
           <div id="pagelinks"> <PageLinks /> </div>
           <div id="faq">       <Faq />       </div>
           <Reservation

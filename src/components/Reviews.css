@@ -1,0 +1,310 @@
+/* ═══════════════════════════════════════════════════════
+   Reviews — Avis clients
+   Fond encre sombre · filigrane géant · citation rotative
+═══════════════════════════════════════════════════════ */
+
+.Reviews {
+  background: var(--ink);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 9rem 5vw 7rem;
+  min-height: 88vh;
+  text-align: center;
+}
+
+
+/* ══════════════════════════════════════════
+   Filigrane "4,8" géant en arrière-plan
+══════════════════════════════════════════ */
+
+.Reviews__watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -48%);
+  font-family: var(--font-display);
+  font-size: clamp(22rem, 58vw, 72rem);
+  font-weight: 300;
+  line-height: 1;
+  color: rgba(250, 249, 246, 0.026);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 0;
+  letter-spacing: -0.04em;
+}
+
+
+/* ══════════════════════════════════════════
+   Grain pelliculaire
+══════════════════════════════════════════ */
+
+.Reviews__grain {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+
+/* ══════════════════════════════════════════
+   En-tête — badge score agrégat
+══════════════════════════════════════════ */
+
+.Reviews__header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  margin-bottom: 5.5rem;
+}
+
+.Reviews__eyebrow {
+  font-family: var(--label-family);
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.Reviews__badge {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.Reviews__stars {
+  display: flex;
+  align-items: center;
+  gap: 0.18rem;
+}
+
+.Reviews__star {
+  width: 13px;
+  height: 13px;
+  color: var(--amber);
+  flex-shrink: 0;
+}
+
+.Reviews__score-num {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  font-weight: 300;
+  color: var(--paper);
+  letter-spacing: 0.02em;
+}
+
+.Reviews__score-sep {
+  color: rgba(250, 249, 246, 0.2);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+}
+
+.Reviews__count {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(250, 249, 246, 0.28);
+}
+
+
+/* ══════════════════════════════════════════
+   Zone de citation — animée
+══════════════════════════════════════════ */
+
+.Reviews__stage {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 900px;
+  width: 100%;
+
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity   0.52s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.62s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.Reviews__stage.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Guillemet décoratif ouverture */
+.Reviews__deco-quote {
+  font-family: var(--font-display);
+  font-size: clamp(7rem, 16vw, 16rem);
+  font-weight: 300;
+  line-height: 0.55;
+  color: var(--amber);
+  opacity: 0.45;
+  margin-bottom: 0.8rem;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Texte de la citation */
+.Reviews__quote {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.8vw, 2.65rem);
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(250, 249, 246, 0.9);
+  line-height: 1.48;
+  letter-spacing: 0.008em;
+  margin: 0;
+  quotes: none;
+}
+
+/* Attribution */
+.Reviews__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 2.6rem;
+}
+
+.Reviews__author {
+  font-family: var(--font-display);
+  font-size: clamp(0.88rem, 1.5vw, 1.1rem);
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(250, 249, 246, 0.5);
+  letter-spacing: 0.03em;
+}
+
+.Reviews__meta-sep {
+  color: rgba(250, 249, 246, 0.15);
+  font-size: 0.75rem;
+}
+
+.Reviews__date {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(250, 249, 246, 0.2);
+}
+
+
+/* ══════════════════════════════════════════
+   Navigation dots
+══════════════════════════════════════════ */
+
+.Reviews__nav {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 4rem;
+}
+
+.Reviews__dot {
+  height: 6px;
+  width: 6px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(250, 249, 246, 0.18);
+  cursor: pointer;
+  padding: 0;
+  transition:
+    width      0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.3s ease;
+}
+
+.Reviews__dot.is-active {
+  width: 26px;
+  background: var(--amber);
+}
+
+.Reviews__dot:hover:not(.is-active) {
+  background: rgba(250, 249, 246, 0.38);
+}
+
+
+/* ══════════════════════════════════════════
+   Lien "Voir tous les avis"
+══════════════════════════════════════════ */
+
+.Reviews__google-link {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 3.5rem;
+  font-family: var(--label-family);
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(250, 249, 246, 0.3);
+  border-bottom: 1px solid rgba(250, 249, 246, 0.1);
+  padding-bottom: 0.2rem;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.Reviews__google-link:hover {
+  color: rgba(250, 249, 246, 0.7);
+  border-color: rgba(250, 249, 246, 0.3);
+}
+
+.Reviews__google-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.Reviews__arrow {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.Reviews__google-link:hover .Reviews__arrow {
+  transform: translateX(4px);
+}
+
+
+/* ══════════════════════════════════════════
+   Responsive
+══════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+  .Reviews { min-height: auto; padding: 7rem 3rem 6rem; }
+  .Reviews__header { margin-bottom: 4rem; }
+  .Reviews__deco-quote { font-size: 5.5rem; }
+}
+
+@media (max-width: 600px) {
+  .Reviews { padding: 6rem 1.8rem 5rem; }
+  .Reviews__badge { flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+  .Reviews__score-sep,
+  .Reviews__count { display: none; }
+  .Reviews__quote { font-size: clamp(1.2rem, 5.5vw, 1.7rem); }
+  .Reviews__meta { flex-direction: column; gap: 0.25rem; }
+  .Reviews__meta-sep { display: none; }
+  .Reviews__nav { margin-top: 2.5rem; }
+  .Reviews__google-link { margin-top: 2.5rem; }
+}

@@ -5,9 +5,18 @@
 .PageLinks {
   display: flex;
   flex-wrap: nowrap;
-  min-height: 100vh;
+  /* Collapsed : 1/4 de la hauteur viewport — n'affiche que le bas des images */
+  height: 40vh;
   position: relative;
   overflow: hidden;
+  transition: height 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Expansion complète au survol de n'importe quel panneau */
+@media (hover: hover) {
+  .PageLinks:has(.PageLink:hover) {
+    height: 100vh;
+  }
 }
 
 /* ── Panneau de base ── */
@@ -17,7 +26,7 @@
   align-items: flex-end;           /* contenu ancré en bas */
   justify-content: flex-start;
   width: 50%;
-  min-height: 100vh;
+  /* Pas de min-height — prend la hauteur du parent */
   overflow: hidden;
   text-decoration: none;
   color: var(--white);
@@ -269,11 +278,12 @@
 @media (max-width: 768px) {
   .PageLinks {
     flex-direction: column;
-    min-height: auto;
+    height: auto;           /* reset — chaque panneau a sa propre hauteur */
+    transition: none;
   }
   .PageLink {
     width: 100% !important;
-    min-height: 60vh;
+    height: 58vh;           /* hauteur fixe sur mobile, pas de collapse */
     align-items: flex-end;
     transition: none;
   }

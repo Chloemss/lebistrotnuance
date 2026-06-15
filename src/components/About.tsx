@@ -66,15 +66,6 @@ export default function About() {
         </div>
       </div>
 
-      {/* ── Strip 3 photos ── */}
-      {/* <div className="About__photos">
-        {PHOTOS.map((p, i) => (
-          <div key={i} className="About__photo">
-            <img src={p.src} alt={p.alt} />
-          </div>
-        ))}
-      </div> */}
-
     </section>
   )
 }

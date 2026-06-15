@@ -10,10 +10,36 @@
 
 .Hero__bg { position: absolute; inset: 0; overflow: hidden; }
 
+/* Toutes les vidéos : même base */
 .Hero__bg-video {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover; object-position: center;
+}
+
+/* Vidéo classique (salleRestaurant) — visible par défaut */
+.Hero__bg-video--default {
+  opacity: 1;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity;
+}
+.Hero__bg-video--default.is--hidden {
+  opacity: 0;
+}
+
+/* Vidéos hover — cachées par défaut, apparaissent au survol */
+.Hero__bg-video--reveal {
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity;
+}
+.Hero__bg-video--reveal.is--active {
+  opacity: 1;
+}
+
+/* Le titre : curseur indique l'interactivité au hover */
+.Hero__title span {
+  cursor: default;
 }
 
 /* Overlay plus léger — laisse respirer la vidéo */

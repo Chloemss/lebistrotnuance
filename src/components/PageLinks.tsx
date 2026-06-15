@@ -8,12 +8,34 @@ export default function PageLinks() {
     const panels = sectionRef.current?.querySelectorAll<HTMLAnchorElement>('.PageLink')
     if (!panels) return
 
-    const handlers: Array<{ el: HTMLAnchorElement; move: (e: MouseEvent) => void; leave: () => void }> = []
+    const handlers: Array<{
+      el: HTMLAnchorElement
+      enter: () => void
+      move: (e: MouseEvent) => void
+      leave: () => void
+    }> = []
 
     panels.forEach((panel) => {
       const visual = panel.querySelector<HTMLDivElement>('.PageLink__visual')
       if (!visual) return
 
+      /* ── Scroll automatique au hover : cale la section en haut du viewport ──
+         Léger délai (30ms) pour laisser le CSS :has() s'activer d'abord        */
+      const onEnter = () => {
+        const section = sectionRef.current
+        if (!section) return
+        setTimeout(() => {
+          const rect = section.getBoundingClientRect()
+          if (Math.abs(rect.top) > 2) {
+            window.scrollTo({
+              top: window.scrollY + rect.top,
+              behavior: 'smooth',
+            })
+          }
+        }, 30)
+      }
+
+      /* ── Parallaxe photo au mouvement ── */
       const onMove = (e: MouseEvent) => {
         const rect = panel.getBoundingClientRect()
         const x = ((e.clientX - rect.left) / rect.width - 0.5) * 18
@@ -25,14 +47,16 @@ export default function PageLinks() {
         visual.style.transform = 'translate(0,0) scale(1.06)'
       }
 
-      panel.addEventListener('mousemove', onMove)
+      panel.addEventListener('mouseenter', onEnter)
+      panel.addEventListener('mousemove',  onMove)
       panel.addEventListener('mouseleave', onLeave)
-      handlers.push({ el: panel, move: onMove, leave: onLeave })
+      handlers.push({ el: panel, enter: onEnter, move: onMove, leave: onLeave })
     })
 
     return () => {
-      handlers.forEach(({ el, move, leave }) => {
-        el.removeEventListener('mousemove', move)
+      handlers.forEach(({ el, enter, move, leave }) => {
+        el.removeEventListener('mouseenter', enter)
+        el.removeEventListener('mousemove',  move)
         el.removeEventListener('mouseleave', leave)
       })
     }
@@ -63,10 +87,10 @@ export default function PageLinks() {
         </span>
       </a>
 
-      {/* Séparateur central */}
+      {/* Séparateur central
       <div className="PageLinks__divider" aria-hidden="true">
         <span className="PageLinks__divider-label">ou</span>
-      </div>
+      </div> */}
 
       {/* Se reposer */}
       <a className="PageLink PageLink--play" href="/jouer">
