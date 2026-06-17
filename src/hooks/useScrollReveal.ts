@@ -58,11 +58,9 @@ const AUTO_TARGETS: AutoTarget[] = [
   // About photo strip
   { selector: '.About__photos', reveal: '' },
 
-  // Reviews (header + nav + link — stage géré par l'état React)
-  { selector: '.Reviews__eyebrow',     reveal: '' },
-  { selector: '.Reviews__badge',       reveal: '' },
-  { selector: '.Reviews__nav',         reveal: '' },
-  { selector: '.Reviews__google-link', reveal: '' },
+  // Reviews (header + footer — marquee géré par CSS)
+  { selector: '.Reviews__header', reveal: '' },
+  { selector: '.Reviews__footer', reveal: '' },
 ]
 
 /**

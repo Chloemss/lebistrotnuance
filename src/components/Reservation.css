@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-top: 1px solid rgba(26,21,18,0.07);
+  border-top: 1px solid rgba(44,66,63,0.07);
 }
 
 /* Grain très subtil */
@@ -57,7 +57,7 @@
   align-items: center;
 }
 .Reservation__title span:first-child {
-  color: rgba(26,21,18,0.22);
+  color: rgba(44,66,63,0.22);
 }
 .Reservation__title span:last-child {
   color: var(--ink);
@@ -96,7 +96,7 @@
 
 .Reservation__note {
   font-size: var(--body-size);
-  color: rgba(26,21,18,0.32);
+  color: rgba(44,66,63,0.32);
   letter-spacing: 0.04em;
 }
 
@@ -127,7 +127,7 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: rgba(26,21,18,0.7);
+  background: rgba(44,66,63,0.7);
 }
 
 /* Bouton fermer */
@@ -152,7 +152,6 @@
   text-transform: uppercase;
   color: rgba(250,249,246,0.5);
   transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
-  backdrop-filter: blur(8px);
 }
 .ReservationPanel__close:hover {
   background: rgba(250,249,246,0.14);
@@ -209,10 +208,10 @@
   transition: opacity 0.8s ease;
 }
 .ReservationPanel__block--eat .ReservationPanel__color-overlay {
-  background: linear-gradient(to top, rgba(26,21,18,0.9) 0%, rgba(26,21,18,0.3) 60%, transparent 100%);
+  background: linear-gradient(to top, rgba(44,66,63,0.9) 0%, rgba(44,66,63,0.3) 60%, transparent 100%);
 }
 .ReservationPanel__block--play .ReservationPanel__color-overlay {
-  background: linear-gradient(to top, rgba(26,21,18,0.95) 0%, rgba(26,21,18,0.35) 60%, transparent 100%);
+  background: linear-gradient(to top, rgba(44,66,63,0.95) 0%, rgba(44,66,63,0.35) 60%, transparent 100%);
 }
 
 .ReservationPanel__block--eat {
@@ -232,8 +231,8 @@
   letter-spacing: var(--label-spacing);
   text-transform: uppercase;
   color: var(--amber);
-  background: rgba(139,115,85,0.12);
-  border: 1px solid rgba(139,115,85,0.25);
+  background: rgba(76,91,97,0.10);
+  border: 1px solid rgba(76,91,97,0.22);
   padding: 0.2rem 0.6rem;
   border-radius: 4px;
 }
@@ -267,7 +266,7 @@
   margin-top: 0.25rem;
   transition: background 0.25s ease, transform 0.3s var(--ease-out-expo);
 }
-.ReservationPanel__btn:hover { background: #a08565; transform: translateY(-2px); }
+.ReservationPanel__btn:hover { background: var(--rouge); transform: translateY(-2px); }
 
 .ReservationPanel__legend {
   font-size: 0.7rem;
@@ -310,7 +309,7 @@
   transition: background 0.2s ease, transform 0.25s var(--ease-out-expo);
 }
 .ReservationPanel__table-phone svg { flex-shrink: 0; }
-.ReservationPanel__table-phone:hover { background: #a08565; transform: translateY(-2px); }
+.ReservationPanel__table-phone:hover { background: var(--rouge); transform: translateY(-2px); }
 
 .ReservationPanel__table-hours {
   display: flex; flex-direction: column; gap: 0.25rem;
@@ -335,8 +334,8 @@
 .ReservationPanel__soon {
   position: absolute; inset: 0; z-index: 15;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 0.6rem; background: rgba(26,21,18,0.78);
-  backdrop-filter: blur(3px); opacity: 0; pointer-events: none;
+  gap: 0.6rem; background: rgba(44,66,63,0.88);
+  opacity: 0; pointer-events: none;
   transition: opacity 0.4s ease;
 }
 .ReservationPanel__block--play:hover .ReservationPanel__soon { opacity: 1; }

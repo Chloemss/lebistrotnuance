@@ -14,7 +14,7 @@
 .ScrollProgress__bar {
   width: 100%;
   height: 100%;
-  background: var(--amber);
+  background: var(--rouge);
   transform: scaleX(0);
   transform-origin: left;
   will-change: transform;

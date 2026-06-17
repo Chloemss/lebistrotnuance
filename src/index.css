@@ -1,23 +1,38 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* ── Palette Nuance — fond clair, encre & taupe ── */
-  --paper:      #FAF9F6;   /* quasi-blanc, légèrement chaud — fond principal */
-  --paper-2:    #F0EBE4;   /* crème douce — fonds alternatifs */
-  --paper-3:    #E6DFD6;   /* crème profonde — cartes, bordures */
-  --ink:        #1A1512;   /* quasi-noir, chaud — texte principal */
-  --ink-2:      rgba(26,21,18,0.48); /* texte secondaire */
-  --ink-3:      rgba(26,21,18,0.18); /* dividers, bordures légères */
+  /* ══ Palette Nuance — Gris Ardoise ══════════════════════════
+     Silver · Iron Grey · Grey Olive · Dark Slate Grey
+  ═══════════════════════════════════════════════════════════ */
 
-  /* Variables de compatibilité (composants existants) */
-  --green:      #FAF9F6;   /* était bleu nuit → maintenant fond papier */
-  --green-dark: #F0EBE4;
-  --black:      #1A1512;   /* quasi-noir chaud — texte & éléments sombres */
-  --amber:      #8B7355;   /* taupe chaleureux — accent sophistiqué */
-  --red:        #F0EBE4;   /* était bleu pétrole → maintenant fond crème */
-  --red-dark:   #E6DFD6;
-  --cream:      #EDE8E1;   /* lin naturel — inchangé */
-  --cream-alt:  #E6DFD6;
+  /* Fond — neutres froids, en harmonie avec la palette gris-acier */
+  --paper:      #F5F6F6;   /* blanc froid, légèrement gris  */
+  --paper-2:    #EAECEC;   /* gris très clair               */
+  --paper-3:    #DEE2E1;   /* gris clair avec subtile teinte teal */
+
+  /* Encre — Dark Slate Grey (remplace le brun chaud) */
+  --ink:        #2C423F;
+  --ink-2:      rgba(44,66,63,0.48);
+  --ink-3:      rgba(44,66,63,0.18);
+
+  /* Accents — palette gris-acier */
+  --amber:      #829191;   /* Grey Olive   — accent décoratif (étoiles, eyebrows, lignes) */
+  --rouge:      #4C5B61;   /* Iron Grey    — accent interactif (hover, actif, sélection)  */
+
+  /* Palette complète disponible en variables */
+  --silver:     #C5C5C5;   /* Silver       — textes légers, borders subtiles */
+  --grey-warm:  #949B96;   /* Grey Olive warm — textes secondaires */
+  --iron:       #4C5B61;   /* Iron Grey    — alias de --rouge */
+  --slate:      #2C423F;   /* Dark Slate   — alias de --ink */
+
+  /* Alias de compatibilité (composants existants) */
+  --green:      #F5F6F6;
+  --green-dark: #EAECEC;
+  --black:      #2C423F;
+  --red:        #EAECEC;
+  --red-dark:   #DEE2E1;
+  --cream:      #E4E7E6;
+  --cream-alt:  #DEE2E1;
   --white:      #FFFFFF;
 
   /* ── Typographie ── */
@@ -44,7 +59,7 @@
 
 /* ── Sélection ── */
 ::selection {
-  background: var(--ink);
+  background: var(--rouge);
   color: var(--paper);
 }
 
@@ -58,7 +73,7 @@
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--paper-2); }
-::-webkit-scrollbar-thumb { background: rgba(26,21,18,0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: rgba(44,66,63,0.25); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--ink); }
 
 html {

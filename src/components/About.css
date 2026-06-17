@@ -4,22 +4,25 @@
 .About.is--red {
   background: var(--paper);
   overflow: hidden;
+  position: relative;
   display: flex;
   flex-direction: column;
+  height: 100vh;           /* full page — pas plus grande */
 }
 
 /* ══════════════════════════════════════
    Zone texte
 ══════════════════════════════════════ */
 .About__content {
-  padding: 9rem 5vw 6rem;
+  padding: clamp(4rem, 8vh, 8rem) 5vw clamp(2.5rem, 5vh, 5rem);
   max-width: 1300px;
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 3.5rem;
+  gap: clamp(1.5rem, 3vh, 3.5rem);
+  flex: 1;                 /* remplit la hauteur disponible */
 }
 
 /* Eyebrow */
@@ -50,24 +53,151 @@
   flex-direction: column;
   line-height: 0.88;
 }
-.About__title span {
+
+/* Mots interactifs */
+.About__title-word {
   display: block;
+  align-self: flex-start;  /* zone de hover = largeur du texte uniquement */
   font-family: var(--font-display);
-  font-size: clamp(4.5rem, 10vw, 11rem);
+  font-size: clamp(2.8rem, min(6.5vw, 10vh), 7.5rem);
   font-weight: 300;
   text-transform: uppercase;
   letter-spacing: -0.01em;
+  cursor: default;
+  padding: 0.12em 0;
+  transition: opacity 0.35s ease,
+              color 0.35s ease,
+              font-size 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              padding 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
 }
-.About__title span:nth-child(1) { color: rgba(26,21,18,0.18); }
-.About__title span:nth-child(2) { color: var(--ink); }
-.About__title span:nth-child(3) { color: var(--amber); font-style: italic; }
+.About__title-word { color: rgba(44,66,63,0.2); }
+
+/* Mot actif — encre pleine au hover */
+.About__title-word.is--active {
+  opacity: 1 !important;
+  color: var(--ink) !important;
+}
+
+/* Expansion plein écran au hover — les mots grossissent pour remplir la hauteur */
+.About.has--word-focus .About__title-word {
+  font-size: clamp(5rem, min(13vw, 28vh), 22rem);
+  padding: 0.05em 0;
+}
+
+/* Autres mots en retrait */
+.About__title-word.is--dim { opacity: 0.07; }
+
+/* ══════════════════════════════════════════════════════
+   Contenu au z-index 2 — reste lisible au-dessus des scènes
+══════════════════════════════════════════════════════ */
+.About__content {
+  position: relative;
+  z-index: 2;
+}
+
+/* ══════════════════════════════════════════════════════
+   Scènes vidéo d'ambiance — révélation éditoriale
+   ──────────────────────────────────────────────────
+   z-index 1 → derrière le texte
+   mix-blend-mode: luminosity → greyscale naturel intégré
+   mask radial → fondu progressif vers le fond papier
+   scale 1.06 → 1 → effet cinématique respiratoire
+══════════════════════════════════════════════════════ */
+.About__scene {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.About__scene.is--active { opacity: 1; }
+
+.About__scene video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  mix-blend-mode: luminosity;
+  filter: brightness(0.88) contrast(1.08) saturate(1.1);
+  transform: scale(1.06);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.About__scene.is--active video { transform: scale(1); }
+
+/* ── MANGER — panneau gauche, pleine hauteur
+   La vidéo "restaurant" remonte depuis la gauche
+   Fondu radial concentré à gauche-centre ── */
+.About__scene--manger {
+  top: 0; left: 0; bottom: 0;
+  width: 56%;
+  -webkit-mask-image: radial-gradient(
+    ellipse 85% 92% at 12% 52%,
+    black 18%, rgba(0,0,0,0.7) 42%, transparent 72%
+  );
+  mask-image: radial-gradient(
+    ellipse 85% 92% at 12% 52%,
+    black 18%, rgba(0,0,0,0.7) 42%, transparent 72%
+  );
+}
+
+/* ── BOIRE — panneau droit, pleine hauteur (miroir de manger)
+   Même forme verticale que manger mais ancré à droite ── */
+.About__scene--boire {
+  top: 0; right: 0; bottom: 0;
+  width: 56%;
+  -webkit-mask-image: radial-gradient(
+    ellipse 85% 92% at 88% 52%,
+    black 18%, rgba(0,0,0,0.7) 42%, transparent 72%
+  );
+  mask-image: radial-gradient(
+    ellipse 85% 92% at 88% 52%,
+    black 18%, rgba(0,0,0,0.7) 42%, transparent 72%
+  );
+}
+
+/* ── PROFITER — bande panoramique basse-droite
+   La scène monte depuis le bas, wide-screen cinématique
+   Contraste avec les deux autres : horizontale vs verticale ── */
+.About__scene--profiter {
+  bottom: 0; right: 0;
+  left: 12%;
+  height: 56%;
+  -webkit-mask-image: radial-gradient(
+    ellipse 88% 82% at 72% 88%,
+    black 20%, rgba(0,0,0,0.6) 48%, transparent 76%
+  );
+  mask-image: radial-gradient(
+    ellipse 88% 82% at 72% 88%,
+    black 20%, rgba(0,0,0,0.6) 48%, transparent 76%
+  );
+}
+
+/* Reduced motion — désactive le scale uniquement */
+@media (prefers-reduced-motion: reduce) {
+  .About__scene video { transform: none !important; transition: none; }
+  .About__scene { transition-duration: 0.1s; }
+}
+
+/* ── Disparition du grid au hover d'un mot ── */
+.About__grid {
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.About.has--word-focus .About__grid {
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+}
 
 /* ── Grille À propos / Horaires ── */
 .About__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
-  border-top: 1px solid rgba(26,21,18,0.08);
+  border-top: 1px solid rgba(44,66,63,0.08);
   padding-top: 3rem;
 }
 
@@ -93,7 +223,7 @@
 .About__desc {
   font-family: var(--font-body);
   font-size: var(--body-size);
-  color: rgba(26,21,18,0.52);
+  color: rgba(44,66,63,0.52);
   line-height: var(--body-line);
   max-width: 52ch;
 }
@@ -108,7 +238,7 @@
   display: block;
   width: 8px;
   height: 8px;
-  background: var(--amber);
+  background: var(--rouge);
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -117,7 +247,7 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: var(--amber);
+  background: var(--rouge);
   animation: locPulse 2.4s ease-out infinite;
 }
 @keyframes locPulse {
@@ -138,7 +268,7 @@
 .About__location-coords {
   font-family: var(--font-mono);
   font-size: 0.6rem;
-  color: rgba(26,21,18,0.28);
+  color: rgba(44,66,63,0.28);
   letter-spacing: 0.1em;
   display: block;
   margin-top: 0.15rem;
@@ -149,8 +279,8 @@
   display: flex;
   flex-direction: column;
   gap: 0;
-  background: rgba(26,21,18,0.025);
-  border: 1px solid rgba(26,21,18,0.08);
+  background: rgba(44,66,63,0.025);
+  border: 1px solid rgba(44,66,63,0.08);
   border-radius: 10px;
   padding: 2.2rem 2.5rem 2rem;
 }
@@ -195,7 +325,7 @@
   gap: 0.6rem;
   font-family: var(--font-body);
   font-size: var(--body-size);
-  color: rgba(26,21,18,0.58);
+  color: rgba(44,66,63,0.58);
 }
 .About__schedule-times em {
   font-style: normal;
@@ -204,19 +334,19 @@
   font-weight: var(--label-weight);
   letter-spacing: var(--label-spacing);
   text-transform: uppercase;
-  color: rgba(26,21,18,0.25);
+  color: rgba(44,66,63,0.25);
 }
 
 .About__schedule-divider {
   width: 100%;
   height: 1px;
-  background: rgba(26,21,18,0.07);
+  background: rgba(44,66,63,0.07);
 }
 
 .About__schedule-closed {
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: rgba(26,21,18,0.35);
+  color: rgba(44,66,63,0.35);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -257,11 +387,11 @@
    Responsive
 ══════════════ */
 @media (max-width: 1024px) {
-  .About__content { padding: 7rem 4vw 5rem; }
+  .About__content { padding: clamp(3.5rem, 7vh, 7rem) 4vw clamp(2rem, 4vh, 4rem); }
 }
 
 @media (max-width: 900px) {
-  .About__content { padding: 6rem 2rem 4rem; gap: 2.5rem; }
+  .About__content { padding: clamp(3rem, 6vh, 6rem) 2rem clamp(2rem, 4vh, 3.5rem); gap: 2vh; }
   .About__grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .About__photos { height: 36vw; }
 }

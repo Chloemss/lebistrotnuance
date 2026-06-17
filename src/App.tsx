@@ -3,7 +3,7 @@ import Loader         from './components/Loader'
 import Navbar         from './components/Navbar'
 import Hero           from './components/Hero'
 import About          from './components/About'
-import Place          from './components/Place'
+// import Place          from './components/Place'
 import PageLinks      from './components/PageLinks'
 import MenuVideo      from './components/MenuVideo'
 import Gallery        from './components/Gallery'
@@ -59,7 +59,6 @@ export default function App() {
           <div id="gallery">   <Gallery />   </div>
           {/* <div id="place">     <Place />     </div> */}
           <MenuVideo />        {/* id="carte-video" */}
-          {/* <div id="avis">      <Reviews />   </div> */}
           {/* <div id="events">    <Events />    </div> */}
           <div id="pagelinks"> <PageLinks /> </div>
           <div id="faq">       <Faq />       </div>
@@ -68,6 +67,7 @@ export default function App() {
             onOpenPanel={openPanel}
             onClosePanel={closePanel}
           />{/* id="reserver" */}
+          <div id="avis">      <Reviews />   </div>
           <div id="visit">     <Visit />     </div>
         </main>
         <Footer />

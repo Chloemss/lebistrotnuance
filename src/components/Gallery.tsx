@@ -1,4 +1,6 @@
 import { useRef, useEffect } from 'react'
+import type { RefObject } from 'react'
+import { useParallax } from '../hooks/useParallax'
 import './Gallery.css'
 
 type Photo = { src: string; alt: string; ratio: string }
@@ -22,12 +24,14 @@ const STRIP_B: Photo[] = [
 const SEP = 'Lucky Folks · Wine Bar & Jeux · Villeneuve-Loubet · 43°37′N · 7°07′E · '
 
 export default function Gallery() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const outerARef  = useRef<HTMLDivElement>(null)
-  const outerBRef  = useRef<HTMLDivElement>(null)
-  const velRef     = useRef(0)
-  const lastYRef   = useRef(0)
-  const skewRef    = useRef(0)
+  const sectionRef   = useRef<HTMLElement>(null)
+  const outerARef    = useRef<HTMLDivElement>(null)
+  const outerBRef    = useRef<HTMLDivElement>(null)
+  const velRef       = useRef(0)
+  const lastYRef     = useRef(0)
+  const skewRef      = useRef(0)
+  /* Header dérive légèrement plus vite → sentiment d'entrée en matière */
+  const headerRef = useParallax(-0.07) as RefObject<HTMLDivElement>
   const rafRef     = useRef<number>()
 
   useEffect(() => {
@@ -89,7 +93,7 @@ export default function Gallery() {
       <div className="Gallery__spotlight" aria-hidden="true" />
 
       {/* ── En-tête ── */}
-      <div className="Gallery__header">
+      <div className="Gallery__header" ref={headerRef}>
         <div className="Gallery__header-left">
           <span className="Gallery__eyebrow">Galerie</span>
           <h2 className="Gallery__title">

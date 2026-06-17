@@ -10,6 +10,14 @@
 
 .Hero__bg { position: absolute; inset: 0; overflow: hidden; }
 
+/* Couche parallax — 20% plus haute que son parent pour absorber le drift
+   sans jamais laisser apparaître les bords noirs                          */
+.Hero__bg-parallax {
+  position: absolute;
+  inset: -12% 0;
+  will-change: transform;
+}
+
 /* Toutes les vidéos : même base */
 .Hero__bg-video {
   position: absolute; inset: 0;
@@ -47,10 +55,10 @@
   position: absolute; inset: 0;
   background:
     linear-gradient(180deg,
-      rgba(26,21,18,0.28) 0%,
-      rgba(26,21,18,0.08) 30%,
-      rgba(26,21,18,0.15) 55%,
-      rgba(26,21,18,0.65) 100%);
+      rgba(44,66,63,0.28) 0%,
+      rgba(44,66,63,0.08) 30%,
+      rgba(44,66,63,0.15) 55%,
+      rgba(44,66,63,0.65) 100%);
 }
 
 .Hero::after {
@@ -90,7 +98,7 @@
   letter-spacing: 0.03em;
   margin-bottom: 2.8rem;
   font-style: italic;
-  text-shadow: 0 2px 60px rgba(26,21,18,0.2);
+  text-shadow: 0 2px 60px rgba(44,66,63,0.2);
 }
 
 .Hero__subtitle {
@@ -107,7 +115,7 @@
 }
 .Hero__scroll-line {
   width: 1px; height: 52px;
-  background: linear-gradient(to bottom, rgba(139,115,85,0.7), transparent);
+  background: linear-gradient(to bottom, rgba(76,91,97,0.75), transparent);
   animation: scrollAnim 2s var(--ease-in-out) infinite; transform-origin: top;
 }
 @keyframes scrollAnim {

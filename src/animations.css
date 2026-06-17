@@ -212,7 +212,18 @@
 
 
 /* ══════════════════════════════════════════════════════════════
-   7. prefers-reduced-motion — instant final state
+   7. PARALLAX — classe appliquée via useParallax hook
+      Le hook RAF injecte --py, le CSS l'applique.
+   ══════════════════════════════════════════════════════════════ */
+
+.parallax-y {
+  transform: translateY(var(--py, 0px));
+  will-change: transform;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   8. prefers-reduced-motion — instant final state
    ══════════════════════════════════════════════════════════════ */
 
 @media (prefers-reduced-motion: reduce) {
