@@ -19,24 +19,27 @@ export default function PageLinks() {
       const visual = panel.querySelector<HTMLDivElement>('.PageLink__visual')
       if (!visual) return
 
-      /* ── Scroll automatique au hover : cale la section en haut du viewport ──
-         Léger délai (30ms) pour laisser le CSS :has() s'activer d'abord        */
+      let activationTimer: ReturnType<typeof setTimeout> | null = null
+      let isActive = false
+
       const onEnter = () => {
-        const section = sectionRef.current
-        if (!section) return
-        setTimeout(() => {
+        /* Démarre le timer de 2s — l'effet ne s'active qu'après */
+        activationTimer = setTimeout(() => {
+          isActive = true
+
+          /* Scroll automatique une fois l'effet activé */
+          const section = sectionRef.current
+          if (!section) return
           const rect = section.getBoundingClientRect()
           if (Math.abs(rect.top) > 2) {
-            window.scrollTo({
-              top: window.scrollY + rect.top,
-              behavior: 'smooth',
-            })
+            window.scrollTo({ top: window.scrollY + rect.top, behavior: 'smooth' })
           }
-        }, 30)
+        }, 5000)
       }
 
-      /* ── Parallaxe photo au mouvement ── */
+      /* ── Parallaxe photo — uniquement si les 2s sont écoulées ── */
       const onMove = (e: MouseEvent) => {
+        if (!isActive) return
         const rect = panel.getBoundingClientRect()
         const x = ((e.clientX - rect.left) / rect.width - 0.5) * 18
         const y = ((e.clientY - rect.top)  / rect.height - 0.5) * 12
@@ -44,6 +47,9 @@ export default function PageLinks() {
       }
 
       const onLeave = () => {
+        /* Annule le timer si on quitte avant les 2s */
+        if (activationTimer) { clearTimeout(activationTimer); activationTimer = null }
+        isActive = false
         visual.style.transform = 'translate(0,0) scale(1.06)'
       }
 

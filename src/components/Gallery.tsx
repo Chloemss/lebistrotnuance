@@ -5,23 +5,26 @@ import './Gallery.css'
 
 type Photo = { src: string; alt: string; ratio: string }
 
+const U = (id: string) =>
+  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=1400&q=85`
+
 const STRIP_A: Photo[] = [
-  { src: '/terrasse.jpg',         alt: 'La terrasse',          ratio: '16/9' },
-  { src: '/event-karaoke.jpg',    alt: 'Soirée karaoké',       ratio: '4/3'  },
-  { src: '/mojito.jpg',           alt: 'Cocktails du soir',    ratio: '3/2'  },
-  { src: '/room.jpg',             alt: 'La salle',             ratio: '16/9' },
-  { src: '/event-happy-hour.jpg', alt: 'Happy Hour Lucky',     ratio: '4/3'  },
+  { src: U('1756680967373-c3205a8a8b31'), alt: 'La terrasse',          ratio: '16/9' },
+  { src: U('1758649863410-2d35a9d36f70'), alt: 'Ambiance du soir',     ratio: '3/2'  },
+  { src: U('1759239938594-ded7827b126e'), alt: 'Cocktail maison',      ratio: '4/3'  },
+  { src: U('1746652762397-c846bf1f9351'), alt: 'La salle',             ratio: '16/9' },
+  { src: U('1671116810348-8148423dec80'), alt: 'Soirée entre amis',    ratio: '4/3'  },
 ]
 
 const STRIP_B: Photo[] = [
-  { src: '/event-darts.jpg',      alt: 'Tournoi fléchettes',   ratio: '3/2'  },
-  { src: '/pamplemousse.jpg',     alt: 'Carte des boissons',   ratio: '4/3'  },
-  { src: '/event-quiz.jpg',       alt: 'Quiz Night',           ratio: '16/9' },
-  { src: '/ovisconte.jpg',        alt: 'Ambiance',             ratio: '3/2'  },
-  { src: '/tablet.jpg',           alt: 'À table',              ratio: '4/3'  },
+  { src: U('1547146598-0962d0d87c97'),    alt: 'Le bar',               ratio: '3/2'  },
+  { src: U('1761416376088-d6456fcd76fd'), alt: 'En cuisine',           ratio: '4/3'  },
+  { src: U('1756522074787-c750cae5e6aa'), alt: 'Le service',           ratio: '3/2'  },
+  { src: U('1763867641077-d672d26f2ccb'), alt: 'Plat du chef',         ratio: '16/9' },
+  { src: U('1718482640905-5308d2740c57'), alt: 'Terrasse ensoleillée', ratio: '4/3'  },
 ]
 
-const SEP = 'Lucky Folks · Wine Bar & Jeux · Villeneuve-Loubet · 43°37′N · 7°07′E · '
+const SEP = 'Le bistrot nuancé · Wine Bar · Villeneuve-Loubet · 43°37′N · 7°07′E · '
 
 export default function Gallery() {
   const sectionRef   = useRef<HTMLElement>(null)

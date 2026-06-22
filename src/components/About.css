@@ -1,13 +1,29 @@
 /* ══════════════════════════════════════
    About — fond papier, encre noire
 ══════════════════════════════════════ */
-.About.is--red {
+.About.is--green {
   background: var(--paper);
   overflow: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
   height: 100vh;           /* full page — pas plus grande */
+}
+
+/* ── Accents vert foncé (--ink #2C423F) au lieu du gris olive (--amber) ── */
+.About.is--green .About__eyebrow {
+  color: var(--ink);
+}
+.About.is--green .About__eyebrow::before {
+  background: var(--ink);
+  opacity: 0.4;
+}
+.About.is--green .About__section-label {
+  color: var(--ink);
+}
+.About.is--green .About__location-dot,
+.About.is--green .About__location-dot::before {
+  background: var(--ink);
 }
 
 /* ══════════════════════════════════════
@@ -71,7 +87,7 @@
               padding 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
 }
-.About__title-word { color: rgba(44,66,63,0.2); }
+.About__title-word { color: rgb(44, 66, 63); }
 
 /* Mot actif — encre pleine au hover */
 .About__title-word.is--active {
@@ -223,7 +239,7 @@
 .About__desc {
   font-family: var(--font-body);
   font-size: var(--body-size);
-  color: rgba(44,66,63,0.52);
+  color: rgb(44, 66, 63);
   line-height: var(--body-line);
   max-width: 52ch;
 }

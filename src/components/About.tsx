@@ -33,7 +33,7 @@ export default function About() {
   }, [])
 
   return (
-    <section className={`About is--red${hovered ? ' has--word-focus' : ''}`}>
+    <section className={`About is--green${hovered ? ' has--word-focus' : ''}`}>
 
       {(Object.keys(SCENES) as HoverKey[]).map(key => (
         <div

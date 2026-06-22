@@ -4,8 +4,15 @@
     {
       "name": "luckyfolks-v2",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--", "--port", "5173", "--host"],
-      "port": 5173
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--",
+        "--port",
+        "5174",
+        "--host"
+      ],
+      "port": 5174
     }
   ]
 }

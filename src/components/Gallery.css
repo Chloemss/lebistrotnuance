@@ -6,7 +6,8 @@
   background: var(--paper-2);
   overflow: hidden;
   position: relative;
-  padding: 9rem 0 8rem;
+  height: 100vh;
+  padding: clamp(2.5rem, 4vh, 5rem) 0 clamp(1.5rem, 2.5vh, 3rem);
   display: flex;
   flex-direction: column;
   isolation: isolate;
@@ -33,20 +34,21 @@
 .Gallery__header {
   position: relative;
   z-index: 1;
+  flex-shrink: 0;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   max-width: 1400px;
   width: 100%;
   margin: 0 auto;
-  padding: 0 5vw 5.5rem;
+  padding: 0 5vw clamp(1.8rem, 2.8vh, 3.2rem);
   box-sizing: border-box;
 }
 
 .Gallery__header-left {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  gap: 0.6rem;
 }
 
 .Gallery__eyebrow {
@@ -71,9 +73,9 @@
 
 .Gallery__title {
   font-family: var(--font-display);
-  font-size: clamp(3.5rem, 8vw, 8.5rem);
+  font-size: clamp(2rem, min(5vw, 7.5vh), 6rem);
   color: var(--ink);
-  line-height: 0.88;
+  line-height: 0.9;
   font-weight: 300;
   text-transform: uppercase;
   letter-spacing: 0.01em;
@@ -94,7 +96,7 @@
 }
 .Gallery__counter-num {
   font-family: var(--font-display);
-  font-size: clamp(5rem, 10vw, 11rem);
+  font-size: clamp(3rem, min(7vw, 10vh), 8rem);
   color: rgba(44,66,63,0.05);
   line-height: 1;
   font-weight: 300;
@@ -117,18 +119,21 @@
   will-change: transform;
   position: relative;
   z-index: 1;
+  min-height: 0;           /* autorise le shrink flex */
 }
-.Gallery__outer--a { margin-bottom: 4px; }
-.Gallery__outer--b { margin-top: 4px; }
+/* Règle de proportion : bande A = élément dominant (≈ 58 % de l'espace bandes)
+   bande B = élément secondaire (≈ 42 %) — ratio proche du nombre d'or */
+.Gallery__outer--a { flex: 1.38; margin-bottom: 4px; }
+.Gallery__outer--b { flex: 1;    margin-top:    4px; }
 
 .Gallery__track {
   display: flex;
   align-items: stretch;
   gap: 8px;
   width: max-content;
-  height: clamp(190px, 20vw, 320px);
+  height: 100%;            /* remplit la hauteur flex */
 }
-.Gallery__track--b { height: clamp(160px, 17vw, 280px); }
+.Gallery__track--b { height: 100%; }
 
 .Gallery__track--a { animation: trackA 42s linear infinite; }
 .Gallery__track--b { animation: trackB 30s linear infinite; }
@@ -185,7 +190,8 @@
 /* ── Séparateur ── */
 .Gallery__sep {
   overflow: hidden;
-  padding: 1.3rem 0;
+  flex-shrink: 0;
+  padding: clamp(0.55rem, 0.8vh, 1rem) 0;
   border-top: 1px solid rgba(44,66,63,0.07);
   border-bottom: 1px solid rgba(44,66,63,0.07);
   position: relative;
@@ -209,22 +215,25 @@
 /* ══════════════
    Responsive
 ══════════════ */
-@media (max-width: 1024px) { .Gallery__header { padding: 0 4vw 4.5rem; } }
+@media (max-width: 1024px) {
+  .Gallery__header { padding: 0 4vw clamp(1.5rem, 2.2vh, 2.8rem); }
+}
 
 @media (max-width: 900px) {
-  .Gallery { padding: 7rem 0 6rem; }
-  .Gallery__header { flex-direction: column; align-items: flex-start; padding: 0 2rem 3.5rem; gap: 2rem; }
+  .Gallery { padding: clamp(2rem, 3.5vh, 4rem) 0 clamp(1rem, 1.8vh, 2rem); }
+  /* Sur tablette : le compteur passe sous le titre, header en colonne */
+  .Gallery__header { flex-direction: column; align-items: flex-start; padding: 0 2rem clamp(1rem, 1.8vh, 2rem); gap: 0.5rem; }
   .Gallery__counter { align-items: flex-start; }
-  .Gallery__track { height: clamp(170px, 38vw, 260px); }
-  .Gallery__track--b { height: clamp(145px, 32vw, 220px); }
+  .Gallery__counter-num { font-size: clamp(2.5rem, 10vw, 5rem); }
+  /* Réequilibre le ratio sur petits écrans */
+  .Gallery__outer--a { flex: 1.2; }
 }
 
 @media (max-width: 600px) {
-  .Gallery { padding: 5.5rem 0 5rem; }
-  .Gallery__header { padding: 0 1.5rem 3rem; }
-  .Gallery__track { height: clamp(150px, 48vw, 220px); }
-  .Gallery__track--b { height: clamp(130px, 42vw, 195px); }
-  .Gallery__sep { padding: 1rem 0; }
+  .Gallery { padding: clamp(1.8rem, 3vh, 3rem) 0 clamp(0.8rem, 1.2vh, 1.2rem); }
+  .Gallery__header { padding: 0 1.5rem clamp(0.8rem, 1.4vh, 1.6rem); }
+  .Gallery__sep { padding: clamp(0.4rem, 0.6vh, 0.7rem) 0; }
+  .Gallery__outer--a { flex: 1.15; }
 }
 
 @media (prefers-reduced-motion: reduce) {

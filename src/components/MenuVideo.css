@@ -1,105 +1,157 @@
-/* ═══════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    MenuVideo — extensions de Menu.css
-   Colonne deco : lettres ↔ vidéo au clic
-═══════════════════════════════════════════ */
+   Image au hover : overlay absolu style About.tsx
+═══════════════════════════════════════════════════════ */
 
-/* ── Correctifs de conflit .Menu avec Navbar.css ──
-   Navbar.css définit aussi .Menu { position:fixed; z-index:200; pointer-events:none }
-   Le sélecteur #carte-video (plus spécifique que .Menu) prend le dessus. */
+/* ── Correctif conflit Navbar.css ──
+   Navbar.css surcharge .Menu en position:fixed z-index:200.
+   #carte-video (sélecteur plus spécifique) annule ça. */
 #carte-video {
-  overflow:          visible;
-  pointer-events:    auto;                           /* ← annule pointer-events:none de Navbar.css */
-  z-index:           1;                             /* ← annule z-index:200 (ne pas couvrir la navbar z-100) */
-  position:          relative;                      /* ← garantit que position:fixed n'est pas hérité */
-  scroll-margin-top: calc(var(--nav-height) + 1rem); /* ← ancre #carte-video tient compte de la navbar fixe */
+  overflow:          hidden;
+  pointer-events:    auto;
+  z-index:           1;
+  position:          relative;
+  scroll-margin-top: calc(var(--nav-height) + 1rem);
 }
 
-/* ── La colonne déco devient un conteneur relatif ── */
-.MenuVideo__deco {
-  position: relative !important;
-  /* pointer-events: none hérité de Menu__deco — ok, hover géré par les plats */
-}
-
-/* ── Wrapper des lettres ── */
-.MenuVideo__letters {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-  transition: opacity 0.45s ease, transform 0.45s ease;
-  transform-origin: center top;
-}
-
-/* Lettres s'effacent au hover */
-.MenuVideo__deco.is--video .MenuVideo__letters {
-  opacity: 0;
-  transform: scale(0.92);
-}
-
-/* ── Encart vidéo : position absolue, recouvre les lettres ── */
-.MenuVideo__overlay {
+/* ══════════════════════════════════════════════════════
+   Assiette flottante — émerge à moitié depuis le bord droit
+   ──────────────────────────────────────────────────
+   Cercle de 460px, décalé de ~230px vers la droite
+   #carte-video overflow:hidden coupe naturellement la moitié
+   Aucun blend-mode : photo nette en forme d'assiette
+══════════════════════════════════════════════════════ */
+.MenuVideo__plate {
   position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 100px;
-  border-radius: 14px;
-  overflow: hidden;
-  background: #1a1008;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.22), 0 2px 8px rgba(0,0,0,0.15);
-
-  /* Caché par défaut */
+  right: -600px;
+  top: 50%;
+  transform: translateY(-50%) scale(0.88);
+  width: 1620px;
+  height: 1620px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.45s ease;
+  z-index: 0;
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Visible au hover */
-.MenuVideo__deco.is--video .MenuVideo__overlay {
+.MenuVideo__plate.is--active {
   opacity: 1;
+  transform: translateY(-50%) scale(1);
 }
 
-/* ── Couches vidéo individuelles (crossfade) ── */
-.MenuVideo__vid {
+/* ── Images : forme naturelle de l'assiette, flottement 3D ──
+   mix-blend-mode: multiply  → fond blanc/crème disparaît dans le --paper
+   drop-shadow               → ombre épouse le contour de l'assiette (pas du rectangle)
+   object-fit: contain       → toute l'assiette visible, pas recadrée
+── */
+.MenuVideo__plate-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  display: block;
+  mix-blend-mode: multiply;
+  filter: drop-shadow(-10px 18px 44px rgba(44, 66, 63, 0.24));
   opacity: 0;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.38s ease;
 }
 
-.MenuVideo__vid.is--active {
+.MenuVideo__plate-img.is--active {
   opacity: 1;
 }
 
-/* ── Indice visuel ▶ sur les plats cliquables ── */
-.MenuVideo__play-hint {
-  font-size: 0.55rem;
-  opacity: 0.4;
-  margin-left: 0.3rem;
-  vertical-align: middle;
+/* ── Contenu au-dessus de la scène ── */
+#carte-video .Menu__tabs,
+#carte-video .Menu__body,
+#carte-video .Menu__legend {
+  position: relative;
+  z-index: 2;
 }
 
-/* Plat sélectionné : léger fond coloré */
-.MenuVideo__dish--active {
-  background: rgba(0,0,0,0.04);
-  border-radius: 4px;
+/* ── Lettres déco : transition prête ── */
+#carte-video .Menu__deco {
+  transition: opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ── Responsive : encart masqué sur mobile ── */
+/* ── Lettres → disparaissent quand une assiette est visible ── */
+.MenuVideo__plate.is--active ~ .Menu__body .Menu__deco {
+  opacity: 0;
+  transform: translateX(14px);
+  pointer-events: none;
+}
+
+/* ── Prix, séparateurs en pointillés et lignes entre plats → s'effacent au hover ── */
+#carte-video .Menu__dish-price,
+#carte-video .Menu__dish-dots {
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#carte-video .Menu__dish {
+  transition: border-bottom-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.MenuVideo__plate.is--active ~ .Menu__body .Menu__dish-price,
+.MenuVideo__plate.is--active ~ .Menu__body .Menu__dish-dots {
+  opacity: 0;
+}
+.MenuVideo__plate.is--active ~ .Menu__body .Menu__dish {
+  border-bottom-color: transparent;
+}
+
+.MenuVideo__cocktail3d.is--active ~ .Menu__body .Menu__dish-price,
+.MenuVideo__cocktail3d.is--active ~ .Menu__body .Menu__dish-dots {
+  opacity: 0;
+}
+.MenuVideo__cocktail3d.is--active ~ .Menu__body .Menu__dish {
+  border-bottom-color: transparent;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Cocktail 3D — container pour l'onglet Boire
+   Canvas R3F transparent positionné comme la scène photo
+═══════════════════════════════════════════════════════ */
+.MenuVideo__cocktail3d {
+  position: absolute;
+  right: 5vw;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 200px;
+  height: 340px;
+  z-index: 1;
+  pointer-events: none;     /* invisible → pas d'interaction */
+  opacity: 0;
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: grab;
+}
+.MenuVideo__cocktail3d.is--active {
+  opacity: 1;
+  pointer-events: all;      /* visible → drag activé */
+}
+.MenuVideo__cocktail3d:active { cursor: grabbing; }
+
+.MenuVideo__cocktail3d canvas {
+  width: 100%  !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* Lettres BOIRE disparaissent quand un cocktail 3D est visible
+   (même règle sibling que pour la scène photo) */
+.MenuVideo__cocktail3d.is--active ~ .Menu__body .Menu__deco {
+  opacity: 0;
+  transform: translateX(14px);
+  pointer-events: none;
+}
+
+/* ── Responsive ── */
 @media (max-width: 768px) {
-  .MenuVideo__overlay { display: none; }
-  .MenuVideo__deco.is--video .MenuVideo__letters {
-    opacity: 1;
-    transform: none;
-  }
+  .MenuVideo__plate      { display: none; }
+  .MenuVideo__cocktail3d { display: none; }
 }
 
-.Menu__deco-col { display: grid; }
-
-@media (max-width: 768px) {
-  .Menu__deco-col { display: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .MenuVideo__plate    { transition-duration: 0.1s; transform: translateY(-50%) !important; }
+  .MenuVideo__cocktail3d { transition-duration: 0.1s; }
 }

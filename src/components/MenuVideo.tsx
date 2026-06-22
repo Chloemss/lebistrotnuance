@@ -1,8 +1,15 @@
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import './Menu.css'
 import './MenuVideo.css'
 
-/* ── Allergènes (identique à Menu.tsx) ── */
+/* Lazy-load Three.js — ne charge le bundle (~800 kb) que quand on passe à l'onglet Boire */
+const Cocktail3D = lazy(() => import('./Cocktail3D'))
+
+/* ── Helper Unsplash ── */
+const U = (id: string) =>
+  `https://images.unsplash.com/photo-${id}?auto=format&fit=max&w=1200&q=90`
+
+/* ── Allergènes ── */
 type AllergenKey =
   | 'gluten' | 'crustaces' | 'oeufs' | 'poisson'
   | 'arachides' | 'soja' | 'lait' | 'fruits_a_coques'
@@ -158,38 +165,56 @@ const CATEGORIES: Category[] = [
   {
     id: 'manger', label: 'Manger', color: 'red',
     items: [
-      { nom: 'Lucky Burger',          desc: 'Steak haché charolais, cheddar fondu, oignons caramélisés, sauce secrète',  prix: '16€', badge: 'Best-seller', allergenes: ['gluten','lait','oeufs','sesame'],    imgSrc: '/mojito.jpg' },
-      { nom: 'Planche Charcuterie',   desc: 'Saucisson, jambon de pays, cornichons, moutarde à l\'ancienne',             prix: '14€', allergenes: ['gluten','moutarde','sulfites'],                               imgSrc: '/capi.jpg' },
-      { nom: 'Salade César',          desc: 'Poulet grillé, parmesan, croutons maison, sauce César',                    prix: '13€', allergenes: ['gluten','lait','oeufs','poisson'],                             imgSrc: '/juice.jpg' },
-      { nom: 'Burger Végétarien',     desc: 'Galette de légumes rôtis, avocat, tomates confites, sauce yaourt',         prix: '14€', vege: true, allergenes: ['gluten','lait','sesame'],                         imgSrc: '/pamplemousse.jpg' },
-      { nom: 'Pavé de Saumon',        desc: 'Purée maison, légumes de saison, beurre blanc au citron',                  prix: '18€', allergenes: ['poisson','lait'],                                             imgSrc: '/mojito.jpg' },
-      { nom: 'Soupe du Jour',         desc: 'Préparée chaque matin selon l\'arrivage, pain de campagne',                prix: '7€',  vege: true, allergenes: ['gluten','celeri'],                                imgSrc: '/mojito.jpg' },
-      // { nom: 'Sticky Toffee Pudding', desc: 'Caramel beurre salé, crème anglaise vanille, glace vanille',              prix: '8€',  badge: 'Coup de cœur', allergenes: ['gluten','lait','oeufs'],               imgSrc: '/mojito.jpg' },
-      // { nom: 'Tarte du Moment',       desc: 'Recette du chef — ardoise du jour',                                        prix: '9€',  allergenes: ['gluten','oeufs','lait'],                                      imgSrc: '/mojito.jpg' },
+      // Gourmet burger — lumière chaude, pain brioché lustré, plating minimaliste
+      { nom: 'Lucky Burger',        desc: 'Steak haché charolais, cheddar fondu, oignons caramélisés, sauce secrète',  prix: '16€', badge: 'Best-seller', allergenes: ['gluten','lait','oeufs','sesame'],    imgSrc: '/1assiette.png' },
+      // Planche gastronomique — ardoise, charcuterie fine, accompagnements dressés
+      { nom: 'Planche Charcuterie', desc: 'Saucisson, jambon de pays, cornichons, moutarde à l\'ancienne',             prix: '14€', allergenes: ['gluten','moutarde','sulfites'],                               imgSrc: '/2assiette.png' },
+      // Salade dressée façon bistrot chic — légumes lacés, parmesan rasé à la mandoline
+      { nom: 'Salade César',        desc: 'Poulet grillé, parmesan, croutons maison, sauce César',                    prix: '13€', allergenes: ['gluten','lait','oeufs','poisson'],                             imgSrc: '/3assiette.png' },
+      // Assiette végétale plating fin — légumes colorés, sauce en miroir
+      { nom: 'Burger Végétarien',   desc: 'Galette de légumes rôtis, avocat, tomates confites, sauce yaourt',         prix: '14€', vege: true, allergenes: ['gluten','lait','sesame'],                         imgSrc: '/4assiette.png' },
+      // Pavé de saumon dressé — skin croustillante, purée veloutée, beurre blanc nacré
+      { nom: 'Pavé de Saumon',      desc: 'Purée maison, légumes de saison, beurre blanc au citron',                  prix: '18€', allergenes: ['poisson','lait'],                                             imgSrc: '/5assiette.png' },
+      // Velouté du jour — émulsion onctueuse, huile verte, pousses fraîches
+      { nom: 'Soupe du Jour',       desc: 'Préparée chaque matin selon l\'arrivage, pain de campagne',                prix: '7€',  vege: true, allergenes: ['gluten','celeri'],                                imgSrc: '/1assiette.png' },
     ],
   },
   {
     id: 'boire', label: 'Boire', color: 'amber',
     items: [
-      { nom: 'Lucky Sour',          desc: 'Whisky bourbon, citron, sirop de miel, blanc d\'œuf',  prix: '11€', badge: 'Signature', allergenes: [],      imgSrc: '/mojito.jpg' },
-      { nom: 'Spritz Foire',        desc: 'Aperol, prosecco, orange, eau gazeuse',                prix: '10€', allergenes: [],                                  imgSrc: '/capi.jpg' },
-      { nom: 'Moscow Mule',         desc: 'Vodka, ginger beer, citron vert, menthe fraîche',      prix: '10€', allergenes: [],                                            imgSrc: '/juice.jpg' },
-      { nom: 'Margarita Classique', desc: 'Tequila blanco, Cointreau, citron vert, fleur de sel', prix: '11€', allergenes: [],                                  imgSrc: '/pamplemousse.jpg' },
-      { nom: 'Virgin Colada',       desc: 'Ananas, crème de coco, citron vert — sans alcool',     prix: '8€',  badge: 'Mocktail', allergenes: [],        imgSrc: '/mojito.jpg' },
-      { nom: 'Limonade Maison',     desc: 'Citrons pressés du jour, menthe, eau pétillante',      prix: '6€',  badge: 'Mocktail', vege: true, allergenes: [],             imgSrc: '/capi.jpg' },
-      { nom: 'Bière Artisanale',    desc: 'Sélection de brasseries locales du moment',            prix: '6€',  allergenes: [],                                    imgSrc: '/juice.jpg' },
-      { nom: 'Vin de la Maison',    desc: 'Rouge, blanc ou rosé — ardoise du jour',               prix: '5€',  allergenes: [],                                  imgSrc: '/pamplemousse.jpg' },
+      // Whisky sour — mousse de blanc d'œuf, twist de citron, verre coupe élégant
+      { nom: 'Lucky Sour',          desc: 'Whisky bourbon, citron, sirop de miel, blanc d\'œuf',  prix: '11€', badge: 'Signature', allergenes: [], imgSrc: '/assiette1.png' },
+      // Spritz — rondelle d'orange, bulles dorées, lumière de terrasse
+      { nom: 'Spritz Foire',        desc: 'Aperol, prosecco, orange, eau gazeuse',                prix: '10€', allergenes: [],                     imgSrc: '/assiette1.png' },
+      // Moscow Mule — copper mug givré, menthe, citron vert en éventail
+      { nom: 'Moscow Mule',         desc: 'Vodka, ginger beer, citron vert, menthe fraîche',      prix: '10€', allergenes: [],                     imgSrc: '/assiette1.png' },
+      // Margarita — sel de fleur en bordure, citron vert, verre coupe givrée
+      { nom: 'Margarita Classique', desc: 'Tequila blanco, Cointreau, citron vert, fleur de sel', prix: '11€', allergenes: [],                     imgSrc: '/assiette1.png' },
+      // Colada — noix de coco sculptée, ombrelle, ananas frais
+      { nom: 'Virgin Colada',       desc: 'Ananas, crème de coco, citron vert — sans alcool',     prix: '8€',  badge: 'Mocktail', allergenes: [],  imgSrc: '/assiette1.png' },
+      // Limonade maison — verre haut, tranche de citron, glaçons clairs
+      { nom: 'Limonade Maison',     desc: 'Citrons pressés du jour, menthe, eau pétillante',      prix: '6€',  badge: 'Mocktail', vege: true, allergenes: [], imgSrc: '/assiette1.png' },
+      // Bière craft — tulipe givrée, mousse parfaite, éclairage chaud
+      { nom: 'Bière Artisanale',    desc: 'Sélection de brasseries locales du moment',            prix: '6€',  allergenes: [],                     imgSrc: '/assiette1.png' },
+      // Vin rouge — verre de dégustation, robe profonde, reflets ambrés
+      { nom: 'Vin de la Maison',    desc: 'Rouge, blanc ou rosé — ardoise du jour',               prix: '5€',  allergenes: [],                     imgSrc: '/assiette1.png' },
     ],
   },
   {
     id: 'snack', label: 'Snack', color: 'green',
     items: [
-      { nom: 'Frites Maison',   desc: 'Pommes de terre fraîches, sauce au choix',            prix: '4€',  vege: true, allergenes: ['gluten'],                         imgSrc: '/mojito.jpg' },
-      { nom: 'Onion Rings',     desc: 'Rondelles d\'oignons panées, sauce ranch',            prix: '5€',  vege: true, allergenes: ['gluten','oeufs','lait'],           imgSrc: '/mojito.jpg' },
-      { nom: 'Nuggets Poulet',  desc: '6 pièces croustillantes, sauce BBQ fumée maison',    prix: '7€',  allergenes: ['gluten','oeufs'],                              imgSrc: '/mojito.jpg' },
-      { nom: 'Nachos Festifs',  desc: 'Guacamole, salsa maison, sour cream, jalapeños',     prix: '9€',  badge: 'Best-seller', vege: true, allergenes: ['lait'],      imgSrc: '/mojito.jpg' },
-      { nom: 'Cheese Balls',    desc: 'Cœur de cheddar fondant, enrobage doré',             prix: '6€',  vege: true, allergenes: ['gluten','lait','oeufs'],           imgSrc: '/mojito.jpg' },
-      { nom: 'Mini Sliders ×3', desc: 'Bœuf, comté fondu, cornichon, brioche grillée',     prix: '10€', allergenes: ['gluten','lait','oeufs','sesame'],              imgSrc: '/mojito.jpg' },
+      // Frites artisanales — cornet en papier kraft, coupe généreuse, sel de Guérande
+      { nom: 'Frites Maison',   desc: 'Pommes de terre fraîches, sauce au choix',            prix: '4€',  vege: true, allergenes: ['gluten'],               imgSrc: '/assiette1.png' },
+      // Onion rings — empilés en colonne, panure dorée, sauce ranch
+      { nom: 'Onion Rings',     desc: 'Rondelles d\'oignons panées, sauce ranch',            prix: '5€',  vege: true, allergenes: ['gluten','oeufs','lait'], imgSrc: '/assiette1.png' },
+      // Nuggets dorés — assiette ardoise, sauce BBQ en verrines
+      { nom: 'Nuggets Poulet',  desc: '6 pièces croustillantes, sauce BBQ fumée maison',    prix: '7€',  allergenes: ['gluten','oeufs'],                    imgSrc: '/assiette1.png' },
+      // Nachos festifs — guacamole dressé, couleurs franches, overhead shot
+      { nom: 'Nachos Festifs',  desc: 'Guacamole, salsa maison, sour cream, jalapeños',     prix: '9€',  badge: 'Best-seller', vege: true, allergenes: ['lait'], imgSrc: '/assiette1.png' },
+      // Cheese balls — fromage filant, croûte croustillante dorée
+      { nom: 'Cheese Balls',    desc: 'Cœur de cheddar fondant, enrobage doré',             prix: '6€',  vege: true, allergenes: ['gluten','lait','oeufs'], imgSrc: '/assiette1.png' },
+      // Mini sliders trio — rangée nette sur ardoise, cornichon en pique
+      { nom: 'Mini Sliders ×3', desc: 'Bœuf, comté fondu, cornichon, brioche grillée',     prix: '10€', allergenes: ['gluten','lait','oeufs','sesame'],     imgSrc: '/assiette1.png' },
     ],
   },
 ]
@@ -200,28 +225,53 @@ export default function MenuVideo() {
 
   const cat = CATEGORIES.find(c => c.id === active)!
 
-  /* Changement d'onglet → reset la sélection */
   const handleTabChange = (id: string) => {
     setActive(id)
     setSelected(null)
   }
 
   const enterDish = (dish: Dish) => {
-    if (!dish.imgSrc) return
-    setSelected(dish.nom)
+    if (dish.imgSrc) setSelected(dish.nom)
   }
 
   const handleBodyLeave = () => setSelected(null)
 
-  const videoOpen = selectedDish !== null
-
   return (
     <section className="Menu" id="carte-video">
 
-      {/* ── Label distinctif ──
-      <div style={{ textAlign: 'center', padding: '0.6rem 1rem 0', fontFamily: 'var(--font-mono)', fontSize: '0.6rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#eba13d', opacity: 0.7 }}>
-        ▶ Survolez un plat pour voir la photo
-      </div> */}
+      {/* ══════════════════════════════════════════════════
+          Boire  → cocktail 3D au hover (sinon : lettres)
+          Autres → scène photo overlay au hover
+      ══════════════════════════════════════════════════ */}
+      {active === 'boire' ? (
+        /* Cocktail 3D — canvas monté une seule fois sur l'onglet Boire,
+           visible uniquement quand un verre est survolé (is--active).
+           Le canvas reste monté pour éviter de recréer le contexte WebGL
+           à chaque changement de survol. */
+        <div
+          className={`MenuVideo__cocktail3d${selectedDish ? ' is--active' : ''}`}
+          aria-hidden="true"
+        >
+          <Suspense fallback={null}>
+            <Cocktail3D nom={selectedDish ?? 'Lucky Sour'} />
+          </Suspense>
+        </div>
+      ) : (
+        /* Scène photo — overlay absolu style About.tsx */
+        <div
+          className={`MenuVideo__plate${selectedDish ? ' is--active' : ''}`}
+          aria-hidden="true"
+        >
+          {cat.items.map(dish => dish.imgSrc ? (
+            <img
+              key={`${active}-${dish.nom}`}
+              src={dish.imgSrc}
+              alt=""
+              className={`MenuVideo__plate-img${selectedDish === dish.nom ? ' is--active' : ''}`}
+            />
+          ) : null)}
+        </div>
+      )}
 
       {/* ── Onglets ── */}
       <div className="Menu__tabs">
@@ -247,9 +297,9 @@ export default function MenuVideo() {
 
           {cat.items.map((dish) => (
             <div
-              className={`Menu__dish${selectedDish === dish.nom ? ' MenuVideo__dish--active' : ''}`}
+              className="Menu__dish"
               key={dish.nom}
-              onMouseEnter={() => { if (active === 'boire') enterDish(dish) }}
+              onMouseEnter={() => enterDish(dish)}
             >
               <div className="Menu__dish-row">
                 <span className={`Menu__dish-name Menu__dish-name--${cat.color}`}>
@@ -274,79 +324,18 @@ export default function MenuVideo() {
           ))}
         </div>
 
-        {/* ── Colonne déco : lettres ↔ vidéo (CSS grid stacking) ── */}
-        <div
-          className="Menu__deco-col"
-          aria-hidden="true"
-          style={{
-            gridTemplateColumns:  '160px',
-            gridTemplateRows:     'auto',
-            paddingTop:           '0.5rem',
-            userSelect:           'none',
-            alignItems:           'start',
-            pointerEvents:        'none',
-          }}
-        >
-          {/* Lettres — cellule [1,1] */}
-          <div
-            style={{
-              gridRow:       1,
-              gridColumn:    1,
-              display:       'flex',
-              flexDirection: 'column',
-              alignItems:    'center',
-              gap:           0,
-              opacity:       videoOpen ? 0 : 1,
-              transform:     videoOpen ? 'scale(0.88)' : 'scale(1)',
-              transition:    'opacity 0.4s ease, transform 0.4s ease',
-              pointerEvents: 'none',
-            }}
-          >
-            {cat.label.split('').map((char, i) => (
-              <span key={i} className={`Menu__deco-letter Menu__deco-letter--${cat.color}`}>
-                {char}
-              </span>
-            ))}
-            <span className={`Menu__deco-word Menu__deco-word--${cat.color}`}>Menu</span>
-          </div>
-
-          {/* Encart image — même cellule [1,1] : se superpose aux lettres */}
-          <div
-            style={{
-              gridRow:      1,
-              gridColumn:   1,
-              justifySelf:  'left',
-              alignSelf:    'center',
-              position:     'relative',
-              width:        '300px',
-              height:       '500px',
-              borderRadius: '14px',
-              overflow:     'hidden',
-              // background:   '#111',
-              opacity:      (videoOpen && active === 'boire') ? 1 : 0,
-              transition:   'opacity 0.4s ease',
-              pointerEvents:'none',
-              // boxShadow:    '0 8px 32px rgba(0,0,0,0.3)',
-            }}
-          >
-            {cat.items.map(dish => dish.imgSrc ? (
-              <img
-                key={dish.nom}
-                src={dish.imgSrc}
-                alt={dish.nom}
-                style={{
-                  position:   'absolute',
-                  inset:      0,
-                  width:      '100%',
-                  height:     '100%',
-                  objectFit:  'cover',
-                  opacity:    selectedDish === dish.nom ? 1 : 0,
-                  transition: 'opacity 0.35s ease',
-                }}
-              />
-            ) : null)}
-          </div>
+        {/* Colonne déco — lettres verticales (B-O-I-R-E etc.)
+             Disparaissent au hover via .MenuVideo__plate.is--active ~ ou
+             .MenuVideo__cocktail3d.is--active ~ dans le CSS */}
+        <div className="Menu__deco" aria-hidden="true">
+          {cat.label.split('').map((char, i) => (
+            <span key={i} className={`Menu__deco-letter Menu__deco-letter--${cat.color}`}>
+              {char}
+            </span>
+          ))}
+          <span className={`Menu__deco-word Menu__deco-word--${cat.color}`}>Menu</span>
         </div>
+
       </div>
 
       {/* ── Légende allergènes ── */}
