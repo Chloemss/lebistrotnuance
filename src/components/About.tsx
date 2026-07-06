@@ -52,7 +52,7 @@ export default function About() {
 
       <div className="About__content" ref={contentRef}>
 
-        <span className="About__eyebrow">Wine Bar · Villeneuve-Loubet</span>
+        <span className="About__eyebrow">Le bistrot des nuances · Villeneuve-Loubet</span>
 
         <h2 className="About__title">
           <span

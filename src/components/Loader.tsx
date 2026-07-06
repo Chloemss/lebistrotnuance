@@ -16,10 +16,10 @@ export default function Loader({ onDone }: LoaderProps) {
     <div className={`Loader${leaving ? ' Loader--leaving' : ''}`}>
       <div className="Loader__inner">
         <div className="Loader__logo">
-          <span className="Loader__lucky">Wine</span>
-          <span className="Loader__folks">Bar</span>
+          <span className="Loader__lucky">LE BISTROT</span>
+          <span className="Loader__folks">DES NUANCES</span>
         </div>
-        <p className="Loader__tag">Eat · Drink · Play</p>
+        <p className="Loader__tag">LOUNGE BAR · VILLENEUVE LOUBET</p>
         <div className="Loader__bar">
           <div className="Loader__bar-fill" />
         </div>

@@ -67,7 +67,7 @@ export default function App() {
             onOpenPanel={openPanel}
             onClosePanel={closePanel}
           />{/* id="reserver" */}
-          <div id="avis">      <Reviews />   </div>
+          {/* <div id="avis">      <Reviews />   </div> */}
           <div id="visit">     <Visit />     </div>
         </main>
         <Footer />
