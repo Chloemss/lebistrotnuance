@@ -25,7 +25,7 @@ interface Cfg {
 }
 
 const CONFIG: Record<string, Cfg> = {
-  'Lucky Sour':          { shape: 'coupe',    liquid: '#C89010', opacity: 0.90, foam: '#f2e8dc' },
+  'Sour des Nuances':    { shape: 'coupe',    liquid: '#C89010', opacity: 0.90, foam: '#f2e8dc' },
   'Spritz Foire':        { shape: 'wine',     liquid: '#F07820', opacity: 0.80, straw: '#cccccc' },
   'Moscow Mule':         { shape: 'mug',      liquid: '#c8e890', opacity: 0.72, mint: true, straw: '#44aa66' },
   'Margarita Classique': { shape: 'coupe',    liquid: '#c4f0b8', opacity: 0.74, salt: true },

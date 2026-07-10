@@ -4,14 +4,17 @@ import Navbar         from './components/Navbar'
 import Hero           from './components/Hero'
 import About          from './components/About'
 // import Place          from './components/Place'
-import PageLinks      from './components/PageLinks'
-import MenuVideo      from './components/MenuVideo'
-import Gallery        from './components/Gallery'
-import Reviews        from './components/Reviews'
-import Faq            from './components/Faq'
+// import PageLinks      from './components/PageLinks'
+// import Devanture      from './components/Devanture'
+// import CarteBoissons  from './components/CarteBoissons'
+// import MenuVideo      from './components/MenuVideo'
+import LaCarte        from './components/LaCarte'
+// import Gallery        from './components/Gallery'
+// import Reviews        from './components/Reviews'
 import Visit          from './components/Visit'
-import Reservation    from './components/Reservation'
+import Faq            from './components/Faq'
 import Footer         from './components/Footer'
+import Reservation    from './components/Reservation'
 import ScrollArrow    from './components/ScrollArrow'
 import Cursor         from './components/Cursor'
 import ScrollProgress from './components/ScrollProgress'
@@ -20,8 +23,7 @@ import './App.css'
 import './animations.css'
 
 export default function App() {
-  const [loaded, setLoaded]         = useState(false)
-  const [panelOpen, setPanelOpen]   = useState(false)
+  const [loaded, setLoaded] = useState(false)
 
   useScrollReveal()
 
@@ -34,14 +36,9 @@ export default function App() {
     setLoaded(true)
   }, [])
 
-  const openPanel = useCallback(() => {
-    setPanelOpen(true)
-    document.body.style.overflow = 'hidden'
-  }, [])
-
-  const closePanel = useCallback(() => {
-    setPanelOpen(false)
-    document.body.style.overflow = ''
+  /* "Réserver" (navbar, hero) → défile vers la section réservation */
+  const goToReserve = useCallback(() => {
+    document.getElementById('reserver')?.scrollIntoView({ behavior: 'smooth' })
   }, [])
 
   return (
@@ -51,24 +48,15 @@ export default function App() {
       {!loaded && <Loader onDone={handleLoaderDone} />}
 
       <div className={`site${loaded ? ' site--visible' : ''}`}>
-        <Navbar onReserve={openPanel} />
+        <Navbar onReserve={goToReserve} />
         <ScrollArrow />
         <main>
-          <div id="hero">      <Hero />      </div>
+          <div id="hero">      <Hero onReserve={goToReserve} /> </div>
           <div id="about">     <About />     </div>
-          <div id="gallery">   <Gallery />   </div>
-          {/* <div id="place">     <Place />     </div> */}
-          <MenuVideo />        {/* id="carte-video" */}
-          {/* <div id="events">    <Events />    </div> */}
-          <div id="pagelinks"> <PageLinks /> </div>
+          <LaCarte />          {/* id="carte" — Manger & Boire réunis */}
+          <Visit />            {/* id="visit" */}
           <div id="faq">       <Faq />       </div>
-          <Reservation
-            panelOpen={panelOpen}
-            onOpenPanel={openPanel}
-            onClosePanel={closePanel}
-          />{/* id="reserver" */}
-          {/* <div id="avis">      <Reviews />   </div> */}
-          <div id="visit">     <Visit />     </div>
+          <Reservation />      {/* id="reserver" */}
         </main>
         <Footer />
       </div>

@@ -17,7 +17,7 @@ const FAQS: FaqItem[] = [
   },
   {
     q: 'Peut-on privatiser le lieu pour un événement ?',
-    a: 'Absolument. Wine Bar se privatise entièrement pour vos anniversaires, séminaires, afterworks et événements d\'entreprise, jusqu\'à 80 personnes. Contactez-nous pour un devis personnalisé.',
+    a: 'Absolument. Le Bistrot des Nuances se privatise entièrement pour vos anniversaires, séminaires, afterworks et événements d\'entreprise, jusqu\'à 80 personnes. Contactez-nous pour un devis personnalisé.',
   },
   {
     q: 'Y a-t-il un parking à proximité ?',
@@ -25,7 +25,7 @@ const FAQS: FaqItem[] = [
   },
   {
     q: 'Les enfants sont-ils les bienvenus ?',
-    a: 'Wine Bar est un lieu familial et convivial. Nous accueillons les familles avec plaisir, surtout en journée et en début de soirée.',
+    a: 'Le Bistrot des Nuances est un lieu familial et convivial. Nous accueillons les familles avec plaisir, surtout en journée et en début de soirée.',
   },
   {
     q: 'Proposez-vous des options végétariennes ?',

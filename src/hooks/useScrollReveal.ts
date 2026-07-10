@@ -32,6 +32,9 @@ const AUTO_TARGETS: AutoTarget[] = [
   // Gallery
   { selector: '.Gallery__header', reveal: '' },
 
+  // Devanture (dans À propos)
+  { selector: '.About__figure', reveal: 'scale' },
+
   // FAQ
   { selector: '.Faq__left',  reveal: 'left' },
   { selector: '.Faq__intro', reveal: '' },
@@ -41,7 +44,7 @@ const AUTO_TARGETS: AutoTarget[] = [
   { selector: '.Place__content', reveal: '' },
 
   // Visit
-  { selector: '.Visit__card', reveal: 'right' },
+  { selector: '.Visit__col--links', reveal: 'right' },
 
   // Reservation
   { selector: '.Reservation__eyebrow', reveal: '' },
@@ -80,7 +83,8 @@ const HEADING_TARGETS = [
  */
 const STAGGER_GROUPS: Array<{ container: string; item: string }> = [
   { container: '.Events__grid',          item: '.Events__card' },
-  { container: '.Faq__list',             item: '.Faq__item' },
+  /* .Faq__item retiré : sa className change au clic (is--open), React la
+     réécrit et efface le is-visible posé par l'observer → l'item disparaissait */
   { container: '.Events__recurring-list', item: '.Events__recurring-item' },
   { container: '.About__grid',           item: '.About__apropos, .About__schedule' },
 ]

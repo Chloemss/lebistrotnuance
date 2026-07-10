@@ -7,13 +7,15 @@
 ═══════════════════════════════════════════════════════ */
 
 .Menu {
-  /* ── Palette carte locale — gris ardoise froid ── */
-  --menu-bordeaux:  #2C423F;   /* MANGER — Dark Slate Grey  */
+  /* ── Palette carte locale — ardoise + or champagne ── */
+  --menu-bordeaux:  #2E1F16;   /* MANGER — Dark Slate Grey  */
   --menu-amber:     #4C5B61;   /* BOIRE  — Iron Grey        */
   --menu-vert:      #829191;   /* SNACK  — Grey Olive       */
-  --menu-text:      #2C423F;   /* encre principale          */
-  --menu-muted:     rgba(44,66,63,0.46);
-  --menu-rule:      rgba(44,66,63,0.09);
+  --menu-text:      #2E1F16;   /* encre principale          */
+  --menu-muted:     rgba(46,31,22,0.52);
+  --menu-rule:      rgba(46,31,22,0.09);
+  --menu-gold:      #C1502E;   /* or antique — prix, accents */
+  --menu-gold-soft: rgba(193,80,46,0.38);
 
   /* Surcharge pour les composants qui lisent --red/--green/--amber */
   --red:   var(--menu-bordeaux);
@@ -45,7 +47,7 @@
   font-weight: 400;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(44,66,63,0.3);
+  color: rgba(46,31,22,0.3);
   cursor: pointer;
   position: relative;
   transition: color 0.28s ease;
@@ -101,6 +103,28 @@
 /* ── Colonne liste ── */
 .Menu__list { padding-right: 4rem; }
 
+/* Eyebrow au-dessus du titre */
+.Menu__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.2rem;
+  font-family: var(--label-family);
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-spacing);
+  text-transform: uppercase;
+  color: var(--menu-gold);
+}
+.Menu__eyebrow::before {
+  content: '';
+  display: block;
+  width: 26px;
+  height: 1px;
+  background: var(--menu-gold);
+  opacity: 0.55;
+}
+
 /* Titre de catégorie */
 .Menu__cat-title {
   font-family: var(--font-display);
@@ -109,7 +133,7 @@
   line-height: 0.9;
   letter-spacing: 0.03em;
   text-transform: uppercase;
-  margin-bottom: 3rem;
+  margin-bottom: 2.4rem;
   font-style: italic;
 }
 .Menu__cat-title--red   { color: var(--menu-bordeaux); }
@@ -123,10 +147,18 @@
 .Menu__dish {
   padding: 1.15rem 0;
   border-bottom: 1px solid var(--menu-rule);
-  transition: background 0.2s ease;
-  border-radius: 3px;
+  border-left: 2px solid transparent;
+  transition: background 0.2s ease,
+              padding-left 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-left-color 0.35s ease;
 }
 .Menu__dish:last-child { border-bottom: none; }
+
+/* Hover éditorial — filet or à gauche, léger décalage */
+.Menu__dish:hover {
+  padding-left: 1rem;
+  border-left-color: var(--menu-gold);
+}
 
 .Menu__dish-row {
   display: flex;
@@ -148,30 +180,30 @@
   flex-wrap: wrap;
   transition: color 0.22s ease;
 }
-.Menu__dish:hover .Menu__dish-name--red   { color: var(--menu-bordeaux); }
-.Menu__dish:hover .Menu__dish-name--amber { color: var(--menu-amber); }
-.Menu__dish:hover .Menu__dish-name--green { color: var(--menu-vert); }
+.Menu__dish:hover .Menu__dish-name--red,
+.Menu__dish:hover .Menu__dish-name--amber,
+.Menu__dish:hover .Menu__dish-name--green { color: var(--menu-gold); }
 
-/* Pointillés */
+/* Pointillés — visibles, discrets, dorés */
 .Menu__dish-dots {
   flex: 1;
-  border-bottom: 1px dashed rgba(44, 66, 63, 0);
+  border-bottom: 1px dotted var(--menu-gold-soft);
   margin-bottom: 0.28rem;
   min-width: 2rem;
 }
 
-/* Prix */
+/* Prix — or antique */
 .Menu__dish-price {
   font-family: var(--font-display);
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
-  font-weight: 300;
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  font-weight: 400;
   font-style: italic;
   letter-spacing: 0.04em;
   flex-shrink: 0;
 }
-.Menu__dish-price--red   { color: var(--menu-bordeaux); }
-.Menu__dish-price--amber { color: var(--menu-amber); }
-.Menu__dish-price--green { color: var(--menu-vert); }
+.Menu__dish-price--red,
+.Menu__dish-price--amber,
+.Menu__dish-price--green { color: var(--menu-gold); }
 
 /* Description */
 .Menu__dish-desc {
@@ -199,9 +231,9 @@
   line-height: 1.7;
 }
 .Menu__pill--badge {
-  background: rgba(44,66,63,0.08);
+  background: rgba(46,31,22,0.08);
   color: var(--menu-bordeaux);
-  border: 1px solid rgba(44,66,63,0.2);
+  border: 1px solid rgba(46,31,22,0.2);
 }
 .Menu__pill--vege {
   background: rgba(130,145,145,0.08);
@@ -220,7 +252,7 @@
   margin-top: 0.25rem;
 }
 
-.Menu__dish-allergens--red   { color: rgba(44,66,63,0.55); }
+.Menu__dish-allergens--red   { color: rgba(46,31,22,0.55); }
 .Menu__dish-allergens--amber { color: rgba(76,91,97,0.55); }
 .Menu__dish-allergens--green { color: rgba(130,145,145,0.55); }
 
@@ -307,7 +339,7 @@
   font-size: 0.6rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(44,66,63,0.35);
+  color: rgba(46,31,22,0.35);
   width: 100%;
   margin-bottom: 0.2rem;
 }
@@ -315,7 +347,7 @@
 .Menu__legend-item {
   font-family: var(--font-mono);
   font-size: 0.53rem;
-  color: rgba(44,66,63,0.38);
+  color: rgba(46,31,22,0.38);
   display: flex;
   align-items: center;
   gap: 0.3rem;
@@ -325,7 +357,7 @@
 .Menu__legend-icon {
   display: flex;
   align-items: center;
-  color: rgba(44,66,63,0.3);
+  color: rgba(46,31,22,0.3);
 }
 .Menu__legend-icon svg { width: 16px; height: 16px; }
 
@@ -333,7 +365,7 @@
   width: 100%;
   font-family: var(--font-body);
   font-size: 0.72rem;
-  color: rgba(44,66,63,0.28);
+  color: rgba(46,31,22,0.28);
   font-style: italic;
   margin-top: 0.5rem;
   line-height: 1.55;

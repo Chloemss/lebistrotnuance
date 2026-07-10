@@ -15,10 +15,10 @@
 }
 
 .Header--scrolled {
-  background: rgba(245, 246, 246, 0.92);
+  background: rgba(253, 252, 249, 0.92);
   backdrop-filter: blur(20px) saturate(1.6);
   -webkit-backdrop-filter: blur(20px) saturate(1.6);
-  box-shadow: 0 1px 0 rgba(44,66,63,0.08), 0 4px 24px rgba(44,66,63,0.06);
+  box-shadow: 0 1px 0 rgba(46,31,22,0.08), 0 4px 24px rgba(46,31,22,0.06);
   pointer-events: all;
 }
 
@@ -43,19 +43,31 @@
 
 .Header__logo-lucky,
 .Header__logo-folks {
-  font-family: var(--font-display);
-  font-size: clamp(1.3rem, 2.8vw, 1.75rem);
-  letter-spacing: 0.08em;
-  line-height: 0.92;
+  font-family: var(--font-deco);
+  font-size: clamp(1rem, 2.2vw, 1.35rem);
+  letter-spacing: 0.16em;
+  line-height: 1.05;
   font-weight: 400;
+  text-transform: uppercase;
 }
-.Header__logo-lucky { color: var(--amber); font-style: italic; }
+.Header__logo-lucky { color: var(--amber); }
 .Header__logo-folks { color: var(--ink); }
+
+/* En haut de page (header transparent sur vidéo sombre) → logo clair */
+.Header:not(.Header--scrolled) .Header__logo-lucky { color: var(--gold-bright); }
+.Header:not(.Header--scrolled) .Header__logo-folks { color: var(--paper); }
+.Header:not(.Header--scrolled) .Header__logo-tag   { color: rgba(250,249,246,0.55); }
+.Header:not(.Header--scrolled) .Header__burger {
+  background: rgba(250,249,246,0.08);
+  border-color: rgba(250,249,246,0.25);
+}
+.Header:not(.Header--scrolled) .Header__burger span { background: var(--paper); }
+.Header:not(.Header--scrolled) .Header__burger:hover { background: rgba(250,249,246,0.18); }
 .Header__logo-tag {
   font-family: var(--font-mono);
-  font-size: 0.42rem;
+  font-size: 0.52rem;
   letter-spacing: 0.28em;
-  color: rgba(44,66,63,0.3);
+  color: rgba(46,31,22,0.45);
   text-transform: uppercase;
   margin-top: 4px;
 }
@@ -99,8 +111,8 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
-  background: rgba(44,66,63,0.06);
-  border: 1px solid rgba(44,66,63,0.12);
+  background: rgba(46,31,22,0.06);
+  border: 1px solid rgba(46,31,22,0.12);
   padding: 10px 11px;
   border-radius: 8px;
   cursor: pointer;
@@ -136,12 +148,12 @@
 .Menu__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(44,66,63,0);
+  background: rgba(46,31,22,0);
   transition: background 0.5s var(--ease-in-out), backdrop-filter 0.5s var(--ease-in-out);
   backdrop-filter: blur(0px);
 }
 .Menu--open .Menu__overlay {
-  background: rgba(44,66,63,0.35);
+  background: rgba(46,31,22,0.35);
   backdrop-filter: blur(4px);
 }
 
@@ -152,7 +164,7 @@
   width: min(380px, 100vw);
   height: 100%;
   background: var(--ink);
-  border-left: 1px solid rgba(44,66,63,0.12);
+  border-left: 1px solid rgba(46,31,22,0.12);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -178,7 +190,7 @@
   padding: 0.5rem;
 }
 .Menu__close:hover {
-  color: var(--rouge);
+  color: var(--gold-bright);
   transform: rotate(90deg);
 }
 
@@ -190,20 +202,20 @@
   width: 100%;
 }
 .Menu__list a {
-  font-family: var(--font-display);
-  font-size: 2.2rem;
-  font-weight: 300;
-  font-style: italic;
+  font-family: var(--font-deco);
+  font-size: 1.5rem;
+  font-weight: 400;
+  text-transform: uppercase;
   color: rgba(250,249,246,0.65);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.14em;
   transition: color 0.25s ease, padding-left 0.25s var(--ease-out-expo);
   display: block;
-  line-height: 1.3;
-  padding: 0.3rem 0;
+  line-height: 1.4;
+  padding: 0.55rem 0;
   border-bottom: 1px solid rgba(250,249,246,0.07);
 }
 .Menu__list a:hover {
-  color: var(--rouge);
+  color: var(--gold-bright);
   padding-left: 8px;
 }
 
@@ -225,11 +237,20 @@
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 .Menu__socials a:hover {
-  background: var(--rouge);
-  border-color: var(--rouge);
-  color: var(--paper);
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--slate);
 }
 
-@media (max-width: 480px) {
+/* ── Mobile — on masque le bouton "Réserver" du header
+   (déjà accessible dans le menu) pour laisser toute la place au logo ── */
+@media (max-width: 600px) {
   .Header { padding: 0 1rem; }
+  .Header__right .btn { display: none; }
+  .Header__logo-lucky,
+  .Header__logo-folks {
+    font-size: 1.15rem;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+  }
 }

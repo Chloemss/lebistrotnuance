@@ -24,7 +24,7 @@ const STRIP_B: Photo[] = [
   { src: U('1718482640905-5308d2740c57'), alt: 'Terrasse ensoleillée', ratio: '4/3'  },
 ]
 
-const SEP = 'Le bistrot nuancé · Wine Bar · Villeneuve-Loubet · 43°37′N · 7°07′E · '
+const SEP = 'Le Bistrot des Nuances · Restaurant · Bar · Lounge · Villeneuve-Loubet · 43°37′N · 7°07′E · '
 
 export default function Gallery() {
   const sectionRef   = useRef<HTMLElement>(null)

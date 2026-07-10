@@ -18,12 +18,12 @@
 .btn:hover  { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.3); }
 .btn:active { transform: translateY(0); }
 
-.btn--red    { background: var(--red);   color: var(--white); }
-.btn--red:hover { background: var(--red-dark); }
-.btn--green  { background: var(--green); color: var(--white); }
-.btn--green:hover { background: var(--green-dark); }
-.btn--amber  { background: var(--amber); color: var(--black); }
-.btn--amber:hover { background: #d48e2e; }
+.btn--red    { background: var(--ink);   color: var(--paper); }
+.btn--red:hover { background: var(--rouge); }
+.btn--green  { background: var(--ink); color: var(--paper); }
+.btn--green:hover { background: var(--rouge); }
+.btn--amber  { background: var(--gold); color: var(--slate); }
+.btn--amber:hover { background: var(--gold-bright); }
 .btn--outline-white { border: 1.5px solid rgba(255,255,255,0.5); color: var(--white); background: transparent; }
 .btn--outline-white:hover { background: rgba(255,255,255,0.08); }
 .btn--outline-dark { border: 1.5px solid var(--black); color: var(--black); background: transparent; }

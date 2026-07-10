@@ -1,78 +1,116 @@
-/* Loader reste sombre — rideau dramatique qui se lève sur le blanc */
+/* ════════════════════════════════════════════
+   LOADER — écriture du logo, style Apple
+   (repris de la page coming-soon bistrot-soon)
+════════════════════════════════════════════ */
 .Loader {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: var(--ink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  transition:
-    transform 0.75s cubic-bezier(0.76, 0, 0.24, 1),
-    opacity   0.55s cubic-bezier(0.76, 0, 0.24, 1);
+  position: fixed; inset: 0; z-index: 9999;
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1);
 }
-
-.Loader--leaving {
-  transform:      translateY(-100%);
-  opacity:        0;
-  pointer-events: none;
-}
+.Loader.is--exit { opacity: 0; pointer-events: none; }
 
 .Loader__inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.2rem;
-  animation: loaderAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 1.6rem;
+  animation: loaderEnter 0.5s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes loaderEnter {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
-@keyframes loaderAppear {
-  from { opacity: 0; transform: translateY(16px); }
+/* Conteneur logo — clip-path reveal de gauche à droite */
+.Loader__logo-wrap {
+  position: relative;
+}
+.Loader__logo {
+  display: block;
+  width: clamp(440px, 56vw, 680px);
+  height: auto;
+  /* Révélation gauche → droite, comme une plume qui écrit */
+  animation: logoWrite 2.2s cubic-bezier(0.3, 0.05, 0.2, 1) 0.25s both;
+}
+@keyframes logoWrite {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0%   0 0); }
+}
+
+/* "Plume" — trait lumineux qui précède la révélation */
+.Loader__pen {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(46,31,22,0.5) 30%,
+    rgba(46,31,22,0.9) 50%,
+    rgba(46,31,22,0.5) 70%,
+    transparent 100%
+  );
+  filter: blur(1px);
+  animation: penSweep 2.2s cubic-bezier(0.3, 0.05, 0.2, 1) 0.25s both;
+  pointer-events: none;
+}
+@keyframes penSweep {
+  from { left: 0;    opacity: 1; }
+  98%  { left: 100%; opacity: 1; }
+  to   { left: 100%; opacity: 0; }
+}
+
+/* Halo blanc doux qui suit la plume */
+.Loader__pen::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  left: -20px; right: -20px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255,255,255,0.7) 40%,
+    rgba(255,255,255,0.9) 50%,
+    rgba(255,255,255,0.7) 60%,
+    transparent
+  );
+}
+
+/* Tagline — apparaît après la fin de l'écriture */
+.Loader__tagline {
+  font-family: var(--label-family);
+  font-size: clamp(0.9rem, 1.4vw, 1.2rem);
+  font-weight: 400;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: #2E1F16;
+  opacity: 0;
+  animation: taglineIn 0.8s cubic-bezier(0.16,1,0.3,1) 2.2s both;
+}
+@keyframes taglineIn {
+  from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.Loader__logo {
-  font-family: var(--font-display);
-  font-size: clamp(4.5rem, 14vw, 9rem);
-  line-height: 0.9;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  font-weight: 300;
-  letter-spacing: 0.04em;
-}
-.Loader__lucky {
-  color: var(--amber);
-  font-style: italic;
-}
-.Loader__folks {
-  color: rgba(250,249,246,0.9);
-}
-
-.Loader__tag {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.38em;
-  text-transform: uppercase;
-  color: rgba(250,249,246,0.3);
-}
-
-.Loader__bar {
-  width: 100px;
-  height: 1px;
-  background: rgba(250,249,246,0.1);
-  overflow: hidden;
-  margin-top: 0.4rem;
-}
-.Loader__bar-fill {
-  height: 100%;
-  background: var(--amber);
+/* Filet décoratif */
+.Loader__rule {
+  display: block;
   width: 0;
-  animation: loaderProgress 2.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+  height: 1px;
+  background: rgba(46,31,22,0.25);
+  animation: ruleExpand 0.7s cubic-bezier(0.16,1,0.3,1) 2.6s both;
 }
-@keyframes loaderProgress {
-  0%   { width: 0% }
-  60%  { width: 70% }
-  100% { width: 100% }
+@keyframes ruleExpand {
+  from { width: 0; opacity: 0; }
+  to   { width: 48px; opacity: 1; }
+}
+
+@media (max-width: 600px) {
+  .Loader__logo    { width: clamp(200px, 72vw, 320px); }
+  .Loader__tagline { font-size: 0.72rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Loader__logo { animation: none; clip-path: none; }
+  .Loader__pen  { display: none; }
+  .Loader__inner, .Loader__tagline, .Loader__rule { animation: none; opacity: 1; }
 }

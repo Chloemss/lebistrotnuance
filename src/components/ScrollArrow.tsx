@@ -5,12 +5,9 @@ import './ScrollArrow.css'
 const SECTIONS = [
   'hero',
   'about',
-  'carte-video',
-  'pagelinks',
-  'events',
-  'reserver',
-  'place',
+  'carte',
   'faq',
+  'reserver',
   'visit',
 ]
 

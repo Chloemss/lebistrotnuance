@@ -7,10 +7,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 100vh;           /* full page — pas plus grande */
+  min-height: 100vh;       /* full page — peut grandir si besoin */
 }
 
-/* ── Accents vert foncé (--ink #2C423F) au lieu du gris olive (--amber) ── */
+/* ── Accents vert foncé (--ink #2E1F16) au lieu du gris olive (--amber) ── */
 .About.is--green .About__eyebrow {
   color: var(--ink);
 }
@@ -74,7 +74,7 @@
 .About__title-word {
   display: block;
   align-self: flex-start;  /* zone de hover = largeur du texte uniquement */
-  font-family: var(--font-display);
+  font-family: var(--font-deco);
   font-size: clamp(2.8rem, min(6.5vw, 10vh), 7.5rem);
   font-weight: 300;
   text-transform: uppercase;
@@ -213,8 +213,66 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
-  border-top: 1px solid rgba(44,66,63,0.08);
+  border-top: 1px solid rgba(46,31,22,0.08);
   padding-top: 3rem;
+}
+
+/* ══════════════════════════════════════
+   Devanture — bandeau panoramique (2,17:1)
+   pleine largeur, ratio naturel respecté,
+   cadre or décalé + duotone → couleur
+══════════════════════════════════════ */
+.About__figure {
+  position: relative;
+  margin-top: clamp(1.5rem, 3vh, 3rem);
+}
+
+.About__devanture {
+  position: relative;
+  margin: 0;
+}
+
+.About__devanture img {
+  display: block;
+  width: 100%;
+  height: auto;               /* ratio naturel — jamais recadrée */
+  border-radius: 2px;
+  filter: saturate(0.72) brightness(0.97);
+  transition: filter 0.7s ease,
+              transform 0.9s var(--ease-out-expo);
+  will-change: transform;
+}
+
+/* Cadre or décalé — se réaligne au survol */
+.About__devanture-frame {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--gold);
+  border-radius: 2px;
+  transform: translate(13px, 13px);
+  transition: transform 0.7s var(--ease-out-expo);
+  pointer-events: none;
+}
+
+.About__devanture:hover img {
+  filter: saturate(1) brightness(1);
+}
+.About__devanture:hover .About__devanture-frame {
+  transform: translate(6px, 6px);
+}
+
+/* Légende verticale le long du bord droit */
+.About__devanture-caption {
+  position: absolute;
+  top: 0;
+  right: -1.7rem;
+  writing-mode: vertical-rl;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber);
+  white-space: nowrap;
 }
 
 /* Label de section */
@@ -284,87 +342,42 @@
 .About__location-coords {
   font-family: var(--font-mono);
   font-size: 0.6rem;
-  color: rgba(44,66,63,0.28);
+  color: rgba(46,31,22,0.28);
   letter-spacing: 0.1em;
   display: block;
   margin-top: 0.15rem;
 }
 
-/* ── Horaires — mis en avant ── */
+/* ── Horaires — mis en évidence ── */
 .About__schedule {
   display: flex;
   flex-direction: column;
-  gap: 0;
-  background: rgba(44,66,63,0.025);
-  border: 1px solid rgba(44,66,63,0.08);
-  border-radius: 10px;
-  padding: 2.2rem 2.5rem 2rem;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 1.6rem 1.8rem;
+  border-left: 3px solid var(--gold);
+  background: linear-gradient(90deg, rgba(199,123,91,0.07), transparent);
+  border-radius: 0 8px 8px 0;
 }
-
 .About__schedule .About__section-label {
-  margin-bottom: 1.8rem;
+  margin-bottom: 0.4rem;
+  color: var(--amber);
 }
 
-.About__schedule-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  padding: 1.2rem 0;
-}
-.About__schedule-row--off {
-  opacity: 0.3;
-}
-
-.About__schedule-day-block {
-  flex-shrink: 0;
-}
-.About__schedule-day {
+.About__schedule-time {
   font-family: var(--font-display);
-  font-size: clamp(1.4rem, 2.5vw, 2rem);
-  font-weight: 300;
-  color: var(--ink);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-size: clamp(2.4rem, 4vw, 3.2rem);
+  font-weight: 400;
+  font-style: italic;
   line-height: 1;
+  color: var(--amber);
 }
 
-.About__schedule-times {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.35rem;
-}
-.About__schedule-times span {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
+.About__schedule-note {
   font-family: var(--font-body);
-  font-size: var(--body-size);
-  color: rgba(44,66,63,0.58);
-}
-.About__schedule-times em {
-  font-style: normal;
-  font-family: var(--label-family);
-  font-size: 0.6rem;
-  font-weight: var(--label-weight);
-  letter-spacing: var(--label-spacing);
-  text-transform: uppercase;
-  color: rgba(44,66,63,0.25);
-}
-
-.About__schedule-divider {
-  width: 100%;
-  height: 1px;
-  background: rgba(44,66,63,0.07);
-}
-
-.About__schedule-closed {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: rgba(44,66,63,0.35);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  color: rgba(46,31,22,0.55);
 }
 
 /* ══════════════════════════════════════
@@ -410,6 +423,8 @@
   .About__content { padding: clamp(3rem, 6vh, 6rem) 2rem clamp(2rem, 4vh, 3.5rem); gap: 2vh; }
   .About__grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .About__photos { height: 36vw; }
+  .About__devanture-caption { right: 0.6rem; color: var(--gold-bright); z-index: 1; }
+  .About__devanture-frame { transform: translate(8px, 8px); }
 }
 
 @media (max-width: 600px) {

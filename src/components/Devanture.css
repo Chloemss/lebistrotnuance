@@ -1,0 +1,113 @@
+/* ═══════════════════════════════════════════
+   DEVANTURE — mise en scène de l'unique photo
+═══════════════════════════════════════════ */
+
+.Devanture {
+  background: var(--paper);
+  padding: 8rem 2rem;
+}
+
+/* ── En-tête ── */
+.Devanture__header {
+  max-width: 1200px;
+  margin: 0 auto 3.5rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 3rem;
+}
+
+.Devanture__eyebrow {
+  display: block;
+  margin-bottom: 1.1rem;
+  font-family: var(--label-family);
+  font-size: var(--label-size); font-weight: var(--label-weight);
+  letter-spacing: var(--label-spacing); text-transform: uppercase;
+  color: var(--amber);
+}
+
+.Devanture__title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 5.2rem);
+  font-weight: 300; font-style: italic;
+  line-height: 0.95; letter-spacing: 0.01em;
+  color: var(--ink);
+}
+.Devanture__title em {
+  font-style: inherit;
+  color: var(--amber);
+}
+
+.Devanture__intro {
+  max-width: 300px;
+  font-family: var(--font-body);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  color: rgba(46,31,22,0.6);
+  padding-bottom: 0.4rem;
+}
+
+/* ── Cadre photo — ratio naturel, image entière ── */
+.Devanture__frame {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.Devanture__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform: scale(1.001);
+  transition: transform 1.2s var(--ease-out-expo);
+}
+.Devanture__frame:hover .Devanture__img {
+  transform: scale(1.045);
+}
+
+/* ── Légende superposée ── */
+.Devanture__caption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 3.2rem 1.8rem 1.4rem;
+  background: linear-gradient(to top, rgba(10,18,17,0.72), transparent);
+  pointer-events: none;
+}
+.Devanture__caption-label {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  font-style: italic; font-weight: 300;
+  color: var(--gold-bright);
+}
+.Devanture__caption-loc {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(250,249,246,0.75);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .Devanture__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .Devanture__intro { max-width: 100%; padding-bottom: 0; }
+}
+
+@media (max-width: 600px) {
+  .Devanture { padding: 5rem 1.25rem; }
+  .Devanture__caption {
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 2.4rem 1.2rem 1.1rem;
+  }
+}

@@ -1,45 +1,55 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* ══ Palette Nuance — Gris Ardoise ══════════════════════════
-     Silver · Iron Grey · Grey Olive · Dark Slate Grey
+  /* ══ Palette Nuances — Blanc · Sable · Beige · Terracotta ══
+     Fond blanc chaud prédominant, matières sable et beige,
+     accent terracotta (identité Bistrot des Nuances)
   ═══════════════════════════════════════════════════════════ */
 
-  /* Fond — neutres froids, en harmonie avec la palette gris-acier */
-  --paper:      #F5F6F6;   /* blanc froid, légèrement gris  */
-  --paper-2:    #EAECEC;   /* gris très clair               */
-  --paper-3:    #DEE2E1;   /* gris clair avec subtile teinte teal */
+  /* Fond — blanc chaud prédominant, puis sable et beige */
+  --paper:      #FDFCF9;   /* blanc chaud — dominant            */
+  --paper-2:    #F6EFE3;   /* sable très clair                  */
+  --paper-3:    #EDE2CE;   /* sable / beige clair               */
+  --sable:      #E7D9BF;   /* sable soutenu                     */
+  --beige:      #D3BE9B;   /* beige                             */
 
-  /* Encre — Dark Slate Grey (remplace le brun chaud) */
-  --ink:        #2C423F;
-  --ink-2:      rgba(44,66,63,0.48);
-  --ink-3:      rgba(44,66,63,0.18);
+  /* Encre — brun terre foncé */
+  --ink:        #2E1F16;
+  --ink-2:      rgba(46,31,22,0.5);
+  --ink-3:      rgba(46,31,22,0.18);
 
-  /* Accents — palette gris-acier */
-  --amber:      #829191;   /* Grey Olive   — accent décoratif (étoiles, eyebrows, lignes) */
-  --rouge:      #4C5B61;   /* Iron Grey    — accent interactif (hover, actif, sélection)  */
+  /* Accents — terracotta */
+  --amber:      #C1502E;   /* Terracotta profond — texte sur fond clair (contraste 5.7:1) */
+  --gold:       #CD7452;   /* Terracotta — boutons, décors                                */
+  --gold-bright:#E28B62;   /* Terracotta lumineux — accents sur fonds sombres             */
+  --rouge:      #C1502E;   /* accent interactif (hover, actif, sélection)                 */
 
   /* Palette complète disponible en variables */
-  --silver:     #C5C5C5;   /* Silver       — textes légers, borders subtiles */
-  --grey-warm:  #949B96;   /* Grey Olive warm — textes secondaires */
-  --iron:       #4C5B61;   /* Iron Grey    — alias de --rouge */
-  --slate:      #2C423F;   /* Dark Slate   — alias de --ink */
+  --silver:     #D8CFC0;   /* textes légers, borders subtiles */
+  --grey-warm:  #A6937C;   /* textes secondaires              */
+  --iron:       #C1502E;   /* alias de --rouge                */
+  --slate:      #2E1F16;   /* alias de --ink                  */
 
   /* Alias de compatibilité (composants existants) */
-  --green:      #F5F6F6;
-  --green-dark: #EAECEC;
-  --black:      #2C423F;
-  --red:        #EAECEC;
-  --red-dark:   #DEE2E1;
-  --cream:      #E4E7E6;
-  --cream-alt:  #DEE2E1;
+  --green:      #FDFCF9;
+  --green-dark: #F6EFE3;
+  --black:      #2E1F16;
+  --red:        #F6EFE3;
+  --red-dark:   #EDE2CE;
+  --cream:      #F2E9D8;
+  --cream-alt:  #EDE2CE;
   --white:      #FFFFFF;
 
   /* ── Typographie ── */
   --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-deco:    'Poiret One', 'Cormorant Garamond', serif;  /* Art Déco — comme l'enseigne */
   --font-script:  'Sacramento', cursive;
   --font-mono:    'Space Mono', monospace;
   --font-body:    'DM Sans', sans-serif;
+
+  /* ── Motif signature — le dégradé des nuances ── */
+  --degrade-nuances: linear-gradient(90deg,
+    #2E1F16 0%, #C1502E 28%, #CD7452 52%, #E8C3A4 78%, #F6EFE3 100%);
 
   --nav-height: 80px;
 
@@ -59,7 +69,7 @@
 
 /* ── Sélection ── */
 ::selection {
-  background: var(--rouge);
+  background: var(--amber);
   color: var(--paper);
 }
 
@@ -73,11 +83,14 @@
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--paper-2); }
-::-webkit-scrollbar-thumb { background: rgba(44,66,63,0.25); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: rgba(46,31,22,0.25); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--ink); }
 
 html {
   scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }
 
 body {

@@ -125,6 +125,16 @@
   animation: heroFadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.48s forwards;
 }
 
+/* CTA — montent légèrement après le sous-titre */
+.site--visible .Hero__actions {
+  opacity: 0;
+  animation: heroActionsIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.62s forwards;
+}
+@keyframes heroActionsIn {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* Scroll indicator — opacity only (has translateX(-50%) centering) */
 .site--visible .Hero__scroll {
   opacity: 0;
@@ -238,10 +248,12 @@
 
   .site--visible .Hero__title > span,
   .site--visible .Hero__subtitle,
+  .site--visible .Hero__actions,
   .site--visible .Hero__scroll,
   .site--visible .Hero__side {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
   }
+  .Hero__title em { animation: none !important; }
 }

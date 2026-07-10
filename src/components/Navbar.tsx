@@ -4,12 +4,10 @@ import './Navbar.css'
 interface NavbarProps { onReserve: () => void }
 
 const NAV = [
-  { label: 'Wine Bar',       href: '#' },
-  { label: 'Manger',         href: '#manger' },
-  { label: 'Jouer',          href: '#jouer' },
-  { label: 'Offres groupes', href: '#groupes' },
-  { label: 'Ambiance',       href: '#ambiance' },
-  { label: 'Évènements',     href: '#evenements' },
+  { label: 'À propos',     href: '#about' },
+  { label: 'La carte',     href: '#carte' },
+  { label: 'FAQ',          href: '#faq' },
+  { label: 'Nous trouver', href: '#visit' },
 ]
 
 export default function Navbar({ onReserve }: NavbarProps) {
@@ -39,15 +37,15 @@ export default function Navbar({ onReserve }: NavbarProps) {
     <>
       <header className={`Header${scrolled ? ' Header--scrolled' : ''}${hidden ? ' Header--hidden' : ''}`}>
         {/* Logo centré */}
-        <a href="#" className="Header__logo">
-          <span className="Header__logo-lucky">Wine</span>
-          <span className="Header__logo-folks">Bar</span>
-          <span className="Header__logo-tag">Eat · Drink · Play</span>
+        <a href="#hero" className="Header__logo">
+          <span className="Header__logo-lucky">Le Bistrot</span>
+          <span className="Header__logo-folks">des Nuances</span>
+          <span className="Header__logo-tag">Restaurant · Bar · Lounge</span>
         </a>
 
         {/* CTAs droite */}
         <div className="Header__right">
-          <button className="btn btn--red btn--sm" onClick={onReserve}>
+          <button className="btn btn--amber btn--sm" onClick={onReserve}>
             Réserver
           </button>
           <button
@@ -64,7 +62,12 @@ export default function Navbar({ onReserve }: NavbarProps) {
       <nav className={`Menu${menuOpen ? ' Menu--open' : ''}`}>
         <div className="Menu__overlay" onClick={() => setMenuOpen(false)} />
         <div className="Menu__panel">
-          <button className="Menu__close" onClick={() => setMenuOpen(false)}>✕</button>
+          <button className="Menu__close" onClick={() => setMenuOpen(false)} aria-label="Fermer le menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+              <path d="M18 6 6 18M6 6l12 12"/>
+            </svg>
+          </button>
           <ul className="Menu__list">
             {NAV.map(l => (
               <li key={l.label}>
@@ -76,12 +79,12 @@ export default function Navbar({ onReserve }: NavbarProps) {
             Réserver
           </button>
           <div className="Menu__socials">
-            <a href="https://facebook.com"  target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <a href="https://www.facebook.com/share/18S5W54DGv/?mibextid=wwXIfr"  target="_blank" rel="noopener noreferrer" aria-label="Facebook">
               <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
               </svg>
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <a href="https://instagram.com/lebistrotdesnuances2026" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2"
                    strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>

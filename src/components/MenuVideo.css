@@ -1,157 +1,243 @@
 /* ═══════════════════════════════════════════════════════
-   MenuVideo — extensions de Menu.css
-   Image au hover : overlay absolu style About.tsx
+   LA CARTE — éditorial sombre, typographie surdimensionnée
+   Miroir visuel de la carte des boissons (CarteBoissons)
 ═══════════════════════════════════════════════════════ */
 
-/* ── Correctif conflit Navbar.css ──
-   Navbar.css surcharge .Menu en position:fixed z-index:200.
-   #carte-video (sélecteur plus spécifique) annule ça. */
-#carte-video {
-  overflow:          hidden;
-  pointer-events:    auto;
-  z-index:           1;
-  position:          relative;
-  scroll-margin-top: calc(var(--nav-height) + 1rem);
-}
-
-/* ══════════════════════════════════════════════════════
-   Assiette flottante — émerge à moitié depuis le bord droit
-   ──────────────────────────────────────────────────
-   Cercle de 460px, décalé de ~230px vers la droite
-   #carte-video overflow:hidden coupe naturellement la moitié
-   Aucun blend-mode : photo nette en forme d'assiette
-══════════════════════════════════════════════════════ */
-.MenuVideo__plate {
-  position: absolute;
-  right: -600px;
-  top: 50%;
-  transform: translateY(-50%) scale(0.88);
-  width: 1620px;
-  height: 1620px;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 0;
-  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.MenuVideo__plate.is--active {
-  opacity: 1;
-  transform: translateY(-50%) scale(1);
-}
-
-/* ── Images : forme naturelle de l'assiette, flottement 3D ──
-   mix-blend-mode: multiply  → fond blanc/crème disparaît dans le --paper
-   drop-shadow               → ombre épouse le contour de l'assiette (pas du rectangle)
-   object-fit: contain       → toute l'assiette visible, pas recadrée
-── */
-.MenuVideo__plate-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-  mix-blend-mode: multiply;
-  filter: drop-shadow(-10px 18px 44px rgba(44, 66, 63, 0.24));
-  opacity: 0;
-  transition: opacity 0.38s ease;
-}
-
-.MenuVideo__plate-img.is--active {
-  opacity: 1;
-}
-
-/* ── Contenu au-dessus de la scène ── */
-#carte-video .Menu__tabs,
-#carte-video .Menu__body,
-#carte-video .Menu__legend {
+.Carte {
+  background: var(--ink);
+  padding: 8rem 2rem 6rem;
   position: relative;
-  z-index: 2;
+  overflow: hidden;
 }
 
-/* ── Lettres déco : transition prête ── */
-#carte-video .Menu__deco {
-  transition: opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+/* Grain léger, cohérent avec le hero et la carte boissons */
+.Carte::after {
+  content: '';
+  position: absolute; inset: 0;
+  pointer-events: none; opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 300px 300px;
 }
 
-/* ── Lettres → disparaissent quand une assiette est visible ── */
-.MenuVideo__plate.is--active ~ .Menu__body .Menu__deco {
-  opacity: 0;
-  transform: translateX(14px);
-  pointer-events: none;
+/* ── En-tête ── */
+.Carte__header {
+  max-width: 1100px;
+  margin: 0 auto 3rem;
+  text-align: center;
+  position: relative; z-index: 1;
 }
 
-/* ── Prix, séparateurs en pointillés et lignes entre plats → s'effacent au hover ── */
-#carte-video .Menu__dish-price,
-#carte-video .Menu__dish-dots {
-  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-#carte-video .Menu__dish {
-  transition: border-bottom-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.MenuVideo__plate.is--active ~ .Menu__body .Menu__dish-price,
-.MenuVideo__plate.is--active ~ .Menu__body .Menu__dish-dots {
-  opacity: 0;
-}
-.MenuVideo__plate.is--active ~ .Menu__body .Menu__dish {
-  border-bottom-color: transparent;
-}
-
-.MenuVideo__cocktail3d.is--active ~ .Menu__body .Menu__dish-price,
-.MenuVideo__cocktail3d.is--active ~ .Menu__body .Menu__dish-dots {
-  opacity: 0;
-}
-.MenuVideo__cocktail3d.is--active ~ .Menu__body .Menu__dish {
-  border-bottom-color: transparent;
-}
-
-/* ═══════════════════════════════════════════════════════
-   Cocktail 3D — container pour l'onglet Boire
-   Canvas R3F transparent positionné comme la scène photo
-═══════════════════════════════════════════════════════ */
-.MenuVideo__cocktail3d {
-  position: absolute;
-  right: 5vw;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 200px;
-  height: 340px;
-  z-index: 1;
-  pointer-events: none;     /* invisible → pas d'interaction */
-  opacity: 0;
-  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-  cursor: grab;
-}
-.MenuVideo__cocktail3d.is--active {
-  opacity: 1;
-  pointer-events: all;      /* visible → drag activé */
-}
-.MenuVideo__cocktail3d:active { cursor: grabbing; }
-
-.MenuVideo__cocktail3d canvas {
-  width: 100%  !important;
-  height: 100% !important;
+.Carte__eyebrow {
   display: block;
+  margin-bottom: 1.1rem;
+  font-family: var(--label-family);
+  font-size: var(--label-size); font-weight: var(--label-weight);
+  letter-spacing: var(--label-spacing); text-transform: uppercase;
+  color: var(--gold-bright);
 }
 
-/* Lettres BOIRE disparaissent quand un cocktail 3D est visible
-   (même règle sibling que pour la scène photo) */
-.MenuVideo__cocktail3d.is--active ~ .Menu__body .Menu__deco {
+.Carte__title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6.5vw, 5.5rem);
+  font-weight: 300; font-style: italic;
+  line-height: 0.95;
+  color: var(--paper);
+}
+.Carte__title em {
+  font-style: inherit;
+  color: var(--gold-bright);
+}
+
+/* ── Onglets — même langage que la carte boissons ── */
+.Carte__tabs {
+  max-width: 1100px;
+  margin: 0 auto 4rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  position: relative; z-index: 1;
+}
+
+.Carte__tab {
+  padding: 0.7rem 1.4rem;
+  min-height: 44px;
+  background: transparent;
+  border: 1px solid rgba(250,249,246,0.16);
+  border-radius: 999px;
+  font-family: var(--label-family);
+  font-size: 0.7rem; font-weight: var(--label-weight);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(250,249,246,0.55);
+  cursor: pointer;
+  transition: color 0.25s ease, border-color 0.25s ease,
+              background 0.25s ease;
+}
+.Carte__tab:hover {
+  color: var(--gold-bright);
+  border-color: rgba(226,139,98,0.45);
+}
+.Carte__tab.is--active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #FFFFFF;
+}
+
+/* ── Liste géante ── */
+.Carte__body {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative; z-index: 1;
+}
+
+.Carte__list {
+  list-style: none;
+  margin: 0; padding: 0;
+}
+
+.Carte__dish {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(1.2rem, 3vw, 2.5rem);
+  padding: clamp(1.4rem, 2.6vh, 2.1rem) 0;
+  border-bottom: 1px solid rgba(250,249,246,0.08);
+  cursor: default;
   opacity: 0;
-  transform: translateX(14px);
-  pointer-events: none;
+  animation: carteDishIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.Carte__dish:last-child { border-bottom: none; }
+
+/* Entrée en cascade à chaque changement d'onglet */
+@keyframes carteDishIn {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.Carte__dish:nth-child(1)  { animation-delay: 0.02s; }
+.Carte__dish:nth-child(2)  { animation-delay: 0.07s; }
+.Carte__dish:nth-child(3)  { animation-delay: 0.12s; }
+.Carte__dish:nth-child(4)  { animation-delay: 0.17s; }
+.Carte__dish:nth-child(5)  { animation-delay: 0.22s; }
+.Carte__dish:nth-child(6)  { animation-delay: 0.27s; }
+.Carte__dish:nth-child(7)  { animation-delay: 0.32s; }
+.Carte__dish:nth-child(8)  { animation-delay: 0.37s; }
+
+/* Les autres plats s'estompent quand un plat est survolé */
+.Carte__list.has--hover .Carte__dish:not(.is--hover) {
+  opacity: 0.22;
+}
+
+/* Numéro éditorial */
+.Carte__dish-num {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: rgba(226,139,98,0.55);
+  transform: translateY(-0.35em);
+  transition: color 0.35s ease;
+}
+.Carte__dish.is--hover .Carte__dish-num {
+  color: var(--gold-bright);
+}
+
+/* Nom du plat — typographie géante */
+.Carte__dish-main { flex: 1; min-width: 0; }
+
+.Carte__dish-nom {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.2vw, 2.6rem);
+  font-weight: 300; font-style: italic;
+  line-height: 1.08;
+  letter-spacing: 0.01em;
+  color: rgba(250,249,246,0.88);
+  margin: 0;
+  transition: color 0.35s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.Carte__dish.is--hover .Carte__dish-nom {
+  color: var(--gold-bright);
+  transform: translateX(10px);
+}
+
+/* Badge (menu enfant…) */
+.Carte__dish-badge {
+  display: inline-block;
+  margin-left: 0.8rem;
+  padding: 0.18rem 0.65rem;
+  border: 1px solid rgba(226,139,98,0.4);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  font-style: normal;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(226,139,98,0.85);
+  vertical-align: middle;
+  transform: translateY(-0.35em);
+}
+
+/* Composition */
+.Carte__dish-desc {
+  margin: 0.55rem 0 0;
+  max-width: 56ch;
+  font-family: var(--font-body);
+  font-size: 0.82rem; font-weight: 300;
+  line-height: 1.6;
+  color: rgba(250,249,246,0.5);
+  transition: color 0.35s ease;
+}
+.Carte__dish.is--hover .Carte__dish-desc {
+  color: rgba(250,249,246,0.75);
+}
+
+/* Prix — or */
+.Carte__dish-prix {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.2vw, 1.8rem);
+  font-weight: 300; font-style: italic;
+  color: var(--gold-bright);
+  white-space: nowrap;
+}
+.Carte__dish-prix em {
+  font-style: normal;
+  font-size: 0.65em;
+  margin-left: 3px;
+  color: rgba(226,139,98,0.7);
+}
+
+/* ── Mentions ── */
+.Carte__legal {
+  max-width: 1100px;
+  margin: 4rem auto 0;
+  padding-top: 1.6rem;
+  border-top: 1px solid rgba(250,249,246,0.08);
+  text-align: center;
+  position: relative; z-index: 1;
+}
+.Carte__legal p {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(250,249,246,0.35);
+  line-height: 2;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .Carte__dish { animation: none; opacity: 1; }
+  .Carte__dish-nom { transition: color 0.2s ease; }
+  .Carte__dish.is--hover .Carte__dish-nom { transform: none; }
 }
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-  .MenuVideo__plate      { display: none; }
-  .MenuVideo__cocktail3d { display: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .MenuVideo__plate    { transition-duration: 0.1s; transform: translateY(-50%) !important; }
-  .MenuVideo__cocktail3d { transition-duration: 0.1s; }
+  .Carte { padding: 5rem 1.25rem 4rem; }
+  .Carte__tabs { gap: 0.35rem; margin-bottom: 2.5rem; }
+  .Carte__tab { padding: 0.6rem 1rem; font-size: 0.62rem; }
+  .Carte__dish { gap: 0.9rem; }
+  .Carte__dish-nom { font-size: clamp(1.2rem, 5.4vw, 1.5rem); }
+  .Carte__dish-prix { font-size: 1.1rem; }
+  .Carte__dish-num { display: none; }
+  /* Pas de dim au touch — le hover n'existe pas sur mobile */
+  .Carte__list.has--hover .Carte__dish:not(.is--hover) { opacity: 1; }
 }

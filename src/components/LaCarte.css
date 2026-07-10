@@ -1,0 +1,420 @@
+/* ═══════════════════════════════════════════════════════════
+   LA CARTE — Manger & Boire, les deux nuances du bistrot
+   Le fond glisse d'une nuance à l'autre selon l'univers.
+═══════════════════════════════════════════════════════════ */
+
+.LaCarte {
+  position: relative;
+  overflow: hidden;
+  padding: 8rem 2rem 6rem;
+  transition: background 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Fond blanc — la nuance passe par la typographie */
+.LaCarte--manger,
+.LaCarte--boire { background: var(--paper); }
+.LaCarte { border-top: 1px solid rgba(46,31,22,0.08); }
+
+/* Grain cohérent avec le hero */
+.LaCarte::after {
+  content: '';
+  position: absolute; inset: 0;
+  pointer-events: none; opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 300px 300px;
+}
+
+.LaCarte > * { position: relative; z-index: 1; }
+
+/* ══════════════════════════════════════
+   En-tête — le titre est l'interrupteur
+══════════════════════════════════════ */
+.LaCarte__header {
+  max-width: 1100px;
+  margin: 0 auto 2.6rem;
+  text-align: center;
+}
+
+.LaCarte__eyebrow {
+  display: block;
+  margin-bottom: 1.4rem;
+  font-family: var(--label-family);
+  font-size: var(--label-size); font-weight: var(--label-weight);
+  letter-spacing: var(--label-spacing); text-transform: uppercase;
+  color: var(--amber);
+}
+
+.LaCarte__title {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: clamp(1rem, 2.5vw, 2rem);
+  margin: 0;
+}
+
+/* Les deux univers — boutons typographiques géants */
+.LaCarte__univers {
+  background: none;
+  border: none;
+  padding: 0 0 0.14em;
+  font-family: var(--font-deco);
+  font-size: clamp(2.2rem, 5.5vw, 4.4rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(46,31,22,0.22);
+  cursor: pointer;
+  position: relative;
+  transition: color 0.5s ease;
+}
+.LaCarte__univers:hover { color: rgba(46,31,22,0.5); }
+.LaCarte__univers.is--active { color: var(--amber); }
+
+/* Soulignement or — se dessine sous l'univers actif */
+.LaCarte__univers::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -0.06em;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--degrade-nuances);
+  transform: scaleX(0);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.LaCarte__univers.is--active::after { transform: scaleX(1); }
+
+.LaCarte__amp {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.5vw, 3rem);
+  font-weight: 300; font-style: italic;
+  color: rgba(46,31,22,0.3);
+}
+
+/* Accroche — change avec l'univers */
+.LaCarte__intro {
+  margin: 1.6rem auto 0;
+  max-width: 46ch;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  font-weight: 300; font-style: italic;
+  line-height: 1.5;
+  color: rgba(46,31,22,0.62);
+  animation: carteFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes carteFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════
+   Sous-onglets
+══════════════════════════════════════ */
+.LaCarte__tabs {
+  max-width: 1100px;
+  margin: 0 auto 3.6rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.LaCarte__tab {
+  padding: 0.7rem 1.4rem;
+  min-height: 44px;
+  background: transparent;
+  border: 1px solid rgba(46,31,22,0.16);
+  border-radius: 999px;
+  font-family: var(--label-family);
+  font-size: 0.7rem; font-weight: var(--label-weight);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(46,31,22,0.55);
+  cursor: pointer;
+  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+.LaCarte__tab:hover {
+  color: var(--amber);
+  border-color: rgba(193,80,46,0.45);
+}
+.LaCarte__tab.is--active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #FFFFFF;
+}
+
+/* ══════════════════════════════════════
+   Corps
+══════════════════════════════════════ */
+.LaCarte__body {
+  max-width: 1100px;
+  margin: 0 auto;
+  animation: carteFade 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── MANGER — liste éditoriale géante ── */
+.LaCarte__dishes {
+  list-style: none;
+  margin: 0; padding: 0;
+}
+
+.LaCarte__dish {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(1.2rem, 3vw, 2.5rem);
+  padding: clamp(1.4rem, 2.6vh, 2.1rem) 0;
+  border-bottom: 1px solid rgba(46,31,22,0.08);
+  cursor: default;
+  opacity: 0;
+  animation: carteDishIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.LaCarte__dish:last-child { border-bottom: none; }
+
+@keyframes carteDishIn {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.LaCarte__dish:nth-child(1) { animation-delay: 0.02s; }
+.LaCarte__dish:nth-child(2) { animation-delay: 0.07s; }
+.LaCarte__dish:nth-child(3) { animation-delay: 0.12s; }
+.LaCarte__dish:nth-child(4) { animation-delay: 0.17s; }
+.LaCarte__dish:nth-child(5) { animation-delay: 0.22s; }
+.LaCarte__dish:nth-child(6) { animation-delay: 0.27s; }
+.LaCarte__dish:nth-child(7) { animation-delay: 0.32s; }
+.LaCarte__dish:nth-child(8) { animation-delay: 0.37s; }
+
+.LaCarte__dishes.has--hover .LaCarte__dish:not(.is--hover) { opacity: 0.22; }
+
+.LaCarte__dish-num {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: rgba(193,80,46,0.55);
+  transform: translateY(-0.35em);
+  transition: color 0.35s ease;
+}
+.LaCarte__dish.is--hover .LaCarte__dish-num { color: var(--amber); }
+
+.LaCarte__dish-main { flex: 1; min-width: 0; }
+
+.LaCarte__dish-nom {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.2vw, 2.6rem);
+  font-weight: 300; font-style: italic;
+  line-height: 1.08;
+  letter-spacing: 0.01em;
+  color: rgba(46,31,22,0.88);
+  transition: color 0.35s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.LaCarte__dish.is--hover .LaCarte__dish-nom {
+  color: var(--amber);
+  transform: translateX(10px);
+}
+
+.LaCarte__badge {
+  display: inline-block;
+  margin-left: 0.8rem;
+  padding: 0.18rem 0.65rem;
+  border: 1px solid rgba(193,80,46,0.4);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.55rem; font-style: normal;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(193,80,46,0.85);
+  vertical-align: middle;
+  transform: translateY(-0.35em);
+}
+
+.LaCarte__dish-desc {
+  margin: 0.55rem 0 0;
+  max-width: 56ch;
+  font-family: var(--font-body);
+  font-size: 0.82rem; font-weight: 300;
+  line-height: 1.6;
+  color: rgba(46,31,22,0.5);
+  transition: color 0.35s ease;
+}
+.LaCarte__dish.is--hover .LaCarte__dish-desc { color: rgba(46,31,22,0.75); }
+
+.LaCarte__dish-prix {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.2vw, 1.8rem);
+  font-weight: 300; font-style: italic;
+  color: var(--amber);
+  white-space: nowrap;
+}
+.LaCarte__dish-prix em {
+  font-style: normal;
+  font-size: 0.65em;
+  margin-left: 3px;
+  color: rgba(193,80,46,0.7);
+}
+
+/* ── BOIRE — sous-catégories ── */
+.LaCarte__subcat { margin-bottom: 3.2rem; }
+.LaCarte__subcat:last-child { margin-bottom: 0; }
+
+.LaCarte__subhead {
+  display: flex;
+  align-items: baseline;
+  gap: 1.2rem;
+  margin-bottom: 1.6rem;
+}
+
+.LaCarte__subtitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-weight: 300; font-style: italic;
+  color: var(--amber);
+  white-space: nowrap;
+}
+
+.LaCarte__subrule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(193,80,46,0.35), transparent);
+  transform: translateY(-0.35em);
+}
+
+.LaCarte__subnote {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(46,31,22,0.45);
+  white-space: nowrap;
+}
+
+.LaCarte__drinks {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 4rem;
+  row-gap: 1.15rem;
+}
+
+.LaCarte__drink-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+}
+
+.LaCarte__drink-nom {
+  font-family: var(--font-body);
+  font-size: 0.92rem; font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(46,31,22,0.92);
+}
+
+.LaCarte__drink-detail {
+  margin-left: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem; font-weight: 400;
+  letter-spacing: 0.08em;
+  color: rgba(193,80,46,0.75);
+  white-space: nowrap;
+}
+
+.LaCarte__drink-dots {
+  flex: 1;
+  border-bottom: 1px dotted rgba(46,31,22,0.22);
+  transform: translateY(-0.25em);
+  min-width: 24px;
+}
+
+.LaCarte__drink-prix {
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  color: var(--amber);
+  white-space: nowrap;
+}
+.LaCarte__drink-prix em {
+  font-style: normal;
+  font-size: 0.72rem;
+  margin-left: 2px;
+  color: rgba(193,80,46,0.7);
+}
+
+.LaCarte__drink-desc {
+  margin: 0.3rem 0 0;
+  padding-right: 2.5rem;
+  font-family: var(--font-body);
+  font-size: 0.78rem; font-weight: 300;
+  line-height: 1.55;
+  color: rgba(46,31,22,0.55);
+}
+
+/* ══════════════════════════════════════
+   Mentions
+══════════════════════════════════════ */
+.LaCarte__legal {
+  max-width: 1100px;
+  margin: 4rem auto 0;
+  padding-top: 1.6rem;
+  border-top: 1px solid rgba(46,31,22,0.08);
+  text-align: center;
+}
+.LaCarte__legal p {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(46,31,22,0.35);
+  line-height: 2;
+}
+
+/* ══════════════════════════════════════
+   Reduced motion
+══════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .LaCarte { transition: none; }
+  .LaCarte__dish, .LaCarte__body, .LaCarte__intro { animation: none; opacity: 1; }
+  .LaCarte__dish.is--hover .LaCarte__dish-nom { transform: none; }
+}
+
+/* ══════════════════════════════════════
+   Responsive
+══════════════════════════════════════ */
+@media (max-width: 900px) {
+  .LaCarte__drinks { grid-template-columns: 1fr; row-gap: 1rem; }
+  .LaCarte__drink-desc { padding-right: 0; }
+}
+
+@media (max-width: 768px) {
+  .LaCarte { padding: 5rem 1.25rem 4rem; }
+  .LaCarte__tabs { gap: 0.35rem; margin-bottom: 2.5rem; }
+  .LaCarte__tab { padding: 0.6rem 1rem; font-size: 0.62rem; }
+  .LaCarte__dish { gap: 0.9rem; }
+  .LaCarte__dish-nom { font-size: clamp(1.2rem, 5.4vw, 1.5rem); }
+  .LaCarte__dish-prix { font-size: 1.1rem; }
+  .LaCarte__dish-num { display: none; }
+  .LaCarte__dishes.has--hover .LaCarte__dish:not(.is--hover) { opacity: 1; }
+  .LaCarte__drink-detail { display: block; margin-left: 0; margin-top: 0.15rem; }
+  .LaCarte__subhead { gap: 0.8rem; }
+}
+
+/* ══════════════════════════════════════
+   Cohérence Manger / Boire — ajouts
+══════════════════════════════════════ */
+
+/* Survol d'une ligne — le nom s'allume en terracotta */
+.LaCarte__drink-nom { transition: color 0.25s ease; }
+.LaCarte__drink:hover .LaCarte__drink-nom { color: var(--amber); }
+
+/* Cascade d'apparition des sous-catégories */
+.LaCarte__subcat {
+  animation: carteFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.LaCarte__subcat:nth-child(2) { animation-delay: 0.08s; }
+.LaCarte__subcat:nth-child(3) { animation-delay: 0.16s; }
+.LaCarte__subcat:nth-child(4) { animation-delay: 0.24s; }
+.LaCarte__subcat:nth-child(5) { animation-delay: 0.32s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .LaCarte__subcat { animation: none; }
+}

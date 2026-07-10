@@ -1,354 +1,139 @@
-import { useState, lazy, Suspense } from 'react'
-import './Menu.css'
+import { useState } from 'react'
 import './MenuVideo.css'
 
-/* Lazy-load Three.js — ne charge le bundle (~800 kb) que quand on passe à l'onglet Boire */
-const Cocktail3D = lazy(() => import('./Cocktail3D'))
-
-/* ── Helper Unsplash ── */
-const U = (id: string) =>
-  `https://images.unsplash.com/photo-${id}?auto=format&fit=max&w=1200&q=90`
-
-/* ── Allergènes ── */
-type AllergenKey =
-  | 'gluten' | 'crustaces' | 'oeufs' | 'poisson'
-  | 'arachides' | 'soja' | 'lait' | 'fruits_a_coques'
-  | 'celeri' | 'moutarde' | 'sesame' | 'sulfites' | 'mollusques'
-
-const ALLERGEN_ICONS: Record<AllergenKey, JSX.Element> = {
-  gluten: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="12" y1="22" x2="12" y2="2"/>
-      <path d="M12 5C10.5 3 7.5 3.5 7.5 6C7.5 8.5 12 8.5 12 8.5"/>
-      <path d="M12 5C13.5 3 16.5 3.5 16.5 6C16.5 8.5 12 8.5 12 8.5"/>
-      <path d="M12 10.5C10.5 8.5 7.5 9 7.5 11.5C7.5 14 12 14 12 14"/>
-      <path d="M12 10.5C13.5 8.5 16.5 9 16.5 11.5C16.5 14 12 14 12 14"/>
-      <path d="M12 16C10.5 14 7.5 14.5 7.5 17C7.5 19.5 12 19.5 12 19.5"/>
-      <path d="M12 16C13.5 14 16.5 14.5 16.5 17C16.5 19.5 12 19.5 12 19.5"/>
-    </svg>
-  ),
-  crustaces: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 20C8 20 5 17 5 13C5 10 7 8 9 7L12 6L15 7C17 8 19 10 19 13C19 17 16 20 12 20Z"/>
-      <path d="M9 7L6 4M15 7L18 4"/>
-      <path d="M7 13L4 12M17 13L20 12"/>
-      <path d="M7 16L4 18M17 16L20 18"/>
-      <line x1="12" y1="6" x2="12" y2="3"/>
-      <path d="M10 14C10 14 11 15.5 12 15.5C13 15.5 14 14 14 14"/>
-    </svg>
-  ),
-  oeufs: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-      <path d="M12 3C8.5 3 5.5 7 5.5 12.5C5.5 17 8.5 21 12 21C15.5 21 18.5 17 18.5 12.5C18.5 7 15.5 3 12 3Z"/>
-    </svg>
-  ),
-  poisson: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M2 12C2 12 7 5 14 5C17.5 5 20 7.5 20 12C20 16.5 17.5 19 14 19C7 19 2 12 2 12Z"/>
-      <path d="M20 12L23 8M20 12L23 16"/>
-      <circle cx="9" cy="11" r="1" fill="currentColor" stroke="none"/>
-    </svg>
-  ),
-  arachides: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-      <path d="M12 2C9.5 2 7.5 4 7.5 6.5C7.5 8 8.2 9.2 9.5 10C8.2 10.8 7.5 12 7.5 13.5C7.5 16 9.5 18 12 18C14.5 18 16.5 16 16.5 13.5C16.5 12 15.8 10.8 14.5 10C15.8 9.2 16.5 8 16.5 6.5C16.5 4 14.5 2 12 2Z"/>
-      <line x1="12" y1="10" x2="12" y2="18"/>
-      <path d="M10 22C10 22 10.5 19 12 19C13.5 19 14 22 14 22"/>
-    </svg>
-  ),
-  soja: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3C9 3 7 5.5 7 8.5C7 11 8.5 13 10.5 13.5"/>
-      <path d="M12 3C15 3 17 5.5 17 8.5C17 11 15.5 13 13.5 13.5"/>
-      <path d="M10.5 13.5C9 14 8 16 8 18C8 20 9.5 21.5 12 21.5C14.5 21.5 16 20 16 18C16 16 15 14 13.5 13.5"/>
-      <line x1="12" y1="3" x2="12" y2="13.5"/>
-    </svg>
-  ),
-  lait: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 3H15V5.5L17 8V20H7V8L9 5.5V3Z"/>
-      <line x1="9" y1="3" x2="15" y2="3"/>
-      <path d="M7 11H17"/>
-      <path d="M10 14.5C10 14.5 11 16 12 16C13 16 14 14.5 14 14.5"/>
-    </svg>
-  ),
-  fruits_a_coques: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 4C9 4 6.5 6.5 6.5 10C6.5 13.5 9 16 12 16C15 16 17.5 13.5 17.5 10C17.5 6.5 15 4 12 4Z"/>
-      <path d="M9 10C9 10 9 7 12 7C15 7 15 10 15 10"/>
-      <line x1="12" y1="16" x2="12" y2="20"/>
-      <path d="M9 20H15"/>
-    </svg>
-  ),
-  celeri: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="12" y1="22" x2="12" y2="10"/>
-      <line x1="8" y1="22" x2="8" y2="12"/>
-      <line x1="16" y1="22" x2="16" y2="12"/>
-      <path d="M12 10C12 10 9 7 7 5C7 5 10 4 12 7"/>
-      <path d="M12 10C12 10 15 7 17 5C17 5 14 4 12 7"/>
-      <path d="M8 12C8 12 6 9 5 7C5 7 7.5 7 8.5 10"/>
-      <path d="M16 12C16 12 18 9 19 7C19 7 16.5 7 15.5 10"/>
-    </svg>
-  ),
-  moutarde: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="12" y1="22" x2="12" y2="12"/>
-      <circle cx="9" cy="7" r="3"/>
-      <circle cx="15" cy="9" r="2.5"/>
-      <circle cx="10" cy="12" r="2"/>
-      <circle cx="15" cy="13" r="1.5"/>
-    </svg>
-  ),
-  sesame: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-      <ellipse cx="12" cy="12" rx="3" ry="5"/>
-      <ellipse cx="6" cy="9" rx="2.5" ry="4" transform="rotate(-30 6 9)"/>
-      <ellipse cx="18" cy="9" rx="2.5" ry="4" transform="rotate(30 18 9)"/>
-      <ellipse cx="6" cy="15" rx="2.5" ry="4" transform="rotate(30 6 15)"/>
-      <ellipse cx="18" cy="15" rx="2.5" ry="4" transform="rotate(-30 18 15)"/>
-    </svg>
-  ),
-  sulfites: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M7 3H17L15 12H9L7 3Z"/>
-      <path d="M9 12C9 12 9 16 12 16C15 16 15 12 15 12"/>
-      <line x1="12" y1="16" x2="12" y2="20"/>
-      <line x1="9" y1="20" x2="15" y2="20"/>
-    </svg>
-  ),
-  mollusques: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 4C8 4 5 7.5 5 12C5 16 7.5 20 12 20C16.5 20 19 16 19 12C19 7.5 16 4 12 4Z"/>
-      <path d="M12 4C12 4 9 8 9 12C9 16 12 20 12 20"/>
-      <path d="M12 4C12 4 15 8 15 12C15 16 12 20 12 20"/>
-      <path d="M5.5 10H18.5"/>
-      <path d="M5.5 14H18.5"/>
-    </svg>
-  ),
-}
-
-const ALLERGEN_LABELS: Record<AllergenKey, string> = {
-  gluten:          'Gluten',
-  crustaces:       'Crustacés',
-  oeufs:           'Œufs',
-  poisson:         'Poisson',
-  arachides:       'Arachides',
-  soja:            'Soja',
-  lait:            'Lait',
-  fruits_a_coques: 'Fruits à coques',
-  celeri:          'Céleri',
-  moutarde:        'Moutarde',
-  sesame:          'Sésame',
-  sulfites:        'Sulfites',
-  mollusques:      'Mollusques',
-}
+/* ══════════════════════════════════════════════════════════
+   LA CARTE — Le Bistrot des Nuances (maquette officielle 2026)
+   Design : éditorial sombre, typographie surdimensionnée,
+   miroir de la carte des boissons ("Boire, nuancé.")
+══════════════════════════════════════════════════════════ */
 
 interface Dish {
   nom: string
-  desc: string
+  desc?: string
   prix: string
   badge?: string
-  vege?: boolean
-  allergenes?: AllergenKey[]
-  imgSrc?: string
 }
 
 interface Category {
   id: string
   label: string
-  color: 'red' | 'amber' | 'green'
   items: Dish[]
 }
 
 const CATEGORIES: Category[] = [
   {
-    id: 'manger', label: 'Manger', color: 'red',
+    id: 'incontournables', label: 'Incontournables',
     items: [
-      // Gourmet burger — lumière chaude, pain brioché lustré, plating minimaliste
-      { nom: 'Lucky Burger',        desc: 'Steak haché charolais, cheddar fondu, oignons caramélisés, sauce secrète',  prix: '16€', badge: 'Best-seller', allergenes: ['gluten','lait','oeufs','sesame'],    imgSrc: '/1assiette.png' },
-      // Planche gastronomique — ardoise, charcuterie fine, accompagnements dressés
-      { nom: 'Planche Charcuterie', desc: 'Saucisson, jambon de pays, cornichons, moutarde à l\'ancienne',             prix: '14€', allergenes: ['gluten','moutarde','sulfites'],                               imgSrc: '/2assiette.png' },
-      // Salade dressée façon bistrot chic — légumes lacés, parmesan rasé à la mandoline
-      { nom: 'Salade César',        desc: 'Poulet grillé, parmesan, croutons maison, sauce César',                    prix: '13€', allergenes: ['gluten','lait','oeufs','poisson'],                             imgSrc: '/3assiette.png' },
-      // Assiette végétale plating fin — légumes colorés, sauce en miroir
-      { nom: 'Burger Végétarien',   desc: 'Galette de légumes rôtis, avocat, tomates confites, sauce yaourt',         prix: '14€', vege: true, allergenes: ['gluten','lait','sesame'],                         imgSrc: '/4assiette.png' },
-      // Pavé de saumon dressé — skin croustillante, purée veloutée, beurre blanc nacré
-      { nom: 'Pavé de Saumon',      desc: 'Purée maison, légumes de saison, beurre blanc au citron',                  prix: '18€', allergenes: ['poisson','lait'],                                             imgSrc: '/5assiette.png' },
-      // Velouté du jour — émulsion onctueuse, huile verte, pousses fraîches
-      { nom: 'Soupe du Jour',       desc: 'Préparée chaque matin selon l\'arrivage, pain de campagne',                prix: '7€',  vege: true, allergenes: ['gluten','celeri'],                                imgSrc: '/1assiette.png' },
+      { nom: 'Tartare de bœuf au couteau',                                                          prix: '17' },
+      { nom: 'Carpaccio de bœuf',                                                                   prix: '19,50' },
+      { nom: 'Magret de canard au miel',    desc: '350/400 grs',                                    prix: '28' },
+      { nom: 'Notre entrecôte grillée',     desc: '250 grs — beurre maître d\'hôtel ou sauce selon l\'humeur du chef', prix: '30' },
+      { nom: 'Poulpe grillé à notre façon',                                                         prix: '28' },
+      { nom: 'Pavé de saumon rôti au soja',                                                         prix: '17' },
+      { nom: '1/2 poulet fermier rôti',                                                             prix: '17' },
     ],
   },
   {
-    id: 'boire', label: 'Boire', color: 'amber',
+    id: 'assiettes', label: 'Assiettes gourmandes',
     items: [
-      // Whisky sour — mousse de blanc d'œuf, twist de citron, verre coupe élégant
-      { nom: 'Lucky Sour',          desc: 'Whisky bourbon, citron, sirop de miel, blanc d\'œuf',  prix: '11€', badge: 'Signature', allergenes: [], imgSrc: '/assiette1.png' },
-      // Spritz — rondelle d'orange, bulles dorées, lumière de terrasse
-      { nom: 'Spritz Foire',        desc: 'Aperol, prosecco, orange, eau gazeuse',                prix: '10€', allergenes: [],                     imgSrc: '/assiette1.png' },
-      // Moscow Mule — copper mug givré, menthe, citron vert en éventail
-      { nom: 'Moscow Mule',         desc: 'Vodka, ginger beer, citron vert, menthe fraîche',      prix: '10€', allergenes: [],                     imgSrc: '/assiette1.png' },
-      // Margarita — sel de fleur en bordure, citron vert, verre coupe givrée
-      { nom: 'Margarita Classique', desc: 'Tequila blanco, Cointreau, citron vert, fleur de sel', prix: '11€', allergenes: [],                     imgSrc: '/assiette1.png' },
-      // Colada — noix de coco sculptée, ombrelle, ananas frais
-      { nom: 'Virgin Colada',       desc: 'Ananas, crème de coco, citron vert — sans alcool',     prix: '8€',  badge: 'Mocktail', allergenes: [],  imgSrc: '/assiette1.png' },
-      // Limonade maison — verre haut, tranche de citron, glaçons clairs
-      { nom: 'Limonade Maison',     desc: 'Citrons pressés du jour, menthe, eau pétillante',      prix: '6€',  badge: 'Mocktail', vege: true, allergenes: [], imgSrc: '/assiette1.png' },
-      // Bière craft — tulipe givrée, mousse parfaite, éclairage chaud
-      { nom: 'Bière Artisanale',    desc: 'Sélection de brasseries locales du moment',            prix: '6€',  allergenes: [],                     imgSrc: '/assiette1.png' },
-      // Vin rouge — verre de dégustation, robe profonde, reflets ambrés
-      { nom: 'Vin de la Maison',    desc: 'Rouge, blanc ou rosé — ardoise du jour',               prix: '5€',  allergenes: [],                     imgSrc: '/assiette1.png' },
+      { nom: 'La César du Bistrot',   desc: 'Iceberg, tomates, croûtons, poulet, œuf, sauce César, lard grillé, champignons, copeaux de parmesan', prix: '17' },
+      { nom: 'La Biquette du Berger', desc: 'Iceberg, noix, toasts de chèvre, lard grillé, pignons',                                               prix: '17' },
+      { nom: 'La Dolce Vita',         desc: 'Jambon cru, tomates, œuf, mozzarella, basilic',                                                       prix: '18,50' },
+      { nom: 'La Reine des Pouilles', desc: 'Tomates, burrata, pistou, pignons',                                                                   prix: '18,50' },
     ],
   },
   {
-    id: 'snack', label: 'Snack', color: 'green',
+    id: 'burgers', label: 'Burgers',
     items: [
-      // Frites artisanales — cornet en papier kraft, coupe généreuse, sel de Guérande
-      { nom: 'Frites Maison',   desc: 'Pommes de terre fraîches, sauce au choix',            prix: '4€',  vege: true, allergenes: ['gluten'],               imgSrc: '/assiette1.png' },
-      // Onion rings — empilés en colonne, panure dorée, sauce ranch
-      { nom: 'Onion Rings',     desc: 'Rondelles d\'oignons panées, sauce ranch',            prix: '5€',  vege: true, allergenes: ['gluten','oeufs','lait'], imgSrc: '/assiette1.png' },
-      // Nuggets dorés — assiette ardoise, sauce BBQ en verrines
-      { nom: 'Nuggets Poulet',  desc: '6 pièces croustillantes, sauce BBQ fumée maison',    prix: '7€',  allergenes: ['gluten','oeufs'],                    imgSrc: '/assiette1.png' },
-      // Nachos festifs — guacamole dressé, couleurs franches, overhead shot
-      { nom: 'Nachos Festifs',  desc: 'Guacamole, salsa maison, sour cream, jalapeños',     prix: '9€',  badge: 'Best-seller', vege: true, allergenes: ['lait'], imgSrc: '/assiette1.png' },
-      // Cheese balls — fromage filant, croûte croustillante dorée
-      { nom: 'Cheese Balls',    desc: 'Cœur de cheddar fondant, enrobage doré',             prix: '6€',  vege: true, allergenes: ['gluten','lait','oeufs'], imgSrc: '/assiette1.png' },
-      // Mini sliders trio — rangée nette sur ardoise, cornichon en pique
-      { nom: 'Mini Sliders ×3', desc: 'Bœuf, comté fondu, cornichon, brioche grillée',     prix: '10€', allergenes: ['gluten','lait','oeufs','sesame'],     imgSrc: '/assiette1.png' },
+      { nom: 'Le Bistrotier bœuf',   prix: '22' },
+      { nom: 'Le Bistrotier poulet', prix: '21' },
+      { nom: 'Menu enfant',          desc: 'Steak haché ou nuggets, boule de glace', prix: '10', badge: '-12 ans' },
+    ],
+  },
+  {
+    id: 'douceurs', label: 'Douceurs',
+    items: [
+      { nom: 'Tiramisu',             prix: '8' },
+      { nom: 'Crème brûlée',         prix: '8' },
+      { nom: 'Panna cotta',          prix: '8' },
+      { nom: 'Mousse au chocolat',   prix: '8' },
+      { nom: 'Tarte aux pommes',     prix: '8' },
+      { nom: 'Café gourmand',        prix: '12' },
+      { nom: 'Glaces artisanales',   desc: 'Une boule 2,50 € · deux boules 4,50 € · trois boules 6 €', prix: 'dès 2,50' },
+      { nom: 'Coupe Colonel',        desc: 'Glace citron, vodka', prix: '10' },
     ],
   },
 ]
 
 export default function MenuVideo() {
-  const [active, setActive]         = useState('manger')
-  const [selectedDish, setSelected] = useState<string | null>(null)
+  const [active, setActive]   = useState('incontournables')
+  const [hovered, setHovered] = useState<string | null>(null)
 
   const cat = CATEGORIES.find(c => c.id === active)!
 
-  const handleTabChange = (id: string) => {
+  const changeTab = (id: string) => {
     setActive(id)
-    setSelected(null)
+    setHovered(null)
   }
-
-  const enterDish = (dish: Dish) => {
-    if (dish.imgSrc) setSelected(dish.nom)
-  }
-
-  const handleBodyLeave = () => setSelected(null)
 
   return (
-    <section className="Menu" id="carte-video">
+    <section className="Carte" id="carte-video">
 
-      {/* ══════════════════════════════════════════════════
-          Boire  → cocktail 3D au hover (sinon : lettres)
-          Autres → scène photo overlay au hover
-      ══════════════════════════════════════════════════ */}
-      {active === 'boire' ? (
-        /* Cocktail 3D — canvas monté une seule fois sur l'onglet Boire,
-           visible uniquement quand un verre est survolé (is--active).
-           Le canvas reste monté pour éviter de recréer le contexte WebGL
-           à chaque changement de survol. */
-        <div
-          className={`MenuVideo__cocktail3d${selectedDish ? ' is--active' : ''}`}
-          aria-hidden="true"
-        >
-          <Suspense fallback={null}>
-            <Cocktail3D nom={selectedDish ?? 'Lucky Sour'} />
-          </Suspense>
-        </div>
-      ) : (
-        /* Scène photo — overlay absolu style About.tsx */
-        <div
-          className={`MenuVideo__plate${selectedDish ? ' is--active' : ''}`}
-          aria-hidden="true"
-        >
-          {cat.items.map(dish => dish.imgSrc ? (
-            <img
-              key={`${active}-${dish.nom}`}
-              src={dish.imgSrc}
-              alt=""
-              className={`MenuVideo__plate-img${selectedDish === dish.nom ? ' is--active' : ''}`}
-            />
-          ) : null)}
-        </div>
-      )}
+      {/* ── En-tête — miroir de "Boire, nuancé." ── */}
+      <div className="Carte__header">
+        <span className="Carte__eyebrow">La carte 2026</span>
+        <h2 className="Carte__title">
+          Manger, <em>nuancé.</em>
+        </h2>
+      </div>
 
       {/* ── Onglets ── */}
-      <div className="Menu__tabs">
+      <nav className="Carte__tabs" aria-label="Catégories de la carte">
         {CATEGORIES.map(c => (
           <button
             key={c.id}
-            className={`Menu__tab Menu__tab--${c.color}${active === c.id ? ' is--active' : ''}`}
-            onClick={() => handleTabChange(c.id)}
+            className={`Carte__tab${active === c.id ? ' is--active' : ''}`}
+            onClick={() => changeTab(c.id)}
+            aria-pressed={active === c.id}
           >
             {c.label}
           </button>
         ))}
-      </div>
+      </nav>
 
-      {/* ── Corps ── */}
-      <div className="Menu__body" key={active} onMouseLeave={handleBodyLeave}>
-
-        {/* Colonne liste */}
-        <div className="Menu__list">
-          <h2 className={`Menu__cat-title Menu__cat-title--${cat.color}`}>
-            {cat.label}
-          </h2>
-
-          {cat.items.map((dish) => (
-            <div
-              className="Menu__dish"
+      {/* ── Liste — typographie géante, les autres plats s'estompent ── */}
+      <div className="Carte__body" key={active}>
+        <ol className={`Carte__list${hovered ? ' has--hover' : ''}`}>
+          {cat.items.map((dish, i) => (
+            <li
               key={dish.nom}
-              onMouseEnter={() => enterDish(dish)}
+              className={`Carte__dish${hovered === dish.nom ? ' is--hover' : ''}`}
+              onMouseEnter={() => setHovered(dish.nom)}
+              onMouseLeave={() => setHovered(null)}
             >
-              <div className="Menu__dish-row">
-                <span className={`Menu__dish-name Menu__dish-name--${cat.color}`}>
+              <span className="Carte__dish-num" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <div className="Carte__dish-main">
+                <h3 className="Carte__dish-nom">
                   {dish.nom}
-                  {dish.vege  && <span className="Menu__pill Menu__pill--vege">Végé</span>}
-                  {dish.badge && <span className="Menu__pill Menu__pill--badge">{dish.badge}</span>}
-                </span>
-                <span className={`Menu__dish-dots Menu__dish-dots--${cat.color}`} aria-hidden="true" />
-                <span className={`Menu__dish-price Menu__dish-price--${cat.color}`}>{dish.prix}</span>
+                  {dish.badge && <span className="Carte__dish-badge">{dish.badge}</span>}
+                </h3>
+                {dish.desc && <p className="Carte__dish-desc">{dish.desc}</p>}
               </div>
-              <p className="Menu__dish-desc">{dish.desc}</p>
-              {dish.allergenes && dish.allergenes.length > 0 && (
-                <div className={`Menu__dish-allergens Menu__dish-allergens--${cat.color}`}>
-                  {dish.allergenes.map(a => (
-                    <span key={a} className="Menu__allergen" title={ALLERGEN_LABELS[a]}>
-                      {ALLERGEN_ICONS[a]}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
+              <span className="Carte__dish-prix">
+                {dish.prix}<em>€</em>
+              </span>
+            </li>
           ))}
-        </div>
-
-        {/* Colonne déco — lettres verticales (B-O-I-R-E etc.)
-             Disparaissent au hover via .MenuVideo__plate.is--active ~ ou
-             .MenuVideo__cocktail3d.is--active ~ dans le CSS */}
-        <div className="Menu__deco" aria-hidden="true">
-          {cat.label.split('').map((char, i) => (
-            <span key={i} className={`Menu__deco-letter Menu__deco-letter--${cat.color}`}>
-              {char}
-            </span>
-          ))}
-          <span className={`Menu__deco-word Menu__deco-word--${cat.color}`}>Menu</span>
-        </div>
-
+        </ol>
       </div>
 
-      {/* ── Légende allergènes ── */}
-      <div className="Menu__legend">
-        <span className="Menu__legend-title">Allergènes :</span>
-        {(Object.keys(ALLERGEN_ICONS) as AllergenKey[]).map(k => (
-          <span key={k} className="Menu__legend-item">
-            <span className="Menu__legend-icon">{ALLERGEN_ICONS[k]}</span>
-            {ALLERGEN_LABELS[k]}
-          </span>
-        ))}
-        <p className="Menu__legend-note">
-          Informez votre serveur de toute allergie ou intolérance avant de commander.
+      {/* ── Mentions ── */}
+      <div className="Carte__legal">
+        <p>
+          Liste des allergènes disponible sur demande — informez votre serveur de toute
+          allergie ou intolérance. Prix nets (€), service inclus.
         </p>
       </div>
 

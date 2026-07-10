@@ -13,7 +13,7 @@ export default function Footer() {
           <span>Venez</span>
           <span>nous voir.</span>
         </h2>
-        <a href="#reservation" className="Footer__cta-btn">
+        <a href="#reserver" className="Footer__cta-btn">
           Réserver maintenant
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -31,27 +31,22 @@ export default function Footer() {
         {/* Logo + tagline */}
         <div className="Footer__brand">
           <div className="Footer__logo">
-            <span className="Footer__lucky">Wine</span>
-            <span className="Footer__folks">Bar</span>
+            <span className="Footer__lucky">Le Bistrot</span>
+            <span className="Footer__folks">des Nuances</span>
           </div>
-          <p className="Footer__tagline">Eat · Drink · Play</p>
+          <p className="Footer__tagline">Restaurant · Bar · Lounge</p>
           <div className="Footer__socials">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+            <a href="https://www.facebook.com/share/18S5W54DGv/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
               <svg width="17" height="17" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
               </svg>
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <a href="https://instagram.com/lebistrotdesnuances2026" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <svg width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2"
                    strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
                 <circle cx="12" cy="12" r="4"/>
                 <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-              </svg>
-            </a>
-            <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-              <svg width="17" height="17" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z"/>
               </svg>
             </a>
           </div>
@@ -61,18 +56,14 @@ export default function Footer() {
         <div className="Footer__col">
           <span className="Footer__col-title">Nous trouver</span>
           <address className="Footer__address">
-            5-7 Allée du Trait d'Union<br />
-            77127 Lieusaint
+            1 Avenue de la Libération<br />
+            06270 Villeneuve-Loubet
           </address>
-          <a href="tel:+33164131304" className="Footer__phone">01 64 13 13 04</a>
+          <a href="tel:+33612800434" className="Footer__phone">06 12 80 04 34</a>
           <div className="Footer__hours">
             <div className="Footer__hours-row">
-              <span>Mar — Dim</span>
-              <span>12h – 22h30</span>
-            </div>
-            <div className="Footer__hours-row Footer__hours-row--closed">
-              <span>Lundi</span>
-              <span>Fermé</span>
+              <span>7j / 7</span>
+              <span>9h30 – 00h30</span>
             </div>
           </div>
         </div>
@@ -81,12 +72,11 @@ export default function Footer() {
         <div className="Footer__col">
           <span className="Footer__col-title">Explorer</span>
           <nav className="Footer__nav">
-            <a href="#">Manger</a>
-            <a href="#">Boire</a>
-            <a href="#">Jouer</a>
-            <a href="#">Évènements</a>
-            <a href="#">Offres groupes</a>
-            <a href="#">Réserver</a>
+            <a href="#about">À propos</a>
+            <a href="#carte">La carte</a>
+            <a href="#faq">FAQ</a>
+            <a href="#visit">Nous trouver</a>
+            <a href="#reserver">Réserver</a>
           </nav>
         </div>
 
@@ -99,16 +89,15 @@ export default function Footer() {
                 <span key={i} className="Footer__star">{s}</span>
               ))}
             </div>
-            <span className="Footer__rating-score">4,8 / 5</span>
-            <span className="Footer__rating-count">+340 avis Google</span>
+            <span className="Footer__rating-count">Votre avis compte</span>
           </div>
           <a
-            href="https://maps.google.com"
+            href="https://www.google.com/maps/search/?api=1&query=Le+Bistrot+des+Nuances+Villeneuve-Loubet"
             target="_blank"
             rel="noopener noreferrer"
             className="Footer__gmaps"
           >
-            Voir sur Google Maps →
+            Laisser un avis Google →
           </a>
         </div>
 
@@ -116,7 +105,7 @@ export default function Footer() {
 
       {/* ── Barre de bas ── */}
       <div className="Footer__bottom">
-        <span>© {year} Wine Bar — Tous droits réservés</span>
+        <span>© {year} Le Bistrot des Nuances — Tous droits réservés</span>
         <div className="Footer__bottom-links">
           <a href="#">Mentions légales</a>
           <span aria-hidden="true">·</span>
