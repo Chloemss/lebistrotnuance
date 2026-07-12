@@ -9,19 +9,15 @@ interface FaqItem {
 const FAQS: FaqItem[] = [
   {
     q: 'Faut-il réserver pour venir ?',
-    a: 'La réservation est recommandée, surtout le week-end et pour les groupes de plus de 4 personnes. Les petites tablées peuvent tenter leur chance sans réservation, mais nous vous conseillons d\'appeler avant de vous déplacer.',
-  },
-  {
-    q: 'Les jeux sont-ils en accès libre ?',
-    a: 'Oui — fléchettes, shuffleboard et jeux de société sont en accès libre pour tous les clients attablés. Le karaoké privatif, lui, se réserve à l\'avance.',
+    a: 'Nous accueillons les clients avec ou sans réservation. Pour les tables de plus de 6 personnes et les périodes de forte affluence, nous vous conseillons toutefois de réserver.',
   },
   {
     q: 'Peut-on privatiser le lieu pour un événement ?',
-    a: 'Absolument. Le Bistrot des Nuances se privatise entièrement pour vos anniversaires, séminaires, afterworks et événements d\'entreprise, jusqu\'à 80 personnes. Contactez-nous pour un devis personnalisé.',
+    a: 'Absolument. Le Bistrot des Nuances se privatise entièrement pour vos anniversaires, afterworks et événements d\'entreprise. Contactez-nous pour un devis personnalisé.',
   },
   {
     q: 'Y a-t-il un parking à proximité ?',
-    a: 'Plusieurs parkings gratuits sont accessibles à moins de 5 minutes à pied — notamment sur l\'Avenue de la Libération et dans les rues adjacentes du village.',
+    a: 'Plusieurs parkings gratuits sont accessibles à moins de 5 minutes à pied - Parking des Bugadières & Parking Place de Gaulle',
   },
   {
     q: 'Les enfants sont-ils les bienvenus ?',
@@ -29,16 +25,12 @@ const FAQS: FaqItem[] = [
   },
   {
     q: 'Proposez-vous des options végétariennes ?',
-    a: 'Oui, notre carte propose plusieurs plats végétariens clairement identifiés. N\'hésitez pas à demander à votre serveur, qui peut adapter certains plats selon vos préférences.',
+    a: 'Oui, notre carte propose plusieurs plats végétariens',
   },
   {
     q: 'Quels modes de paiement acceptez-vous ?',
-    a: 'Espèces, cartes bancaires (Visa, Mastercard) et tickets restaurant (Swile, Edenred, Sodexo). Le paiement sans contact est disponible.',
-  },
-  {
-    q: 'Les animaux sont-ils acceptés ?',
-    a: 'Les animaux sont les bienvenus en terrasse. L\'accès à l\'intérieur est malheureusement réservé aux humains.',
-  },
+    a: 'Espèces, cartes bancaires (Visa, Mastercard) et tickets restaurant.',
+  }
 ]
 
 export default function Faq() {

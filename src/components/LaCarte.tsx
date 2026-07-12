@@ -428,10 +428,10 @@ export default function LaCarte() {
       )}
 
       {/* ── Mentions ── */}
-      <div className="LaCarte__legal">
+      {/* <div className="LaCarte__legal">
         <p>Prix nets (€), service inclus — Liste des allergènes disponible sur demande.</p>
         <p>L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
-      </div>
+      </div> */}
 
     </section>
   )

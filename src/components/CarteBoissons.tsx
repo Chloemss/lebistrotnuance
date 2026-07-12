@@ -337,10 +337,10 @@ export default function CarteBoissons() {
       </div>
 
       {/* ── Mentions ── */}
-      <div className="Boissons__legal">
+      {/* <div className="Boissons__legal">
         <p>Prix nets (€), service inclus — Chèques non acceptés — CB à partir de 10 €</p>
         <p>L'abus d'alcool est dangereux pour la santé, à consommer avec modération.</p>
-      </div>
+      </div> */}
 
     </section>
   )

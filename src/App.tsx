@@ -50,13 +50,13 @@ export default function App() {
       <div className={`site${loaded ? ' site--visible' : ''}`}>
         <Navbar onReserve={goToReserve} />
         <ScrollArrow />
-        <main>
+        <main id="contenu">
           <div id="hero">      <Hero onReserve={goToReserve} /> </div>
           <div id="about">     <About />     </div>
-          <LaCarte />          {/* id="carte" — Manger & Boire réunis */}
           <Visit />            {/* id="visit" */}
-          <div id="faq">       <Faq />       </div>
+          <LaCarte />          {/* id="carte" — Manger & Boire réunis */}
           <Reservation />      {/* id="reserver" */}
+          <div id="faq">       <Faq />       </div>
         </main>
         <Footer />
       </div>

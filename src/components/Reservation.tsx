@@ -18,8 +18,7 @@ export default function Reservation() {
           <span>votre table</span>
         </h2>
         <p className="Reservation__lead">
-          Une envie de bonne table&nbsp;? Appelez-nous ou écrivez-nous,
-          on vous garde la plus belle place.
+           Réservez votre table et laissez-vous séduire par une cuisine authentique, dans un cadre chaleureux et élégant.
         </p>
 
         {/* ── Deux voies de contact ── */}

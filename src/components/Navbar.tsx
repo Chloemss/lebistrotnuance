@@ -5,9 +5,9 @@ interface NavbarProps { onReserve: () => void }
 
 const NAV = [
   { label: 'À propos',     href: '#about' },
+  { label: 'Nous trouver', href: '#visit' },
   { label: 'La carte',     href: '#carte' },
   { label: 'FAQ',          href: '#faq' },
-  { label: 'Nous trouver', href: '#visit' },
 ]
 
 export default function Navbar({ onReserve }: NavbarProps) {
@@ -36,25 +36,35 @@ export default function Navbar({ onReserve }: NavbarProps) {
   return (
     <>
       <header className={`Header${scrolled ? ' Header--scrolled' : ''}${hidden ? ' Header--hidden' : ''}`}>
-        {/* Logo centré */}
-        <a href="#hero" className="Header__logo">
-          <span className="Header__logo-lucky">Le Bistrot</span>
-          <span className="Header__logo-folks">des Nuances</span>
-          <span className="Header__logo-tag">Restaurant · Bar · Lounge</span>
-        </a>
+        <div className="Header__inner">
 
-        {/* CTAs droite */}
-        <div className="Header__right">
-          <button className="btn btn--amber btn--sm" onClick={onReserve}>
-            Réserver
-          </button>
-          <button
-            className={`Header__burger${menuOpen ? ' is--open' : ''}`}
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menu"
-          >
-            <span /><span /><span />
-          </button>
+          {/* Logo à gauche */}
+          <a href="#hero" className="Header__logo" aria-label="Le Bistrot des Nuances — accueil">
+            <img src="/logo-bn.png" alt="Le Bistrot des Nuances" className="Header__logo-img" />
+          </a>
+
+          {/* Navigation en ligne (desktop) */}
+          <nav className="Header__nav" aria-label="Navigation principale">
+            {NAV.map(l => (
+              <a key={l.label} href={l.href} className="Header__nav-link">{l.label}</a>
+            ))}
+          </nav>
+
+          {/* Actions droite */}
+          <div className="Header__right">
+            <button className="Header__reserve" onClick={onReserve}>
+              Réserver
+            </button>
+            <button
+              className={`Header__burger${menuOpen ? ' is--open' : ''}`}
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Menu"
+              aria-expanded={menuOpen}
+            >
+              <span /><span /><span />
+            </button>
+          </div>
+
         </div>
       </header>
 

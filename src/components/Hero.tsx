@@ -18,6 +18,8 @@ export default function Hero({ onReserve }: HeroProps) {
             className="Hero__bg-video Hero__bg-video--default"
             src="/fond.jpg"
             alt=""
+            decoding="async"
+            {...{ fetchpriority: 'high' }}
           />
         </div>
 
@@ -25,19 +27,23 @@ export default function Hero({ onReserve }: HeroProps) {
 
       </div>
 
-      {/* Texte vertical gauche "EAT" */}
-      <span className="Hero__side Hero__side--left" aria-hidden="true">EAT</span>
-
-      {/* Texte vertical droite "PLAY" */}
-      <span className="Hero__side Hero__side--right" aria-hidden="true">PLAY</span>
-
       {/* Contenu central */}
       <div className="Hero__container">
+        <span className="Hero__eyebrow">Villeneuve-Loubet · Côte d'Azur</span>
+
         <h1 className="Hero__title">
           <span>Le bistrot</span>
-          <span>des <em>nuances.</em></span>
+          <span>des <em>nuances</em></span>
         </h1>
-        <p className="Hero__subtitle">Le lieu incontournable situé à Villeneuve Loubet</p>
+
+        <span className="Hero__divider" aria-hidden="true">
+          <span className="Hero__divider-line" />
+          <span className="Hero__divider-diamond" />
+          <span className="Hero__divider-line" />
+        </span>
+
+        <p className="Hero__subtitle">Restaurant · Bar · Lounge — Ouvert 7j/7</p>
+
         <div className="Hero__actions">
           <button className="Hero__cta Hero__cta--primary" onClick={onReserve}>
             Réserver une table
@@ -55,7 +61,7 @@ export default function Hero({ onReserve }: HeroProps) {
       {/* Indicateur scroll vertical */}
       <div className="Hero__scroll" aria-hidden="true">
         <span className="Hero__scroll-line" />
-        <span className="Hero__scroll-label">scroll</span>
+        <span className="Hero__scroll-label">Découvrir</span>
       </div>
 
     </section>

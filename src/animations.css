@@ -141,11 +141,18 @@
   animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.72s forwards;
 }
 
-/* Side "EAT" / "PLAY" labels — opacity only (has their own transforms) */
-.site--visible .Hero__side {
+/* Eyebrow — apparaît en premier, avant le titre */
+.site--visible .Hero__eyebrow {
   opacity: 0;
-  animation: heroFadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.85s forwards;
+  animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
 }
+
+/* Séparateur losange — se révèle après le titre */
+.site--visible .Hero__divider {
+  opacity: 0;
+  animation: heroFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+}
+
 
 @keyframes heroFadeIn {
   to { opacity: 1; }
@@ -247,13 +254,13 @@
   }
 
   .site--visible .Hero__title > span,
+  .site--visible .Hero__eyebrow,
+  .site--visible .Hero__divider,
   .site--visible .Hero__subtitle,
   .site--visible .Hero__actions,
-  .site--visible .Hero__scroll,
-  .site--visible .Hero__side {
+  .site--visible .Hero__scroll {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
   }
-  .Hero__title em { animation: none !important; }
 }

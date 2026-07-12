@@ -254,8 +254,8 @@
   color: rgba(193,80,46,0.7);
 }
 
-/* ── BOIRE — sous-catégories ── */
-.LaCarte__subcat { margin-bottom: 3.2rem; }
+/* ── Sous-catégories ── */
+.LaCarte__subcat { margin-bottom: 3rem; }
 .LaCarte__subcat:last-child { margin-bottom: 0; }
 
 .LaCarte__subhead {

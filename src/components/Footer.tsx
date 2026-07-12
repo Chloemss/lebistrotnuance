@@ -73,10 +73,10 @@ export default function Footer() {
           <span className="Footer__col-title">Explorer</span>
           <nav className="Footer__nav">
             <a href="#about">À propos</a>
-            <a href="#carte">La carte</a>
-            <a href="#faq">FAQ</a>
             <a href="#visit">Nous trouver</a>
+            <a href="#carte">La carte</a>
             <a href="#reserver">Réserver</a>
+            <a href="#faq">FAQ</a>
           </nav>
         </div>
 

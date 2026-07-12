@@ -32,6 +32,9 @@ const AUTO_TARGETS: AutoTarget[] = [
   // Gallery
   { selector: '.Gallery__header', reveal: '' },
 
+  // Atouts (dans À propos) — cascade via animation CSS
+  { selector: '.About__features', reveal: '' },
+
   // Devanture (dans À propos)
   { selector: '.About__figure', reveal: 'scale' },
 
