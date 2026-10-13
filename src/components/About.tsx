@@ -76,8 +76,30 @@ Restaurant, bar & lounge pensé comme une guinguette contemporaine. Niché au c�
             <span className="About__section-label">Ouverture</span>
             <div className="About__schedule-timeline">
               <div className="About__schedule-slot">
-                <span className="About__schedule-days">Lundi — Dimanche</span>
-                <span className="About__schedule-hours">09:30 — 00:30</span>
+                <span className="About__schedule-days">Lundi — Mercredi</span>
+                <span className="About__schedule-hours">
+                  <span>7h30 – 15h</span>
+                </span>
+              </div>
+              <div className="About__schedule-slot">
+                <span className="About__schedule-days">Jeudi — Vendredi</span>
+                <span className="About__schedule-hours">
+                  <span>7h30 – 15h</span>
+                  <span>18h – 00h30</span>
+                </span>
+              </div>
+              <div className="About__schedule-slot">
+                <span className="About__schedule-days">Samedi</span>
+                <span className="About__schedule-hours">
+                  <span>10h – 15h</span>
+                  <span>18h – 00h30</span>
+                </span>
+              </div>
+              <div className="About__schedule-slot">
+                <span className="About__schedule-days">Dimanche</span>
+                <span className="About__schedule-hours">
+                  <span>10h – 17h</span>
+                </span>
               </div>
             </div>
             <div className="About__location">

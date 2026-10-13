@@ -1,8 +1,10 @@
 import './Reservation.css'
 
-const PHONE_DISPLAY = '06 12 80 04 34'
-const PHONE_HREF    = 'tel:+33612800434'
-const EMAIL         = 'lebistrotdesnuances@gmail.com'
+const PHONE_1_DISPLAY = '04 97 27 56 04'
+const PHONE_1_HREF    = 'tel:+33497275604'
+const PHONE_2_DISPLAY = '06 33 80 98 40'
+const PHONE_2_HREF    = 'tel:+33633809840'
+const EMAIL           = 'lebistrotdesnuances@gmail.com'
 
 export default function Reservation() {
   return (
@@ -25,7 +27,7 @@ export default function Reservation() {
         <div className="Reservation__cards">
 
           {/* Appeler */}
-          <a href={PHONE_HREF} className="Reservation__card">
+          <div className="Reservation__card">
             <span className="Reservation__card-icon" aria-hidden="true">
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
                    stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -33,15 +35,9 @@ export default function Reservation() {
               </svg>
             </span>
             <span className="Reservation__card-label">Appelez-nous</span>
-            <span className="Reservation__card-value">{PHONE_DISPLAY}</span>
-            <span className="Reservation__card-cta">
-              Appeler maintenant
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-                   stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </span>
-          </a>
+            <a href={PHONE_1_HREF} className="Reservation__card-value">{PHONE_1_DISPLAY}</a>
+            <a href={PHONE_2_HREF} className="Reservation__card-value">{PHONE_2_DISPLAY}</a>
+          </div>
 
           {/* Écrire */}
           <a href={`mailto:${EMAIL}?subject=Réservation%20—%20Le%20Bistrot%20des%20Nuances`}
@@ -68,15 +64,22 @@ export default function Reservation() {
 
         {/* ── Horaires ── */}
         <div className="Reservation__hours">
-          <span className="Reservation__hours-row">
-            <strong>7 jours sur 7</strong>
-            <span>Ouvert tous les jours</span>
-          </span>
-          <span className="Reservation__hours-sep" aria-hidden="true" />
-          <span className="Reservation__hours-row">
-            <strong>9h30 — 00h30</strong>
-            <span>Service continu</span>
-          </span>
+          <div className="Reservation__hours-row">
+            <span>Lundi — Mercredi</span>
+            <div className="Reservation__hours-times"><strong>7h30 – 15h</strong></div>
+          </div>
+          <div className="Reservation__hours-row">
+            <span>Jeudi — Vendredi</span>
+            <div className="Reservation__hours-times"><strong>7h30 – 15h</strong><strong>18h – 00h30</strong></div>
+          </div>
+          <div className="Reservation__hours-row">
+            <span>Samedi</span>
+            <div className="Reservation__hours-times"><strong>10h – 15h</strong><strong>18h – 00h30</strong></div>
+          </div>
+          <div className="Reservation__hours-row">
+            <span>Dimanche</span>
+            <div className="Reservation__hours-times"><strong>10h – 17h</strong></div>
+          </div>
         </div>
 
       </div>

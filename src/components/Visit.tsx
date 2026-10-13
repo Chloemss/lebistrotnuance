@@ -55,11 +55,19 @@ export default function Visit() {
           <p className="Visit__eyebrow">Nous contacter</p>
           <div className="Visit__links">
 
-            <a className="Visit__link" href="tel:+33612800434">
+            <a className="Visit__link" href="tel:+33497275604">
               <span className="Visit__link-icon"><IconPhone /></span>
               <span className="Visit__link-text">
                 <em>Téléphone</em>
-                <span>06 12 80 04 34</span>
+                <span>04 97 27 56 04</span>
+              </span>
+            </a>
+
+            <a className="Visit__link" href="tel:+33633809840">
+              <span className="Visit__link-icon"><IconPhone /></span>
+              <span className="Visit__link-text">
+                <em>Téléphone</em>
+                <span>06 33 80 98 40</span>
               </span>
             </a>
 

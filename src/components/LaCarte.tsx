@@ -13,32 +13,72 @@ interface DishCat { id: string; label: string; items: Dish[] }
 
 const MANGER: DishCat[] = [
   {
-    id: 'incontournables', label: 'Incontournables',
+    id: 'entrees', label: 'Entrées maison',
     items: [
-      { nom: 'Tartare de bœuf au couteau',                                                          prix: '17' },
-      { nom: 'Carpaccio de bœuf',                                                                   prix: '19,50' },
-      { nom: 'Magret de canard au miel',    desc: '350/400 grs',                                    prix: '28' },
-      { nom: 'Notre entrecôte grillée',     desc: '250 grs — beurre maître d\'hôtel ou sauce selon l\'humeur du chef', prix: '30' },
-      { nom: 'Poulpe grillé à notre façon',                                                         prix: '28' },
-      { nom: 'Pavé de saumon rôti au soja',                                                         prix: '17' },
-      { nom: '1/2 poulet fermier rôti',                                                             prix: '17' },
+      { nom: 'Assiette de panisses ×6', desc: 'Sauce tomate relevée',                                 prix: '8' },
+      { nom: 'Notre pissaladière ×4',                                                                  prix: '8' },
+      { nom: 'Assiette de beignets de fleurs de courgettes',                                           prix: '14' },
+      { nom: 'Trilogie de tapenades',   desc: 'Olives noires, poivrons à l\'huile, caviar d\'aubergines, croûtons', prix: '12' },
+      { nom: 'Camembert rôti',          desc: 'Lard et oignons confits',                               prix: '16' },
     ],
   },
   {
-    id: 'assiettes', label: 'Assiettes gourmandes',
+    id: 'planches', label: 'Planches gourmandes',
     items: [
-      { nom: 'La César du Bistrot',   desc: 'Iceberg, tomates, croûtons, poulet, œuf, sauce César, lard grillé, champignons, copeaux de parmesan', prix: '17' },
-      { nom: 'La Biquette du Berger', desc: 'Iceberg, noix, toasts de chèvre, lard grillé, pignons',                                               prix: '17' },
-      { nom: 'La Dolce Vita',         desc: 'Jambon cru, tomates, œuf, mozzarella, basilic',                                                       prix: '18,50' },
-      { nom: 'La Reine des Pouilles', desc: 'Tomates, burrata, pistou, pignons',                                                                   prix: '18,50' },
+      { nom: 'La planche niçoise', desc: 'Panisses, fleur de courgettes, trilogie et croûtons', prix: '24' },
+      { nom: 'La charcuterie',                                                                   prix: '21' },
+      { nom: 'La fromage',                                                                       prix: '21' },
+      { nom: 'La mixte',                                                                         prix: '25' },
+      { nom: 'Le croque signature',                                                              prix: '18' },
     ],
   },
   {
-    id: 'burgers', label: 'Burgers',
+    id: 'salades', label: 'Salades gourmandes',
     items: [
-      { nom: 'Le Bistrotier bœuf',   prix: '22' },
-      { nom: 'Le Bistrotier poulet', prix: '21' },
-      { nom: 'Menu enfant',          desc: 'Steak haché ou nuggets, boule de glace', prix: '10', badge: '-12 ans' },
+      { nom: 'La César du Bistrot',    desc: 'Iceberg, tomates, croûtons, poulet croustillant, œuf, sauce César, lard grillé, champignons, copeaux de parmesan', prix: '17' },
+      { nom: 'La biquette du berger',  desc: 'Salade mélangée, noix, toasts de chèvre, lardons, oignons et miel',                                                 prix: '18' },
+      { nom: 'La Dolce Vita',          desc: 'Jambon cru, tomates, œuf, mozzarella, basilic',                                                                     prix: '18,50' },
+    ],
+  },
+  {
+    id: 'pates', label: 'Les pâtes',
+    items: [
+      { nom: 'Papardelles au pistou',  desc: 'Burrata, pignons de pin',            prix: '21' },
+      { nom: 'Papardelles carbonara',                                              prix: '18' },
+      { nom: 'Papardelles truffes',    desc: 'Crème, brisures de truffe et pignons', prix: '24' },
+    ],
+  },
+  {
+    id: 'mer', label: 'La mer',
+    items: [
+      { nom: 'Fricassée de poulpes à la provençale', desc: 'Poulpes, courgettes, champignons, oignons, tomates, pommes de terre rôties, ail', prix: '25' },
+      { nom: 'Notre saumon tressé rôti',             desc: '2 garnitures au choix',                                                            prix: '23' },
+      { nom: 'Camerons persillées',                  desc: '2 à 3 pièces selon arrivage — 2 garnitures au choix',                               prix: '45' },
+    ],
+  },
+  {
+    id: 'terre', label: 'La terre',
+    items: [
+      { nom: 'Tartare de bœuf au couteau',                                                                                    prix: '17' },
+      { nom: 'Pluma de porc',                        desc: 'Sauce barbecue',                                                  prix: '25' },
+      { nom: 'Magret de canard rôti aux noix et miel', desc: '350–400 grs',                                                   prix: '28' },
+      { nom: 'Notre entrecôte',                      desc: '300–350 grs — beurre maître d\'hôtel et sauce selon l\'humeur du chef', prix: '28' },
+      { nom: 'Côte de bœuf',                         desc: '500 grs',                                                         prix: '45' },
+    ],
+  },
+  {
+    id: 'plats', label: 'Burgers & plats',
+    items: [
+      { nom: 'Bistrotier de bœuf',    prix: '22' },
+      { nom: 'Bistrotier de poulet',  prix: '22' },
+      { nom: 'Cordon bleu maison',    prix: '21' },
+      { nom: 'Supplément lard',       prix: '2' },
+    ],
+  },
+  {
+    id: 'garnitures', label: 'Garnitures au choix',
+    items: [
+      { nom: 'Ratatouille · Frites · Salade · Gratin dauphinois · Risotto', prix: '' },
     ],
   },
   {
@@ -377,8 +417,12 @@ export default function LaCarte() {
                         {dish.nom}
                         {dish.badge && <span className="LaCarte__drink-detail">{dish.badge}</span>}
                       </span>
-                      <span className="LaCarte__drink-dots" aria-hidden="true" />
-                      <span className="LaCarte__drink-prix">{dish.prix}<em>€</em></span>
+                      {dish.prix && (
+                        <>
+                          <span className="LaCarte__drink-dots" aria-hidden="true" />
+                          <span className="LaCarte__drink-prix">{dish.prix}<em>€</em></span>
+                        </>
+                      )}
                     </div>
                     {dish.desc && <p className="LaCarte__drink-desc">{dish.desc}</p>}
                   </li>

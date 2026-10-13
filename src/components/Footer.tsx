@@ -59,11 +59,24 @@ export default function Footer() {
             1 Avenue de la Libération<br />
             06270 Villeneuve-Loubet
           </address>
-          <a href="tel:+33612800434" className="Footer__phone">06 12 80 04 34</a>
+          <a href="tel:+33497275604" className="Footer__phone">04 97 27 56 04</a>
+          <a href="tel:+33633809840" className="Footer__phone">06 33 80 98 40</a>
           <div className="Footer__hours">
             <div className="Footer__hours-row">
-              <span>7j / 7</span>
-              <span>9h30 – 00h30</span>
+              <span>Lun — Mer</span>
+              <div className="Footer__hours-times"><span>7h30 – 15h</span></div>
+            </div>
+            <div className="Footer__hours-row">
+              <span>Jeu — Ven</span>
+              <div className="Footer__hours-times"><span>7h30 – 15h</span><span>18h – 00h30</span></div>
+            </div>
+            <div className="Footer__hours-row">
+              <span>Samedi</span>
+              <div className="Footer__hours-times"><span>10h – 15h</span><span>18h – 00h30</span></div>
+            </div>
+            <div className="Footer__hours-row">
+              <span>Dimanche</span>
+              <div className="Footer__hours-times"><span>10h – 17h</span></div>
             </div>
           </div>
         </div>

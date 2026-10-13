@@ -136,14 +136,17 @@
 
 .Reservation__card-value {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
   font-weight: 500;
   font-style: italic;
   letter-spacing: 0.02em;
   color: #FFF7EF;
-  transition: color 0.35s ease;
+  text-decoration: none;
+  transition: color 0.35s ease, opacity 0.25s ease;
   word-break: break-word;
 }
+/* Numéros cliquables — léger retour au survol individuel */
+a.Reservation__card-value:hover { opacity: 0.7; }
 .Reservation__card-value--mail {
   font-size: clamp(0.95rem, 1.8vw, 1.25rem);
   font-style: normal;
@@ -166,36 +169,40 @@
   gap: 0.75rem;
 }
 
-/* ── Horaires ── */
+/* ── Horaires — tableau par jours ── */
 .Reservation__hours {
   display: flex;
-  align-items: center;
-  gap: 1.6rem;
+  flex-direction: column;
+  gap: 0;
   margin-top: 3rem;
-  flex-wrap: wrap;
-  justify-content: center;
+  width: 100%;
+  max-width: 460px;
 }
 .Reservation__hours-row {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.2rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid rgba(255,247,239,0.18);
+}
+.Reservation__hours-row:last-child { border-bottom: none; }
+.Reservation__hours-row > span {
+  font-family: var(--label-family);
+  font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,247,239,0.7);
+  flex-shrink: 0;
+  padding-top: 0.15rem;
+}
+.Reservation__hours-times {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 0.15rem;
 }
 .Reservation__hours-row strong {
-  font-family: var(--label-family);
-  font-size: 0.72rem; font-weight: 700;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  color: #FFF7EF;
-}
-.Reservation__hours-row span {
   font-family: var(--font-body);
-  font-size: 0.82rem;
-  color: rgba(255,247,239,0.75);
-}
-
-.Reservation__hours-sep {
-  width: 1px; height: 34px;
-  background: rgba(255,247,239,0.3);
+  font-size: 0.95rem; font-weight: 500;
+  text-align: right;
+  color: #FFF7EF;
 }
 
 /* ── Responsive ── */

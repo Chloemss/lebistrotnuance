@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Le Bistrot des Nuances — Restaurant · Bar · Lounge à Villeneuve-Loubet</title>
-    <meta name="description" content="Le Bistrot des Nuances à Villeneuve-Loubet : cuisine maison, cocktails signatures et ambiance chaleureuse. Ouvert 7j/7 de 9h30 à 00h30. Réservez au 06 12 80 04 34." />
+    <meta name="description" content="Le Bistrot des Nuances à Villeneuve-Loubet : cuisine maison, cocktails signatures et ambiance chaleureuse. Ouvert 7j/7. Réservez au 04 97 27 56 04." />
     <link rel="canonical" href="https://lebistrotdesnuances.com/" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="theme-color" content="#2E1F16" />
@@ -29,7 +29,7 @@
     <meta property="og:locale" content="fr_FR" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Le Bistrot des Nuances — Villeneuve-Loubet" />
-    <meta name="twitter:description" content="Restaurant · Bar · Lounge à Villeneuve-Loubet. Ouvert 7j/7 de 9h30 à 00h30." />
+    <meta name="twitter:description" content="Restaurant · Bar · Lounge à Villeneuve-Loubet. Ouvert 7j/7, midi & soir." />
     <meta name="twitter:image" content="https://lebistrotdesnuances.com/devanture.jpg" />
 
     <!-- Polices — préconnexion + préchargement du CSS de fonte -->
@@ -52,7 +52,7 @@
       "logo": "https://lebistrotdesnuances.com/logo-bn.png",
       "servesCuisine": ["Française", "Bistrot", "Cocktails"],
       "priceRange": "€€",
-      "telephone": "+33612800434",
+      "telephone": ["+33497275604", "+33633809840"],
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "1 Avenue de la Libération",
@@ -66,12 +66,14 @@
         "latitude": 43.658,
         "longitude": 7.120
       },
-      "openingHoursSpecification": [{
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
-        "opens": "09:30",
-        "closes": "00:30"
-      }],
+      "openingHoursSpecification": [
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday"], "opens": "07:30", "closes": "15:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Thursday","Friday"], "opens": "07:30", "closes": "15:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Thursday","Friday"], "opens": "18:00", "closes": "00:30" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "10:00", "closes": "15:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "18:00", "closes": "00:30" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "10:00", "closes": "17:00" }
+      ],
       "sameAs": [
         "https://instagram.com/lebistrotdesnuances2026",
         "https://www.facebook.com/share/18S5W54DGv/?mibextid=wwXIfr"
