@@ -369,6 +369,7 @@ export default function LaCarte() {
           >
             Manger
           </button>
+          {/* ── Carte des boissons en cours de modification — masquée ──
           <span className="LaCarte__amp" aria-hidden="true">&amp;</span>
           <button
             className={`LaCarte__univers${univers === 'boire' ? ' is--active' : ''}`}
@@ -377,6 +378,7 @@ export default function LaCarte() {
           >
             Boire
           </button>
+          ── */}
         </h2>
 
         <p className="LaCarte__intro" key={univers}>{INTRO[univers]}</p>
